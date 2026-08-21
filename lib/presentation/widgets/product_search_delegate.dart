@@ -1,0 +1,142 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../data/models/product.dart';
+import '../../data/data_sources/local/mock_products.dart';
+import '../../l10n/app_localizations.dart';
+import '../../presentation/providers/search_provider.dart';
+import '../../presentation/screens/search/search_results_page.dart';
+
+/// Enhanced search delegate with SearchProvider integration
+///
+/// Provides:
+/// - Search with SearchProvider integration
+/// - Recent searches display
+/// - Search suggestions
+/// - Navigation to full search results page
+/// - Direct product navigation
+class ProductSearchDelegate extends SearchDelegate<Product?> {
+  ProductSearchDelegate();
+
+  @override
+  String get searchFieldLabel => 'Search products, brands, deals...';
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      if (query.isNotEmpty)
+        IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: const Icon(Icons.clear),
+        ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final searchProvider = context.read<SearchProvider>();
+    searchProvider.setQuery(query);
+    if (query.isNotEmpty) {
+      searchProvider.addRecentSearch(query);
+    }
+
+    // Navigate to full results page
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const SearchResultsPage(),
+        ),
+      );
+    });
+
+    return const SizedBox.shrink();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Consumer<SearchProvider>(
+      builder: (context, searchProvider, child) {
+        final suggestions = query.isEmpty
+            ? searchProvider.recentSearches
+            : searchProvider.getSuggestions(products, maxSuggestions: 8);
+
+        if (suggestions.isEmpty && query.isEmpty) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(32),
+              child: Text(
+                l10n.searchHint,
+                style: TextStyle(color: Colors.grey.shade600),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+
+        return ListView(
+          children: [
+            // Section header
+            if (query.isEmpty && suggestions.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Row(
+                  children: [
+                    Text(
+                      l10n.recentSearchesLabel,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                    const Spacer(),
+                    if (suggestions.isNotEmpty)
+                      TextButton(
+                        onPressed: () => searchProvider.clearRecentSearches(),
+                        child: Text(l10n.clearSearchHistory),
+                      ),
+                  ],
+                ),
+              ),
+
+            // Suggestions
+            ...suggestions.map((suggestion) {
+              return ListTile(
+                leading: Icon(
+                  query.isEmpty ? Icons.history : Icons.search,
+                  color: Colors.grey.shade600,
+                ),
+                title: Text(suggestion),
+                onTap: () {
+                  query = suggestion;
+                  showResults(context);
+                },
+                trailing: query.isEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.close, size: 20),
+                        onPressed: () => searchProvider.removeRecentSearch(suggestion),
+                      )
+                    : null,
+              );
+            }),
+          ],
+        );
+      },
+    );
+  }
+}
+

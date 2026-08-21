@@ -1,0 +1,711 @@
+{
+  "@@locale": "uz",
+  "appTitle": "TopBuy Deals",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "todaysPromotion": "BUGUNGI AKSIYA 🔥",
+  "@todaysPromotion": {
+    "description": "Banner text for today's promotion"
+  },
+  "findBestPrices": "Eng yaxshi narxlarni\nTopBuy Deals'da toping!",
+  "@findBestPrices": {
+    "description": "Promotional message on home page"
+  },
+  "popularProducts": "Mashhur mahsulotlar",
+  "@popularProducts": {
+    "description": "Popular products section title"
+  },
+  "addedToCart": "{productName} savatchaga qo'shildi",
+  "@addedToCart": {
+    "description": "Snackbar message when product is added to cart",
+    "placeholders": {
+      "productName": {
+        "type": "String",
+        "example": "Smart Watch"
+      }
+    }
+  },
+  "homePage": "Bosh sahifa",
+  "@homePage": {
+    "description": "Home page navigation label"
+  },
+  "categories": "Kategoriyalar",
+  "@categories": {
+    "description": "Categories page navigation label"
+  },
+  "favorites": "Saralangan",
+  "@favorites": {
+    "description": "Favorites page navigation label"
+  },
+  "profile": "Profil",
+  "@profile": {
+    "description": "Profile page navigation label"
+  },
+  "electronics": "Elektronika",
+  "@electronics": {
+    "description": "Electronics category name"
+  },
+  "clothing": "Kiyim",
+  "@clothing": {
+    "description": "Clothing category name"
+  },
+  "accessories": "Aksessuar",
+  "@accessories": {
+    "description": "Accessories category name"
+  },
+  "homeGoods": "Uy uchun",
+  "@homeGoods": {
+    "description": "Home goods category name"
+  },
+  "sports": "Sport",
+  "@sports": {
+    "description": "Sports category name"
+  },
+  "cosmetics": "Kosmetika",
+  "@cosmetics": {
+    "description": "Cosmetics category name"
+  },
+  "noFavoriteProducts": "Saralangan mahsulotlar yo'q ❤️",
+  "@noFavoriteProducts": {
+    "description": "Message when favorites list is empty"
+  },
+  "profileSection": "Profil bo'limi",
+  "@profileSection": {
+    "description": "Profile section subtitle"
+  },
+  "noCategoryProducts": "Bu kategoriyada mahsulot yo'q",
+  "@noCategoryProducts": {
+    "description": "Message when category has no products"
+  },
+  "addToCart": "Savatchaga",
+  "@addToCart": {
+    "description": "Add to cart button text"
+  },
+  "product": "Mahsulot",
+  "@product": {
+    "description": "Product details page title"
+  },
+  "currency": "so'm",
+  "@currency": {
+    "description": "Currency unit"
+  },
+  "discount": "Chegirma",
+  "@discount": {
+    "description": "Discount label"
+  },
+  "addToCartFull": "Savatchaga qo'shish",
+  "@addToCartFull": {
+    "description": "Full add to cart button text"
+  },
+  "cart": "Savatcha",
+  "@cart": {
+    "description": "Cart page title"
+  },
+  "emptyCart": "Savatcha bo'sh",
+  "@emptyCart": {
+    "description": "Message when cart is empty"
+  },
+  "priceWithCurrency": "{price}",
+  "@priceWithCurrency": {
+    "description": "Price formatted with currency",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "249000 so'm"
+      }
+    }
+  },
+  "discountPercent": "-{percent}%",
+  "@discountPercent": {
+    "description": "Discount percentage badge",
+    "placeholders": {
+      "percent": {
+        "type": "int",
+        "example": "37"
+      }
+    }
+  },
+  "discountValue": "Chegirma: {percent}%",
+  "@discountValue": {
+    "description": "Discount value text",
+    "placeholders": {
+      "percent": {
+        "type": "int",
+        "example": "37"
+      }
+    }
+  },
+  "language": "Til",
+  "@language": {
+    "description": "Language selector label"
+  },
+  "searchProducts": "Mahsulotlarni qidirish...",
+  "@searchProducts": {
+    "description": "Search input placeholder"
+  },
+  "noResultsFound": "Natija topilmadi",
+  "@noResultsFound": {
+    "description": "Message when search returns no results"
+  },
+  "recentSearches": "Oxirgi qidiruvlar",
+  "@recentSearches": {
+    "description": "Recent searches section title"
+  },
+  "popularSearches": "Mashhur qidiruvlar",
+  "@popularSearches": {
+    "description": "Popular searches section title"
+  },
+  "filter": "Filtr",
+  "@filter": {
+    "description": "Filter button label"
+  },
+  "sortBy": "Saralash",
+  "@sortBy": {
+    "description": "Sort selector label"
+  },
+  "priceRange": "Narx oralig'i",
+  "@priceRange": {
+    "description": "Price range filter label"
+  },
+  "rating": "Baho",
+  "@rating": {
+    "description": "Rating label"
+  },
+  "availability": "Mavjudligi",
+  "@availability": {
+    "description": "Availability filter label"
+  },
+  "brand": "Brend",
+  "@brand": {
+    "description": "Brand filter label"
+  },
+  "apply": "Qo'llash",
+  "@apply": {
+    "description": "Apply filters button"
+  },
+  "clear": "Tozalash",
+  "@clear": {
+    "description": "Clear filters button"
+  },
+  "relevance": "Mos keladigan",
+  "@relevance": {
+    "description": "Sort by relevance option"
+  },
+  "priceLowToHigh": "Narx: arzondan qimmmatga",
+  "@priceLowToHigh": {
+    "description": "Sort by price ascending"
+  },
+  "priceHighToLow": "Narx: qimmatdan arzonga",
+  "@priceHighToLow": {
+    "description": "Sort by price descending"
+  },
+  "newest": "Yangilari",
+  "@newest": {
+    "description": "Sort by newest option"
+  },
+  "popularity": "Ommabopligi",
+  "@popularity": {
+    "description": "Sort by popularity option"
+  },
+  "todaysDeals": "Bugungi takliflar",
+  "@todaysDeals": {
+    "description": "Today's deals section title"
+  },
+  "flashDeals": "Tezkor takliflar",
+  "@flashDeals": {
+    "description": "Flash deals section title"
+  },
+  "priceDrops": "Narx tushirildi",
+  "@priceDrops": {
+    "description": "Price drops section title"
+  },
+  "limitedTime": "Cheklangan vaqt",
+  "@limitedTime": {
+    "description": "Limited time badge"
+  },
+  "dealEndsIn": "Taklif tugashi",
+  "@dealEndsIn": {
+    "description": "Deal countdown prefix"
+  },
+  "reviews": "Sharhlar",
+  "@reviews": {
+    "description": "Reviews label"
+  },
+  "inStock": "Mavjud",
+  "@inStock": {
+    "description": "In stock badge"
+  },
+  "lowStock": "Kam qoldi",
+  "@lowStock": {
+    "description": "Low stock badge"
+  },
+  "outOfStock": "Tugadi",
+  "@outOfStock": {
+    "description": "Out of stock badge"
+  },
+  "freeShipping": "Bepul yetkazib berish",
+  "@freeShipping": {
+    "description": "Free shipping badge"
+  },
+  "specifications": "Xususiyatlari",
+  "@specifications": {
+    "description": "Specifications section title"
+  },
+  "features": "Imkoniyatlari",
+  "@features": {
+    "description": "Features section title"
+  },
+  "recentlyViewed": "Ko'rilganlar",
+  "@recentlyViewed": {
+    "description": "Recently viewed section title"
+  },
+  "continueShopping": "Xaridni davom ettirish",
+  "@continueShopping": {
+    "description": "Continue shopping button"
+  },
+  "bestSeller": "Eng ko'p sotiladigan",
+  "@bestSeller": {
+    "description": "Best seller badge"
+  },
+  "trending": "Trend",
+  "@trending": {
+    "description": "Trending badge"
+  },
+  "newArrival": "Yangi kelgan",
+  "@newArrival": {
+    "description": "New arrival badge"
+  },
+  "flashSale": "Tezkor sotuv",
+  "@flashSale": {
+    "description": "Flash sale badge"
+  },
+  "priceDrop": "Narx tushirildi",
+  "@priceDrop": {
+    "description": "Price drop badge"
+  },
+  "reviewsCount": "{count} ta sharh",
+  "@reviewsCount": {
+    "description": "Review count display",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1234"
+      }
+    }
+  },
+  "productDetails": "Mahsulot ma'lumotlari",
+  "@productDetails": {
+    "description": "Product details page title"
+  },
+  "description": "Tavsif",
+  "@description": {
+    "description": "Description section label"
+  },
+  "keyFeatures": "Asosiy xususiyatlar",
+  "@keyFeatures": {
+    "description": "Key features section title"
+  },
+  "shippingInfo": "Yetkazib berish haqida",
+  "@shippingInfo": {
+    "description": "Shipping information section title"
+  },
+  "estimatedDelivery": "Taxminiy yetkazilish",
+  "@estimatedDelivery": {
+    "description": "Estimated delivery label"
+  },
+  "soldBy": "Sotuvchi",
+  "@soldBy": {
+    "description": "Seller prefix"
+  },
+  "addedToWishlist": "Saralanganlar ro'yxatiga qo'shildi",
+  "@addedToWishlist": {
+    "description": "Snackbar message when product added to wishlist"
+  },
+  "removedFromWishlist": "Saralanganlar ro'yxatidan o'chirildi",
+  "@removedFromWishlist": {
+    "description": "Snackbar message when product removed from wishlist"
+  },
+  "buyNow": "Hozir xarid qilish",
+  "@buyNow": {
+    "description": "Buy now button text"
+  },
+  "share": "Ulashish",
+  "@share": {
+    "description": "Share button label"
+  },
+  "relatedProducts": "Bog'liq mahsulotlar",
+  "@relatedProducts": {
+    "description": "Related products section title"
+  },
+  "similarDeals": "O'xshash takliflar",
+  "@similarDeals": {
+    "description": "Similar deals section title"
+  },
+  "youMayAlsoLike": "Sizga yoqishi mumkin",
+  "@youMayAlsoLike": {
+    "description": "Recommendations section title"
+  },
+  "customerReviews": "Mijozlar sharhlari",
+  "@customerReviews": {
+    "description": "Customer reviews section title"
+  },
+  "ratingDistribution": "Baholash taqsimoti",
+  "@ratingDistribution": {
+    "description": "Rating distribution label"
+  },
+  "writeReview": "Sharh yozish",
+  "@writeReview": {
+    "description": "Write review button"
+  },
+  "productInfo": "Mahsulot ma'lumoti",
+  "@productInfo": {
+    "description": "Product information section title"
+  },
+  "sku": "SKU",
+  "@sku": {
+    "description": "SKU label"
+  },
+  "deliveryIn": "{days} kunda yetkaziladi",
+  "@deliveryIn": {
+    "description": "Delivery estimate",
+    "placeholders": {
+      "days": {
+        "type": "String",
+        "example": "3-5"
+      }
+    }
+  },
+  "unitsInStock": "{count} dona mavjud",
+  "@unitsInStock": {
+    "description": "Stock count display",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "45"
+      }
+    }
+  },
+  "onlyLeft": "Faqat {count} ta qoldi!",
+  "@onlyLeft": {
+    "description": "Low stock urgency message",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "selectVariant": "{variant} tanlang",
+  "@selectVariant": {
+    "description": "Select variant prompt",
+    "placeholders": {
+      "variant": {
+        "type": "String",
+        "example": "Rang"
+      }
+    }
+  },
+  "color": "Rang",
+  "@color": {
+    "description": "Color variant label"
+  },
+  "size": "O'lcham",
+  "@size": {
+    "description": "Size variant label"
+  },
+  "quantity": "Miqdor",
+  "@quantity": {
+    "description": "Quantity label"
+  },
+  "search": "Qidirish",
+  "@search": {
+    "description": "Search label"
+  },
+  "searchHint": "Mahsulot, brend, takliflarni qidirish...",
+  "@searchHint": {
+    "description": "Search input hint"
+  },
+  "searchResults": "Qidiruv natijalari",
+  "@searchResults": {
+    "description": "Search results page title"
+  },
+  "resultsFor": "\"{query}\" uchun natijalar",
+  "@resultsFor": {
+    "description": "Search results header",
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "laptop"
+      }
+    }
+  },
+  "noResults": "Mahsulot topilmadi",
+  "@noResults": {
+    "description": "No search results message"
+  },
+  "noResultsFor": "\"{query}\" uchun natija yo'q",
+  "@noResultsFor": {
+    "description": "No search results for query",
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "xyz"
+      }
+    }
+  },
+  "tryDifferentSearch": "Boshqa kalit so'zlar bilan qidiring",
+  "@tryDifferentSearch": {
+    "description": "No results suggestion"
+  },
+  "filters": "Filtrlar",
+  "@filters": {
+    "description": "Filters label"
+  },
+  "applyFilters": "Filtrlarni qo'llash",
+  "@applyFilters": {
+    "description": "Apply filters button"
+  },
+  "clearFilters": "Hammasini tozalash",
+  "@clearFilters": {
+    "description": "Clear filters button"
+  },
+  "filterBy": "Filtr",
+  "@filterBy": {
+    "description": "Filter by label"
+  },
+  "category": "Kategoriya",
+  "@category": {
+    "description": "Category filter label"
+  },
+  "allCategories": "Barcha kategoriyalar",
+  "@allCategories": {
+    "description": "All categories option"
+  },
+  "priceMin": "Minimal narx",
+  "@priceMin": {
+    "description": "Minimum price label"
+  },
+  "priceMax": "Maksimal narx",
+  "@priceMax": {
+    "description": "Maximum price label"
+  },
+  "minRating": "Minimal baho",
+  "@minRating": {
+    "description": "Minimum rating filter label"
+  },
+  "starsAndUp": "{stars} yulduz va yuqori",
+  "@starsAndUp": {
+    "description": "Rating filter option",
+    "placeholders": {
+      "stars": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "minDiscount": "Minimal chegirma",
+  "@minDiscount": {
+    "description": "Minimum discount filter label"
+  },
+  "discountAndUp": "{discount}% va yuqori",
+  "@discountAndUp": {
+    "description": "Discount filter option",
+    "placeholders": {
+      "discount": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "inStockOnly": "Faqat mavjud",
+  "@inStockOnly": {
+    "description": "In stock only filter"
+  },
+  "dealsOnly": "Faqat takliflar",
+  "@dealsOnly": {
+    "description": "Deals only filter"
+  },
+  "sort": "Saralash",
+  "@sort": {
+    "description": "Sort label"
+  },
+  "sortByLabel": "Saralash:",
+  "@sortByLabel": {
+    "description": "Sort by prefix"
+  },
+  "productCount": "{count} ta mahsulot",
+  "@productCount": {
+    "description": "Product count display",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "42"
+      }
+    }
+  },
+  "activeFilters": "{count} ta faol",
+  "@activeFilters": {
+    "description": "Active filters count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "recentSearchesLabel": "Oxirgi qidiruvlar",
+  "@recentSearchesLabel": {
+    "description": "Recent searches section label"
+  },
+  "clearSearchHistory": "Tarixni tozalash",
+  "@clearSearchHistory": {
+    "description": "Clear search history button"
+  },
+  "suggestions": "Takliflar",
+  "@suggestions": {
+    "description": "Search suggestions label"
+  },
+  "todaysDealsTitle": "Bugungi takliflar",
+  "@todaysDealsTitle": {
+    "description": "Today's deals section title"
+  },
+  "biggestDiscountsTitle": "Eng katta chegirmalar",
+  "@biggestDiscountsTitle": {
+    "description": "Biggest discounts section title"
+  },
+  "flashDealsTitle": "Tezkor takliflar",
+  "@flashDealsTitle": {
+    "description": "Flash deals section title"
+  },
+  "trendingDealsTitle": "Mashhur takliflar",
+  "@trendingDealsTitle": {
+    "description": "Trending deals section title"
+  },
+  "priceDropsTitle": "Narx tushirildi",
+  "@priceDropsTitle": {
+    "description": "Price drops section title"
+  },
+  "recentlyViewedTitle": "Ko'rilganlar",
+  "@recentlyViewedTitle": {
+    "description": "Recently viewed section title"
+  },
+  "recommendedTitle": "Siz uchun tavsiya",
+  "@recommendedTitle": {
+    "description": "Recommended products section title"
+  },
+  "bestSellersTitle": "Eng ko'p sotilgan",
+  "@bestSellersTitle": {
+    "description": "Best sellers section title"
+  },
+  "viewAll": "Hammasini ko'rish",
+  "@viewAll": {
+    "description": "View all button"
+  },
+  "seeMore": "Ko'proq",
+  "@seeMore": {
+    "description": "See more button"
+  },
+  "save": "Tejash",
+  "@save": {
+    "description": "Save label for discounts"
+  },
+  "savingsAmount": "{amount} tejang",
+  "@savingsAmount": {
+    "description": "Savings amount display",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "50000 so'm"
+      }
+    }
+  },
+  "upTo": "Gacha",
+  "@upTo": {
+    "description": "Up to prefix for discounts"
+  },
+  "off": "CHEG",
+  "@off": {
+    "description": "OFF suffix for discounts"
+  },
+  "dealOfTheDay": "Kun taklifi",
+  "@dealOfTheDay": {
+    "description": "Deal of the day label"
+  },
+  "limitedQuantity": "Cheklangan miqdor",
+  "@limitedQuantity": {
+    "description": "Limited quantity badge"
+  },
+  "hurry": "Shoshiling!",
+  "@hurry": {
+    "description": "Urgency indicator"
+  },
+  "almostGone": "Deyarli tugadi!",
+  "@almostGone": {
+    "description": "Low stock urgency message"
+  },
+  "login": "Kirish",
+  "signUp": "Ro'yxatdan o'tish",
+  "logout": "Chiqish",
+  "email": "Email",
+  "password": "Parol",
+  "fullName": "To'liq Ism",
+  "confirmPassword": "Parolni Tasdiqlang",
+  "emailHint": "Emailingizni kiriting",
+  "passwordHint": "Parolingizni kiriting",
+  "fullNameHint": "To'liq ismingizni kiriting",
+  "confirmPasswordHint": "Parolni qayta kiriting",
+  "emailRequired": "Email talab qilinadi",
+  "emailInvalid": "To'g'ri email manzilini kiriting",
+  "passwordRequired": "Parol talab qilinadi",
+  "passwordTooShort": "Parol kamida 6 ta belgidan iborat bo'lishi kerak",
+  "nameRequired": "Ism talab qilinadi",
+  "nameTooShort": "Ism kamida 2 ta belgidan iborat bo'lishi kerak",
+  "confirmPasswordRequired": "Iltimos parolni tasdiqlang",
+  "passwordsDoNotMatch": "Parollar mos kelmaydi",
+  "welcomeBack": "Qaytib kelganingizdan xursandmiz!",
+  "loginSubtitle": "Xarid qilishni davom ettirish uchun kiring",
+  "loginSuccess": "Muvaffaqiyatli kirildi",
+  "loginError": "Kirish xatosi. Hisobingizni tekshiring.",
+  "createAccount": "Hisob Yaratish",
+  "signUpSubtitle": "Bugun TOPBUY DEALS ga qo'shiling",
+  "signUpSuccess": "Hisob muvaffaqiyatli yaratildi!",
+  "signUpError": "Ro'yxatdan o'tish xatosi. Qayta urinib ko'ring.",
+  "forgotPassword": "Parolni Unutdingizmi?",
+  "resetPassword": "Parolni Tiklash",
+  "sendResetLink": "Havola Yuborish",
+  "resetPasswordDescription": "Emailingizni kiriting va biz sizga parolni tiklash havolasini yuboramiz",
+  "resetPasswordEmailSent": "Parolni tiklash emaili yuborildi!",
+  "resetPasswordEmailSentDescription": "Emailingizga parolni tiklash havolasini yubordik. Xabar qutisini tekshiring va ko'rsatmalarga amal qiling.",
+  "resetPasswordError": "Email yuborishda xatolik. Qayta urinib ko'ring.",
+  "resetPasswordHelpText": "Emailni olmadingizmi? Spam papkasini tekshiring yoki qayta yuborishga harakat qiling.",
+  "checkYourEmail": "Emailingizni Tekshiring",
+  "resendEmail": "Emailni Qayta Yuborish",
+  "resendIn": "{seconds}s ichida qayta yuborish",
+  "backToLogin": "Kirishga Qaytish",
+  "or": "YOKI",
+  "dontHaveAccount": "Hisobingiz yo'qmi?",
+  "alreadyHaveAccount": "Hisobingiz bormi?",
+  "passwordWeak": "Zaif",
+  "passwordMedium": "O'rtacha",
+  "passwordStrong": "Kuchli",
+  "signOut": "Chiqish",
+  "myAccount": "Mening Hisobim",
+  "accountSettings": "Hisob Sozlamalari",
+  "editProfile": "Profilni Tahrirlash",
+  "signedInAs": "Sifatida kirilgan",
+  "guest": "Mehmon",
+  "signInToSeeMore": "Ko'proq xususiyatlardan foydalanish uchun kiring",
+  "phoneNumber": "Telefon Raqami",
+  "phoneNumberHint": "Telefon raqamingizni kiriting",
+  "phoneNumberInvalid": "To'g'ri telefon raqamini kiriting",
+  "saveChanges": "O'zgarishlarni Saqlash",
+  "cancel": "Bekor Qilish",
+  "profileUpdated": "Profil muvaffaqiyatli yangilandi",
+  "profileUpdateFailed": "Profilni yangilashda xatolik",
+  "personalInformation": "Shaxsiy Ma'lumotlar",
+  "preferences": "Afzalliklar",
+  "currencyPreference": "Valyuta",
+  "languagePreference": "Til",
+  "optional": "Ixtiyoriy"
+}

@@ -1,0 +1,718 @@
+{
+  "@@locale": "en",
+  "appTitle": "TopBuy Deals",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "todaysPromotion": "TODAY'S DEAL 🔥",
+  "@todaysPromotion": {
+    "description": "Banner text for today's promotion"
+  },
+  "findBestPrices": "Find the best deals\nat amazing prices!",
+  "@findBestPrices": {
+    "description": "Promotional message on home page"
+  },
+  "popularProducts": "Popular Products",
+  "@popularProducts": {
+    "description": "Popular products section title"
+  },
+  "addedToCart": "{productName} added to cart",
+  "@addedToCart": {
+    "description": "Snackbar message when product is added to cart",
+    "placeholders": {
+      "productName": {
+        "type": "String",
+        "example": "Smart Watch"
+      }
+    }
+  },
+  "homePage": "Home",
+  "@homePage": {
+    "description": "Home page navigation label"
+  },
+  "categories": "Categories",
+  "@categories": {
+    "description": "Categories page navigation label"
+  },
+  "favorites": "Favorites",
+  "@favorites": {
+    "description": "Favorites page navigation label"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile page navigation label"
+  },
+  "electronics": "Electronics",
+  "@electronics": {
+    "description": "Electronics category name"
+  },
+  "clothing": "Clothing",
+  "@clothing": {
+    "description": "Clothing category name"
+  },
+  "accessories": "Accessories",
+  "@accessories": {
+    "description": "Accessories category name"
+  },
+  "homeGoods": "Home & Living",
+  "@homeGoods": {
+    "description": "Home goods category name"
+  },
+  "sports": "Sports & Outdoors",
+  "@sports": {
+    "description": "Sports category name"
+  },
+  "cosmetics": "Beauty & Personal Care",
+  "@cosmetics": {
+    "description": "Cosmetics category name"
+  },
+  "noFavoriteProducts": "No favorite products yet ❤️",
+  "@noFavoriteProducts": {
+    "description": "Message when favorites list is empty"
+  },
+  "profileSection": "My Profile",
+  "@profileSection": {
+    "description": "Profile section subtitle"
+  },
+  "noCategoryProducts": "No products available in this category",
+  "@noCategoryProducts": {
+    "description": "Message when category has no products"
+  },
+  "addToCart": "Add to Cart",
+  "@addToCart": {
+    "description": "Add to cart button text"
+  },
+  "product": "Product Details",
+  "@product": {
+    "description": "Product details page title"
+  },
+  "currency": "$",
+  "@currency": {
+    "description": "Currency symbol"
+  },
+  "discount": "Save",
+  "@discount": {
+    "description": "Discount label"
+  },
+  "addToCartFull": "Add to Cart",
+  "@addToCartFull": {
+    "description": "Full add to cart button text"
+  },
+  "cart": "Shopping Cart",
+  "@cart": {
+    "description": "Cart page title"
+  },
+  "emptyCart": "Your cart is empty",
+  "@emptyCart": {
+    "description": "Message when cart is empty"
+  },
+  "priceWithCurrency": "${price}",
+  "@priceWithCurrency": {
+    "description": "Price formatted with currency",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "$249.99"
+      }
+    }
+  },
+  "discountPercent": "-{percent}%",
+  "@discountPercent": {
+    "description": "Discount percentage badge",
+    "placeholders": {
+      "percent": {
+        "type": "int",
+        "example": "37"
+      }
+    }
+  },
+  "discountValue": "Save {percent}%",
+  "@discountValue": {
+    "description": "Discount value text",
+    "placeholders": {
+      "percent": {
+        "type": "int",
+        "example": "37"
+      }
+    }
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language selector label"
+  },
+  "searchProducts": "Search products...",
+  "@searchProducts": {
+    "description": "Search input placeholder"
+  },
+  "noResultsFound": "No results found",
+  "@noResultsFound": {
+    "description": "Message when search returns no results"
+  },
+  "recentSearches": "Recent Searches",
+  "@recentSearches": {
+    "description": "Recent searches section title"
+  },
+  "popularSearches": "Popular Searches",
+  "@popularSearches": {
+    "description": "Popular searches section title"
+  },
+  "filter": "Filter",
+  "@filter": {
+    "description": "Filter button label"
+  },
+  "sortBy": "Sort by",
+  "@sortBy": {
+    "description": "Sort selector label"
+  },
+  "priceRange": "Price Range",
+  "@priceRange": {
+    "description": "Price range filter label"
+  },
+  "rating": "Rating",
+  "@rating": {
+    "description": "Rating label"
+  },
+  "availability": "Availability",
+  "@availability": {
+    "description": "Availability filter label"
+  },
+  "brand": "Brand",
+  "@brand": {
+    "description": "Brand filter label"
+  },
+  "apply": "Apply",
+  "@apply": {
+    "description": "Apply filters button"
+  },
+  "clear": "Clear",
+  "@clear": {
+    "description": "Clear filters button"
+  },
+  "relevance": "Relevance",
+  "@relevance": {
+    "description": "Sort by relevance option"
+  },
+  "priceLowToHigh": "Price: Low to High",
+  "@priceLowToHigh": {
+    "description": "Sort by price ascending"
+  },
+  "priceHighToLow": "Price: High to Low",
+  "@priceHighToLow": {
+    "description": "Sort by price descending"
+  },
+  "newest": "Newest",
+  "@newest": {
+    "description": "Sort by newest option"
+  },
+  "popularity": "Popularity",
+  "@popularity": {
+    "description": "Sort by popularity option"
+  },
+  "todaysDeals": "Today's Deals",
+  "@todaysDeals": {
+    "description": "Today's deals section title"
+  },
+  "flashDeals": "Flash Deals",
+  "@flashDeals": {
+    "description": "Flash deals section title"
+  },
+  "priceDrops": "Price Drops",
+  "@priceDrops": {
+    "description": "Price drops section title"
+  },
+  "limitedTime": "Limited Time",
+  "@limitedTime": {
+    "description": "Limited time badge"
+  },
+  "dealEndsIn": "Deal ends in",
+  "@dealEndsIn": {
+    "description": "Deal countdown prefix"
+  },
+  "reviews": "Reviews",
+  "@reviews": {
+    "description": "Reviews label"
+  },
+  "inStock": "In Stock",
+  "@inStock": {
+    "description": "In stock badge"
+  },
+  "lowStock": "Low Stock",
+  "@lowStock": {
+    "description": "Low stock badge"
+  },
+  "outOfStock": "Out of Stock",
+  "@outOfStock": {
+    "description": "Out of stock badge"
+  },
+  "freeShipping": "Free Shipping",
+  "@freeShipping": {
+    "description": "Free shipping badge"
+  },
+  "specifications": "Specifications",
+  "@specifications": {
+    "description": "Specifications section title"
+  },
+  "features": "Features",
+  "@features": {
+    "description": "Features section title"
+  },
+  "recentlyViewed": "Recently Viewed",
+  "@recentlyViewed": {
+    "description": "Recently viewed section title"
+  },
+  "continueShopping": "Continue Shopping",
+  "@continueShopping": {
+    "description": "Continue shopping button"
+  },
+  "bestSeller": "Best Seller",
+  "@bestSeller": {
+    "description": "Best seller badge"
+  },
+  "trending": "Trending",
+  "@trending": {
+    "description": "Trending badge"
+  },
+  "newArrival": "New Arrival",
+  "@newArrival": {
+    "description": "New arrival badge"
+  },
+  "flashSale": "Flash Sale",
+  "@flashSale": {
+    "description": "Flash sale badge"
+  },
+  "priceDrop": "Price Drop",
+  "@priceDrop": {
+    "description": "Price drop badge"
+  },
+  "reviewsCount": "{count} reviews",
+  "@reviewsCount": {
+    "description": "Review count display",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1234"
+      }
+    }
+  },
+  "productDetails": "Product Details",
+  "@productDetails": {
+    "description": "Product details page title"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Description section label"
+  },
+  "keyFeatures": "Key Features",
+  "@keyFeatures": {
+    "description": "Key features section title"
+  },
+  "shippingInfo": "Shipping Information",
+  "@shippingInfo": {
+    "description": "Shipping information section title"
+  },
+  "estimatedDelivery": "Estimated Delivery",
+  "@estimatedDelivery": {
+    "description": "Estimated delivery label"
+  },
+  "soldBy": "Sold by",
+  "@soldBy": {
+    "description": "Seller prefix"
+  },
+  "addedToWishlist": "Added to wishlist",
+  "@addedToWishlist": {
+    "description": "Snackbar message when product added to wishlist"
+  },
+  "removedFromWishlist": "Removed from wishlist",
+  "@removedFromWishlist": {
+    "description": "Snackbar message when product removed from wishlist"
+  },
+  "buyNow": "Buy Now",
+  "@buyNow": {
+    "description": "Buy now button text"
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Share button label"
+  },
+  "relatedProducts": "Related Products",
+  "@relatedProducts": {
+    "description": "Related products section title"
+  },
+  "similarDeals": "Similar Deals",
+  "@similarDeals": {
+    "description": "Similar deals section title"
+  },
+  "youMayAlsoLike": "You May Also Like",
+  "@youMayAlsoLike": {
+    "description": "Recommendations section title"
+  },
+  "customerReviews": "Customer Reviews",
+  "@customerReviews": {
+    "description": "Customer reviews section title"
+  },
+  "ratingDistribution": "Rating Distribution",
+  "@ratingDistribution": {
+    "description": "Rating distribution label"
+  },
+  "writeReview": "Write a Review",
+  "@writeReview": {
+    "description": "Write review button"
+  },
+  "productInfo": "Product Information",
+  "@productInfo": {
+    "description": "Product information section title"
+  },
+  "sku": "SKU",
+  "@sku": {
+    "description": "SKU label"
+  },
+  "deliveryIn": "Delivery in {days} days",
+  "@deliveryIn": {
+    "description": "Delivery estimate",
+    "placeholders": {
+      "days": {
+        "type": "String",
+        "example": "3-5"
+      }
+    }
+  },
+  "unitsInStock": "{count} units in stock",
+  "@unitsInStock": {
+    "description": "Stock count display",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "45"
+      }
+    }
+  },
+  "onlyLeft": "Only {count} left!",
+  "@onlyLeft": {
+    "description": "Low stock urgency message",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "selectVariant": "Select {variant}",
+  "@selectVariant": {
+    "description": "Select variant prompt",
+    "placeholders": {
+      "variant": {
+        "type": "String",
+        "example": "Color"
+      }
+    }
+  },
+  "color": "Color",
+  "@color": {
+    "description": "Color variant label"
+  },
+  "size": "Size",
+  "@size": {
+    "description": "Size variant label"
+  },
+  "quantity": "Quantity",
+  "@quantity": {
+    "description": "Quantity label"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Search label"
+  },
+  "searchHint": "Search for products, brands, deals...",
+  "@searchHint": {
+    "description": "Search input hint"
+  },
+  "searchResults": "Search Results",
+  "@searchResults": {
+    "description": "Search results page title"
+  },
+  "resultsFor": "Results for \"{query}\"",
+  "@resultsFor": {
+    "description": "Search results header",
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "laptop"
+      }
+    }
+  },
+  "noResults": "No products found",
+  "@noResults": {
+    "description": "No search results message"
+  },
+  "noResultsFor": "No results for \"{query}\"",
+  "@noResultsFor": {
+    "description": "No search results for query",
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "xyz"
+      }
+    }
+  },
+  "tryDifferentSearch": "Try searching with different keywords",
+  "@tryDifferentSearch": {
+    "description": "No results suggestion"
+  },
+  "filters": "Filters",
+  "@filters": {
+    "description": "Filters label"
+  },
+  "applyFilters": "Apply Filters",
+  "@applyFilters": {
+    "description": "Apply filters button"
+  },
+  "clearFilters": "Clear All",
+  "@clearFilters": {
+    "description": "Clear filters button"
+  },
+  "filterBy": "Filter by",
+  "@filterBy": {
+    "description": "Filter by label"
+  },
+  "category": "Category",
+  "@category": {
+    "description": "Category filter label"
+  },
+  "allCategories": "All Categories",
+  "@allCategories": {
+    "description": "All categories option"
+  },
+  "priceMin": "Min Price",
+  "@priceMin": {
+    "description": "Minimum price label"
+  },
+  "priceMax": "Max Price",
+  "@priceMax": {
+    "description": "Maximum price label"
+  },
+  "minRating": "Minimum Rating",
+  "@minRating": {
+    "description": "Minimum rating filter label"
+  },
+  "starsAndUp": "{stars} stars & up",
+  "@starsAndUp": {
+    "description": "Rating filter option",
+    "placeholders": {
+      "stars": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "minDiscount": "Minimum Discount",
+  "@minDiscount": {
+    "description": "Minimum discount filter label"
+  },
+  "discountAndUp": "{discount}% & up",
+  "@discountAndUp": {
+    "description": "Discount filter option",
+    "placeholders": {
+      "discount": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "inStockOnly": "In Stock Only",
+  "@inStockOnly": {
+    "description": "In stock only filter"
+  },
+  "dealsOnly": "Deals Only",
+  "@dealsOnly": {
+    "description": "Deals only filter"
+  },
+  "sort": "Sort",
+  "@sort": {
+    "description": "Sort label"
+  },
+  "sortByLabel": "Sort by:",
+  "@sortByLabel": {
+    "description": "Sort by prefix"
+  },
+  "productCount": "{count} products",
+  "@productCount": {
+    "description": "Product count display",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "42"
+      }
+    }
+  },
+  "activeFilters": "{count} active",
+  "@activeFilters": {
+    "description": "Active filters count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "recentSearchesLabel": "Recent Searches",
+  "@recentSearchesLabel": {
+    "description": "Recent searches section label"
+  },
+  "clearSearchHistory": "Clear History",
+  "@clearSearchHistory": {
+    "description": "Clear search history button"
+  },
+  "suggestions": "Suggestions",
+  "@suggestions": {
+    "description": "Search suggestions label"
+  },
+  "todaysDealsTitle": "Today's Deals",
+  "@todaysDealsTitle": {
+    "description": "Today's deals section title"
+  },
+  "biggestDiscountsTitle": "Biggest Discounts",
+  "@biggestDiscountsTitle": {
+    "description": "Biggest discounts section title"
+  },
+  "flashDealsTitle": "Flash Deals",
+  "@flashDealsTitle": {
+    "description": "Flash deals section title"
+  },
+  "trendingDealsTitle": "Trending Deals",
+  "@trendingDealsTitle": {
+    "description": "Trending deals section title"
+  },
+  "priceDropsTitle": "Price Drops",
+  "@priceDropsTitle": {
+    "description": "Price drops section title"
+  },
+  "recentlyViewedTitle": "Recently Viewed",
+  "@recentlyViewedTitle": {
+    "description": "Recently viewed section title"
+  },
+  "recommendedTitle": "Recommended For You",
+  "@recommendedTitle": {
+    "description": "Recommended products section title"
+  },
+  "bestSellersTitle": "Best Sellers",
+  "@bestSellersTitle": {
+    "description": "Best sellers section title"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "View all button"
+  },
+  "seeMore": "See More",
+  "@seeMore": {
+    "description": "See more button"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save label for discounts"
+  },
+  "savingsAmount": "Save {amount}",
+  "@savingsAmount": {
+    "description": "Savings amount display",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "$50.00"
+      }
+    }
+  },
+  "upTo": "Up to",
+  "@upTo": {
+    "description": "Up to prefix for discounts"
+  },
+  "off": "OFF",
+  "@off": {
+    "description": "OFF suffix for discounts"
+  },
+  "dealOfTheDay": "Deal of the Day",
+  "@dealOfTheDay": {
+    "description": "Deal of the day label"
+  },
+  "limitedQuantity": "Limited Quantity",
+  "@limitedQuantity": {
+    "description": "Limited quantity badge"
+  },
+  "hurry": "Hurry!",
+  "@hurry": {
+    "description": "Urgency indicator"
+  },
+  "almostGone": "Almost Gone!",
+  "@almostGone": {
+    "description": "Low stock urgency message"
+  },
+  "login": "Login",
+  "signUp": "Sign Up",
+  "logout": "Logout",
+  "email": "Email",
+  "password": "Password",
+  "fullName": "Full Name",
+  "confirmPassword": "Confirm Password",
+  "emailHint": "Enter your email",
+  "passwordHint": "Enter your password",
+  "fullNameHint": "Enter your full name",
+  "confirmPasswordHint": "Re-enter your password",
+  "emailRequired": "Email is required",
+  "emailInvalid": "Enter a valid email address",
+  "passwordRequired": "Password is required",
+  "passwordTooShort": "Password must be at least 6 characters",
+  "nameRequired": "Name is required",
+  "nameTooShort": "Name must be at least 2 characters",
+  "confirmPasswordRequired": "Please confirm your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "welcomeBack": "Welcome Back!",
+  "loginSubtitle": "Sign in to continue shopping",
+  "loginSuccess": "Logged in successfully",
+  "loginError": "Login failed. Please check your credentials.",
+  "createAccount": "Create Account",
+  "signUpSubtitle": "Join TOPBUY DEALS today",
+  "signUpSuccess": "Account created successfully!",
+  "signUpError": "Sign up failed. Please try again.",
+  "forgotPassword": "Forgot Password?",
+  "resetPassword": "Reset Password",
+  "sendResetLink": "Send Reset Link",
+  "resetPasswordDescription": "Enter your email and we'll send you a link to reset your password",
+  "resetPasswordEmailSent": "Password reset email sent!",
+  "resetPasswordEmailSentDescription": "We've sent a password reset link to your email. Check your inbox and follow the instructions.",
+  "resetPasswordError": "Failed to send reset email. Please try again.",
+  "resetPasswordHelpText": "Didn't receive the email? Check your spam folder or try resending.",
+  "checkYourEmail": "Check Your Email",
+  "resendEmail": "Resend Email",
+  "resendIn": "Resend in {seconds}s",
+  "@resendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "backToLogin": "Back to Login",
+  "or": "OR",
+  "dontHaveAccount": "Don't have an account?",
+  "alreadyHaveAccount": "Already have an account?",
+  "passwordWeak": "Weak",
+  "passwordMedium": "Medium",
+  "passwordStrong": "Strong",
+  "signOut": "Sign Out",
+  "myAccount": "My Account",
+  "accountSettings": "Account Settings",
+  "editProfile": "Edit Profile",
+  "signedInAs": "Signed in as",
+  "guest": "Guest",
+  "signInToSeeMore": "Sign in to access more features",
+  "phoneNumber": "Phone Number",
+  "phoneNumberHint": "Enter your phone number",
+  "phoneNumberInvalid": "Enter a valid phone number",
+  "saveChanges": "Save Changes",
+  "cancel": "Cancel",
+  "profileUpdated": "Profile updated successfully",
+  "profileUpdateFailed": "Failed to update profile",
+  "personalInformation": "Personal Information",
+  "preferences": "Preferences",
+  "currencyPreference": "Currency",
+  "languagePreference": "Language",
+  "optional": "Optional"
+}
