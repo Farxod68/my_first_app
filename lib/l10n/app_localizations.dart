@@ -1307,6 +1307,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Optional'**
   String get optional;
+
+  /// No description provided for @continueWhereLeftOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue where you left off'**
+  String get continueWhereLeftOff;
+
+  /// No description provided for @savingsUpTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Save up to 50% OFF'**
+  String get savingsUpTo;
+
+  /// No description provided for @limitedTimeOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'Limited time offers'**
+  String get limitedTimeOffers;
+
+  /// No description provided for @bestDealsNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Best deals available now'**
+  String get bestDealsNow;
+
+  /// No description provided for @mostLovedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop our most loved items'**
+  String get mostLovedItems;
+
+  /// No description provided for @updatePersonalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your personal information'**
+  String get updatePersonalInfo;
+
+  /// No description provided for @confirmSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get confirmSignOut;
+
+  /// No description provided for @signedOutSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed out successfully'**
+  String get signedOutSuccess;
 }
 
 class _AppLocalizationsDelegate

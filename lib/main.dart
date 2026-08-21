@@ -555,7 +555,7 @@ class _HomePageState extends State<HomePage> {
             final recentlyViewed = recentlyViewedProvider.getRecentlyViewedProducts(products);
             return HorizontalProductSection(
               title: l10n.recentlyViewedTitle,
-              subtitle: 'Continue where you left off',
+              subtitle: l10n.continueWhereLeftOff,
               products: recentlyViewed,
               locale: locale,
               horizontalPadding: horizontalPadding,
@@ -592,7 +592,7 @@ class _HomePageState extends State<HomePage> {
         // Biggest Discounts Section (using DealHelper)
         HorizontalProductSection(
           title: l10n.biggestDiscountsTitle,
-          subtitle: 'Save up to 50% OFF',
+          subtitle: l10n.savingsUpTo,
           products: DealHelper.getBiggestDiscounts(products)
               .take(DisplayLimits.biggestDiscountsDisplayCount)
               .toList(),
@@ -603,7 +603,7 @@ class _HomePageState extends State<HomePage> {
         // Flash Deals Section (using DealHelper)
         HorizontalProductSection(
           title: l10n.flashDealsTitle,
-          subtitle: 'Limited time offers',
+          subtitle: l10n.limitedTimeOffers,
           products: DealHelper.getFlashDeals(products),
           locale: locale,
           horizontalPadding: horizontalPadding,
@@ -612,7 +612,7 @@ class _HomePageState extends State<HomePage> {
         // Today's Deals Section (using DealHelper)
         HorizontalProductSection(
           title: l10n.todaysDealsTitle,
-          subtitle: 'Best deals available now',
+          subtitle: l10n.bestDealsNow,
           products: DealHelper.getTodaysDeals(products)
               .take(DisplayLimits.todaysDealsDisplayCount)
               .toList(),
@@ -639,7 +639,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           child: Text(
-            'Shop our most loved items',
+            l10n.mostLovedItems,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.grey.shade600,
                 ),
@@ -990,7 +990,7 @@ class _HomePageState extends State<HomePage> {
                     ListTile(
                       leading: const Icon(Icons.edit_outlined),
                       title: Text(l10n.editProfile),
-                      subtitle: const Text('Update your personal information'),
+                      subtitle: Text(l10n.updatePersonalInfo),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {
                         Navigator.push(
@@ -1032,11 +1032,11 @@ class _HomePageState extends State<HomePage> {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: Text(l10n.logout),
-                              content: Text('Are you sure you want to sign out?'),
+                              content: Text(l10n.confirmSignOut),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, false),
-                                  child: const Text('Cancel'),
+                                  child: Text(l10n.cancel),
                                 ),
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, true),
@@ -1051,7 +1051,7 @@ class _HomePageState extends State<HomePage> {
                             if (mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Signed out successfully'),
+                                  content: Text(l10n.signedOutSuccess),
                                   backgroundColor: Colors.green,
                                 ),
                               );

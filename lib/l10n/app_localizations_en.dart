@@ -649,4 +649,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get optional => 'Optional';
+
+  @override
+  String get continueWhereLeftOff => 'Continue where you left off';
+
+  @override
+  String get savingsUpTo => 'Save up to 50% OFF';
+
+  @override
+  String get limitedTimeOffers => 'Limited time offers';
+
+  @override
+  String get bestDealsNow => 'Best deals available now';
+
+  @override
+  String get mostLovedItems => 'Shop our most loved items';
+
+  @override
+  String get updatePersonalInfo => 'Update your personal information';
+
+  @override
+  String get confirmSignOut => 'Are you sure you want to sign out?';
+
+  @override
+  String get signedOutSuccess => 'Signed out successfully';
 }

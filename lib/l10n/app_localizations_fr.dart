@@ -653,4 +653,29 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get optional => 'Facultatif';
+
+  @override
+  String get continueWhereLeftOff => 'Continuez où vous vous êtes arrêté';
+
+  @override
+  String get savingsUpTo => 'Économisez jusqu\'à 50% DE RÉDUCTION';
+
+  @override
+  String get limitedTimeOffers => 'Offres à durée limitée';
+
+  @override
+  String get bestDealsNow => 'Meilleures offres disponibles maintenant';
+
+  @override
+  String get mostLovedItems => 'Achetez nos articles les plus aimés';
+
+  @override
+  String get updatePersonalInfo =>
+      'Mettez à jour vos informations personnelles';
+
+  @override
+  String get confirmSignOut => 'Êtes-vous sûr de vouloir vous déconnecter?';
+
+  @override
+  String get signedOutSuccess => 'Déconnexion réussie';
 }

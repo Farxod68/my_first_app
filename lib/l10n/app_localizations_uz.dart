@@ -652,4 +652,29 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get optional => 'Ixtiyoriy';
+
+  @override
+  String get continueWhereLeftOff => 'Qayerda to\'xtaganingizdan davom eting';
+
+  @override
+  String get savingsUpTo => '50% gacha CHEGIRMADA';
+
+  @override
+  String get limitedTimeOffers => 'Cheklangan vaqt takliflari';
+
+  @override
+  String get bestDealsNow => 'Hozir mavjud eng yaxshi takliflar';
+
+  @override
+  String get mostLovedItems =>
+      'Eng yaxshi ko\'rilgan mahsulotlarni xarid qiling';
+
+  @override
+  String get updatePersonalInfo => 'Shaxsiy ma\'lumotlaringizni yangilang';
+
+  @override
+  String get confirmSignOut => 'Chiqishni xohlaysizmi?';
+
+  @override
+  String get signedOutSuccess => 'Muvaffaqiyatli chiqildi';
 }

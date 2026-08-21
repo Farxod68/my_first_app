@@ -707,5 +707,13 @@
   "preferences": "Afzalliklar",
   "currencyPreference": "Valyuta",
   "languagePreference": "Til",
-  "optional": "Ixtiyoriy"
+  "optional": "Ixtiyoriy",
+  "continueWhereLeftOff": "Qayerda to'xtaganingizdan davom eting",
+  "savingsUpTo": "50% gacha CHEGIRMADA",
+  "limitedTimeOffers": "Cheklangan vaqt takliflari",
+  "bestDealsNow": "Hozir mavjud eng yaxshi takliflar",
+  "mostLovedItems": "Eng yaxshi ko'rilgan mahsulotlarni xarid qiling",
+  "updatePersonalInfo": "Shaxsiy ma'lumotlaringizni yangilang",
+  "confirmSignOut": "Chiqishni xohlaysizmi?",
+  "signedOutSuccess": "Muvaffaqiyatli chiqildi"
 }

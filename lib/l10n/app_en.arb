@@ -714,5 +714,13 @@
   "preferences": "Preferences",
   "currencyPreference": "Currency",
   "languagePreference": "Language",
-  "optional": "Optional"
+  "optional": "Optional",
+  "continueWhereLeftOff": "Continue where you left off",
+  "savingsUpTo": "Save up to 50% OFF",
+  "limitedTimeOffers": "Limited time offers",
+  "bestDealsNow": "Best deals available now",
+  "mostLovedItems": "Shop our most loved items",
+  "updatePersonalInfo": "Update your personal information",
+  "confirmSignOut": "Are you sure you want to sign out?",
+  "signedOutSuccess": "Signed out successfully"
 }

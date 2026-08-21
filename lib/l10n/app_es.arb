@@ -200,5 +200,13 @@
   "preferences": "Preferencias",
   "currencyPreference": "Moneda",
   "languagePreference": "Idioma",
-  "optional": "Opcional"
+  "optional": "Opcional",
+  "continueWhereLeftOff": "Continúa donde lo dejaste",
+  "savingsUpTo": "Ahorra hasta 50% de DESCUENTO",
+  "limitedTimeOffers": "Ofertas por tiempo limitado",
+  "bestDealsNow": "Mejores ofertas disponibles ahora",
+  "mostLovedItems": "Compra nuestros artículos más queridos",
+  "updatePersonalInfo": "Actualiza tu información personal",
+  "confirmSignOut": "¿Estás seguro de que quieres cerrar sesión?",
+  "signedOutSuccess": "Sesión cerrada exitosamente"
 }
