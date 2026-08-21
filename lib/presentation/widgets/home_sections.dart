@@ -4,7 +4,7 @@ import '../../data/models/product.dart';
 import '../../l10n/app_localizations.dart';
 import '../../presentation/providers/wishlist_provider.dart';
 import '../../presentation/widgets/product_card.dart';
-import '../../presentation/screens/product_details/product_details_page_new.dart';
+import '../../presentation/screens/product_details/product_details_page.dart';
 
 /// Reusable horizontal product section for Home page
 ///
@@ -102,7 +102,7 @@ class HorizontalProductSection extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => ProductDetailsPageNew(product: product),
+                            builder: (_) => ProductDetailsPage(product: product),
                           ),
                         );
                       },

@@ -20,7 +20,7 @@ import 'presentation/providers/recently_viewed_provider.dart';
 import 'presentation/providers/search_provider.dart';
 import 'presentation/providers/auth_provider.dart';
 import 'presentation/screens/category/category_page.dart';
-import 'presentation/screens/product_details/product_details_page_new.dart';
+import 'presentation/screens/product_details/product_details_page.dart';
 import 'presentation/screens/cart/cart_page.dart';
 import 'presentation/screens/auth/login_page.dart';
 import 'presentation/screens/profile/profile_edit_page.dart';
@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ProductDetailsPageNew(product: product),
+        builder: (_) => ProductDetailsPage(product: product),
       ),
     );
   }

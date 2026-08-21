@@ -9,7 +9,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../presentation/providers/search_provider.dart';
 import '../../../presentation/providers/wishlist_provider.dart';
 import '../../../presentation/widgets/product_card.dart';
-import '../../../presentation/screens/product_details/product_details_page_new.dart';
+import '../../../presentation/screens/product_details/product_details_page.dart';
 
 /// Search Results Page with Filters and Sorting
 ///
@@ -244,7 +244,7 @@ class _ResultsGrid extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ProductDetailsPageNew(product: product),
+                    builder: (_) => ProductDetailsPage(product: product),
                   ),
                 );
               },
