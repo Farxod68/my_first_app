@@ -53,10 +53,10 @@ class DealHelper {
     }
 
     // Classify by discount percentage
-    if (product.discount >= 30) {
+    if (product.discount >= DealThresholds.bigDiscountMinPercent) {
       return DealType.bigDiscount;
     }
-    if (product.discount >= 10) {
+    if (product.discount >= DealThresholds.goodDealMinPercent) {
       return DealType.goodDeal;
     }
 
@@ -85,20 +85,21 @@ class DealHelper {
     int score = 0;
 
     // Discount contribution (0-50 points, capped at 50% discount)
-    score += (product.discount * 1.0).clamp(0, 50).toInt();
+    score += (product.discount * 1.0).clamp(0, ScoringWeights.maxDiscountScore).toInt();
 
     // Rating contribution (0-25 points)
-    score += (product.rating * 5).toInt();
+    score += (product.rating * ScoringWeights.ratingMultiplier).toInt();
 
     // Popularity contribution (0-15 points, normalized by review count)
-    final popularityScore = (product.reviewCount / 200).clamp(0, 15);
+    final popularityScore = (product.reviewCount / ScoringWeights.reviewCountNormalizer)
+        .clamp(0, ScoringWeights.maxPopularityScore);
     score += popularityScore.toInt();
 
     // Stock availability (0-10 points)
     if (product.isInStock) {
-      score += 10;
+      score += ScoringWeights.inStockScore;
     } else if (product.isLowStock) {
-      score += 5;
+      score += ScoringWeights.lowStockScore;
     }
 
     // Deal type priority (0-20 points)
@@ -114,21 +115,21 @@ class DealHelper {
   static int _getDealTypePriority(DealType dealType) {
     switch (dealType) {
       case DealType.flashSale:
-        return 20; // Highest priority
+        return DealTypePriority.flashSale;
       case DealType.limitedTime:
-        return 18;
+        return DealTypePriority.limitedTime;
       case DealType.priceDrop:
-        return 16;
+        return DealTypePriority.priceDrop;
       case DealType.bigDiscount:
-        return 14;
+        return DealTypePriority.bigDiscount;
       case DealType.trending:
-        return 12;
+        return DealTypePriority.trending;
       case DealType.bestSeller:
-        return 10;
+        return DealTypePriority.bestSeller;
       case DealType.newArrival:
-        return 8;
+        return DealTypePriority.newArrival;
       case DealType.goodDeal:
-        return 6;
+        return DealTypePriority.goodDeal;
     }
   }
 
@@ -219,7 +220,7 @@ class DealHelper {
     List<String> recentlyViewedIds = const [],
     List<String> wishlistNames = const [],
     List<Product> cartItems = const [],
-    int maxResults = 10,
+    int maxResults = DisplayLimits.defaultRecommendationCount,
   }) {
     final recommendations = <Product, int>{};
 
@@ -251,27 +252,27 @@ class DealHelper {
 
       // Category match (highest priority)
       if (recentCategories.contains(product.category)) {
-        score += 50;
+        score += RecommendationWeights.recentCategoryScore;
       }
       if (wishlistCategories.contains(product.category)) {
-        score += 40;
+        score += RecommendationWeights.wishlistCategoryScore;
       }
       if (cartCategories.contains(product.category)) {
-        score += 30;
+        score += RecommendationWeights.cartCategoryScore;
       }
 
       // Quality signals
-      if (product.rating >= 4.5) {
-        score += 20;
+      if (product.rating >= QualityThresholds.highRatingThreshold) {
+        score += RecommendationWeights.highRatingBonus;
       }
-      if (product.discount >= 20) {
-        score += 15;
+      if (product.discount >= DealThresholds.recommendedDiscountPercent) {
+        score += RecommendationWeights.discountBonus;
       }
       if (product.badges.contains(DealBadges.bestSeller)) {
-        score += 10;
+        score += RecommendationWeights.bestSellerBonus;
       }
       if (product.isInStock) {
-        score += 5;
+        score += RecommendationWeights.inStockBonus;
       }
 
       if (score > 0) {
@@ -308,7 +309,7 @@ class DealHelper {
     }
 
     // Check discount
-    if (product.discount >= 40) {
+    if (product.discount >= DealThresholds.urgentDiscountPercent) {
       return DealUrgency.medium;
     }
 

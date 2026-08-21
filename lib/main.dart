@@ -7,6 +7,7 @@ import 'core/utils/formatters.dart';
 import 'core/services/persistence_service.dart';
 import 'core/services/supabase_service.dart';
 import 'core/config/supabase_config.dart';
+import 'core/constants/app_constants.dart';
 import 'data/models/product.dart';
 import 'data/data_sources/local/mock_products.dart';
 import 'data/data_sources/remote/auth_remote_data_source.dart';
@@ -592,7 +593,9 @@ class _HomePageState extends State<HomePage> {
         HorizontalProductSection(
           title: l10n.biggestDiscountsTitle,
           subtitle: 'Save up to 50% OFF',
-          products: DealHelper.getBiggestDiscounts(products).take(10).toList(),
+          products: DealHelper.getBiggestDiscounts(products)
+              .take(DisplayLimits.biggestDiscountsDisplayCount)
+              .toList(),
           locale: locale,
           horizontalPadding: horizontalPadding,
         ),
@@ -610,7 +613,9 @@ class _HomePageState extends State<HomePage> {
         HorizontalProductSection(
           title: l10n.todaysDealsTitle,
           subtitle: 'Best deals available now',
-          products: DealHelper.getTodaysDeals(products).take(12).toList(),
+          products: DealHelper.getTodaysDeals(products)
+              .take(DisplayLimits.todaysDealsDisplayCount)
+              .toList(),
           locale: locale,
           horizontalPadding: horizontalPadding,
         ),
