@@ -5,7 +5,7 @@ import '../../core/services/persistence_service.dart';
 /// Wishlist/Favorites state management provider with persistence
 ///
 /// Manages user's favorite products including:
-/// - Set of favorited product names
+/// - Set of favorited product IDs
 /// - Toggle favorite status
 /// - Check if product is favorited
 /// - Get list of favorite products
@@ -15,7 +15,7 @@ import '../../core/services/persistence_service.dart';
 /// Persists wishlist data using PersistenceService
 class WishlistProvider with ChangeNotifier {
   final PersistenceService _persistenceService;
-  final Set<String> _favoriteProductNames = {};
+  final Set<String> _favoriteProductIds = {};
   bool _isLoaded = false;
 
   WishlistProvider(this._persistenceService) {
@@ -25,50 +25,49 @@ class WishlistProvider with ChangeNotifier {
   /// Check if wishlist data has been loaded from storage
   bool get isLoaded => _isLoaded;
 
-  /// Get immutable set of favorited product names
-  Set<String> get favoriteProductNames =>
-      Set.unmodifiable(_favoriteProductNames);
+  /// Get immutable set of favorited product IDs
+  Set<String> get favoriteProductIds =>
+      Set.unmodifiable(_favoriteProductIds);
 
   /// Get count of favorited products
-  int get count => _favoriteProductNames.length;
+  int get count => _favoriteProductIds.length;
 
-  /// Check if a product is in favorites by name
-  /// Note: Currently using name as identifier. In production, use product ID.
-  bool isFavorite(String productName) {
-    return _favoriteProductNames.contains(productName);
+  /// Check if a product is in favorites by ID
+  bool isFavorite(String productId) {
+    return _favoriteProductIds.contains(productId);
   }
 
   /// Toggle favorite status for a product
   ///
   /// If product is already favorited, removes it.
   /// If product is not favorited, adds it.
-  void toggleFavorite(String productName) {
-    if (_favoriteProductNames.contains(productName)) {
-      _favoriteProductNames.remove(productName);
+  void toggleFavorite(String productId) {
+    if (_favoriteProductIds.contains(productId)) {
+      _favoriteProductIds.remove(productId);
     } else {
-      _favoriteProductNames.add(productName);
+      _favoriteProductIds.add(productId);
     }
     _saveWishlist();
     notifyListeners();
   }
 
   /// Add a product to favorites
-  void addToFavorites(String productName) {
-    _favoriteProductNames.add(productName);
+  void addToFavorites(String productId) {
+    _favoriteProductIds.add(productId);
     _saveWishlist();
     notifyListeners();
   }
 
   /// Remove a product from favorites
-  void removeFromFavorites(String productName) {
-    _favoriteProductNames.remove(productName);
+  void removeFromFavorites(String productId) {
+    _favoriteProductIds.remove(productId);
     _saveWishlist();
     notifyListeners();
   }
 
   /// Clear all favorites
   void clearFavorites() {
-    _favoriteProductNames.clear();
+    _favoriteProductIds.clear();
     _saveWishlist();
     notifyListeners();
   }
@@ -78,7 +77,7 @@ class WishlistProvider with ChangeNotifier {
   /// Filters the given product list to return only favorited products
   List<Product> getFavoriteProducts(List<Product> allProducts) {
     return allProducts
-        .where((product) => _favoriteProductNames.contains(product.name))
+        .where((product) => _favoriteProductIds.contains(product.id))
         .toList();
   }
 
@@ -86,15 +85,17 @@ class WishlistProvider with ChangeNotifier {
   ///
   /// Called automatically during initialization.
   /// Handles corrupted data gracefully by starting with empty wishlist.
+  /// Note: Pre-1.5 wishlist data (stored as product names) is incompatible
+  /// and will be ignored. Users will start with a clean wishlist.
   Future<void> _loadWishlist() async {
     try {
-      final favoriteNames = _persistenceService.loadWishlist();
-      _favoriteProductNames.clear();
-      _favoriteProductNames.addAll(favoriteNames);
+      final favoriteIds = _persistenceService.loadWishlist();
+      _favoriteProductIds.clear();
+      _favoriteProductIds.addAll(favoriteIds);
     } catch (e) {
       debugPrint('Failed to load wishlist: $e');
       // Start with empty wishlist if load fails
-      _favoriteProductNames.clear();
+      _favoriteProductIds.clear();
     } finally {
       _isLoaded = true;
       notifyListeners();
@@ -107,7 +108,7 @@ class WishlistProvider with ChangeNotifier {
   /// Fails silently to avoid disrupting user experience.
   Future<void> _saveWishlist() async {
     try {
-      await _persistenceService.saveWishlist(_favoriteProductNames.toList());
+      await _persistenceService.saveWishlist(_favoriteProductIds.toList());
     } catch (e) {
       debugPrint('Failed to save wishlist: $e');
       // Continue without throwing - persistence failure shouldn't crash app

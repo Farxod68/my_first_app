@@ -94,7 +94,7 @@ class HorizontalProductSection extends StatelessWidget {
                 margin: EdgeInsets.only(right: index < products.length - 1 ? 16 : 0),
                 child: Consumer<WishlistProvider>(
                   builder: (context, wishlistProvider, child) {
-                    final isFavorite = wishlistProvider.isFavorite(product.name);
+                    final isFavorite = wishlistProvider.isFavorite(product.id);
                     return ProductCard(
                       product: product,
                       isFavorite: isFavorite,
@@ -107,7 +107,7 @@ class HorizontalProductSection extends StatelessWidget {
                         );
                       },
                       onFavoriteToggle: () {
-                        wishlistProvider.toggleFavorite(product.name);
+                        wishlistProvider.toggleFavorite(product.id);
                       },
                       locale: locale,
                     );

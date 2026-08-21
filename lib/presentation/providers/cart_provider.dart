@@ -34,10 +34,9 @@ class CartProvider with ChangeNotifier {
   /// Get total number of items in cart
   int get itemCount => _cartItems.length;
 
-  /// Check if a product is in the cart by name
-  /// Note: Currently using name as identifier. In production, use product ID.
-  bool isInCart(String productName) {
-    return _cartItems.any((item) => item.name == productName);
+  /// Check if a product is in the cart by ID
+  bool isInCart(String productId) {
+    return _cartItems.any((item) => item.id == productId);
   }
 
   /// Add a product to the cart
@@ -59,9 +58,9 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  /// Remove first occurrence of a product from cart by name
+  /// Remove first occurrence of a product from cart by ID
   void removeProduct(Product product) {
-    _cartItems.removeWhere((item) => item.name == product.name);
+    _cartItems.removeWhere((item) => item.id == product.id);
     _saveCart();
     notifyListeners();
   }

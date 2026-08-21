@@ -236,7 +236,7 @@ class _ResultsGrid extends StatelessWidget {
         final product = results[index];
         return Consumer<WishlistProvider>(
           builder: (context, wishlistProvider, child) {
-            final isFavorite = wishlistProvider.isFavorite(product.name);
+            final isFavorite = wishlistProvider.isFavorite(product.id);
             return ProductCard(
               product: product,
               isFavorite: isFavorite,
@@ -249,7 +249,7 @@ class _ResultsGrid extends StatelessWidget {
                 );
               },
               onFavoriteToggle: () {
-                wishlistProvider.toggleFavorite(product.name);
+                wishlistProvider.toggleFavorite(product.id);
               },
               locale: locale,
             );

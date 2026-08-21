@@ -73,10 +73,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   void _toggleWishlist() {
     final wishlistProvider = context.read<WishlistProvider>();
-    wishlistProvider.toggleFavorite(widget.product.name);
+    wishlistProvider.toggleFavorite(widget.product.id);
 
     final l10n = AppLocalizations.of(context)!;
-    final isFavorite = wishlistProvider.isFavorite(widget.product.name);
+    final isFavorite = wishlistProvider.isFavorite(widget.product.id);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -118,7 +118,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           // Wishlist button
           Consumer<WishlistProvider>(
             builder: (context, wishlistProvider, child) {
-              final isFavorite = wishlistProvider.isFavorite(widget.product.name);
+              final isFavorite = wishlistProvider.isFavorite(widget.product.id);
               return IconButton(
                 icon: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -860,7 +860,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 ),
                 child: Consumer<WishlistProvider>(
                   builder: (context, wishlistProvider, child) {
-                    final isFavorite = wishlistProvider.isFavorite(product.name);
+                    final isFavorite = wishlistProvider.isFavorite(product.id);
                     return ProductCard(
                       product: product,
                       isFavorite: isFavorite,
@@ -874,7 +874,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         );
                       },
                       onFavoriteToggle: () {
-                        wishlistProvider.toggleFavorite(product.name);
+                        wishlistProvider.toggleFavorite(product.id);
                       },
                       locale: locale,
                     );

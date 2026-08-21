@@ -195,7 +195,7 @@ class _HomePageState extends State<HomePage> {
   void toggleFavorite(Product product, BuildContext context) {
     final wishlistProvider =
         Provider.of<WishlistProvider>(context, listen: false);
-    wishlistProvider.toggleFavorite(product.name);
+    wishlistProvider.toggleFavorite(product.id);
   }
 
   void openProduct(Product product, BuildContext context) {
@@ -669,7 +669,7 @@ class _HomePageState extends State<HomePage> {
                   return Consumer<WishlistProvider>(
                     builder: (context, wishlistProvider, child) {
                       final isFavorite =
-                          wishlistProvider.isFavorite(product.name);
+                          wishlistProvider.isFavorite(product.id);
 
                       return ProductCard(
                         product: product,
