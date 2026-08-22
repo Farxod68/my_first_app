@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/utils/responsive.dart';
+import '../../../core/utils/validators.dart';
+import '../../../core/utils/auth_helpers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/locale_provider.dart';
-import '../../providers/currency_provider.dart';
 import 'signup_page.dart';
 import 'forgot_password_page.dart';
 
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (success) {
       // Sync preferences from user profile to local providers
-      _syncPreferencesFromProfile();
+      AuthHelpers.syncPreferencesFromProfile(context, logPrefix: 'LOGIN');
 
       // Login successful - navigate back
       Navigator.pop(context);
@@ -80,61 +80,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  /// Sync language and currency preferences from authenticated user profile
-  ///
-  /// Called after successful login to ensure local preferences match
-  /// the user's saved preferences in Supabase.
-  void _syncPreferencesFromProfile() {
-    try {
-      final authProvider = context.read<AuthProvider>();
-      final prefs = authProvider.getUserPreferences();
-
-      if (prefs == null) {
-        return;
-      }
-
-      final localeProvider = context.read<LocaleProvider>();
-      final currencyProvider = context.read<CurrencyProvider>();
-
-      // Sync language preference
-      if (prefs['languageCode'] != null &&
-          prefs['languageCode'] != localeProvider.languageCode) {
-        localeProvider.setLocaleByCode(prefs['languageCode']!);
-        debugPrint('[LOGIN] Synced language: ${prefs['languageCode']}');
-      }
-
-      // Sync currency preference
-      if (prefs['currencyCode'] != null &&
-          prefs['currencyCode'] != currencyProvider.currentCurrency) {
-        currencyProvider.setCurrency(prefs['currencyCode']!);
-        debugPrint('[LOGIN] Synced currency: ${prefs['currencyCode']}');
-      }
-    } catch (e) {
-      debugPrint('[LOGIN] Failed to sync preferences: $e');
-      // Continue anyway - preference sync failure shouldn't block login
-    }
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.emailRequired;
-    }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return AppLocalizations.of(context)!.emailInvalid;
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.passwordRequired;
-    }
-    if (value.length < 6) {
-      return AppLocalizations.of(context)!.passwordTooShort;
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                       prefixIcon: const Icon(Icons.email_outlined),
                       border: const OutlineInputBorder(),
                     ),
-                    validator: _validateEmail,
+                    validator: (value) => FormValidators.validateEmail(context, value),
                   ),
                   const SizedBox(height: 16),
 
@@ -227,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       border: const OutlineInputBorder(),
                     ),
-                    validator: _validatePassword,
+                    validator: (value) => FormValidators.validatePassword(context, value),
                   ),
                   const SizedBox(height: 8),
 

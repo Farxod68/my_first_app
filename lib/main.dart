@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/responsive.dart';
 import 'core/utils/formatters.dart';
+import 'core/utils/auth_helpers.dart';
 import 'core/services/persistence_service.dart';
 import 'core/services/supabase_service.dart';
 import 'core/config/supabase_config.dart';
@@ -103,46 +104,8 @@ class _TopBuyDealsAppState extends State<TopBuyDealsApp> {
     super.initState();
     // Sync preferences on app start if user is authenticated
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _syncPreferencesFromProfile();
+      AuthHelpers.syncPreferencesFromProfile(context, logPrefix: 'PROFILE');
     });
-  }
-
-  /// Sync language and currency preferences from authenticated user profile
-  ///
-  /// Called on app start and after login to ensure local preferences match
-  /// the user's saved preferences in Supabase.
-  void _syncPreferencesFromProfile() {
-    try {
-      final authProvider = context.read<AuthProvider?>();
-      if (authProvider == null || !authProvider.isAuthenticated) {
-        return; // No auth provider or not authenticated, keep local preferences
-      }
-
-      final prefs = authProvider.getUserPreferences();
-      if (prefs == null) {
-        return;
-      }
-
-      final localeProvider = context.read<LocaleProvider>();
-      final currencyProvider = context.read<CurrencyProvider>();
-
-      // Sync language preference
-      if (prefs['languageCode'] != null &&
-          prefs['languageCode'] != localeProvider.languageCode) {
-        localeProvider.setLocaleByCode(prefs['languageCode']!);
-        debugPrint('[PROFILE] Synced language preference: ${prefs['languageCode']}');
-      }
-
-      // Sync currency preference
-      if (prefs['currencyCode'] != null &&
-          prefs['currencyCode'] != currencyProvider.currentCurrency) {
-        currencyProvider.setCurrency(prefs['currencyCode']!);
-        debugPrint('[PROFILE] Synced currency preference: ${prefs['currencyCode']}');
-      }
-    } catch (e) {
-      debugPrint('[PROFILE] Failed to sync preferences: $e');
-      // Continue with existing local preferences
-    }
   }
 
   @override

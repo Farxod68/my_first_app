@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/utils/responsive.dart';
+import '../../../core/utils/validators.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 
@@ -83,17 +84,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     });
   }
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return AppLocalizations.of(context)!.emailRequired;
-    }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return AppLocalizations.of(context)!.emailInvalid;
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -160,7 +150,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         prefixIcon: const Icon(Icons.email_outlined),
                         border: const OutlineInputBorder(),
                       ),
-                      validator: _validateEmail,
+                      validator: (value) => FormValidators.validateEmail(context, value),
                     ),
                     const SizedBox(height: 24),
 
