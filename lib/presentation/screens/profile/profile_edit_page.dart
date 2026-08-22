@@ -219,7 +219,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             child: Image.network(
                               user.avatarUrl!,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => Icon(
+                              errorBuilder: (context, error, stackTrace) => Icon(
                                 Icons.person,
                                 size: isWideScreen ? 65 : 55,
                                 color: Colors.green,

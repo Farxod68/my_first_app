@@ -784,7 +784,7 @@ class _HomePageState extends State<HomePage> {
                         child: Image.network(
                           user!.avatarUrl!,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Icon(
+                          errorBuilder: (context, error, stackTrace) => Icon(
                             Icons.person,
                             size: isWideScreen ? 65 : 55,
                             color: Colors.green,
@@ -878,7 +878,7 @@ class _HomePageState extends State<HomePage> {
                       ListTile(
                         leading: const Icon(Icons.logout),
                         title: Text(l10n.logout),
-                        subtitle: Text(l10n.signedInAs + ' ${user?.email}'),
+                        subtitle: Text('${l10n.signedInAs} ${user?.email}'),
                         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                         onTap: () async {
                           final confirm = await showDialog<bool>(

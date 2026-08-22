@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 ///
 /// Currently implements:
 /// - String storage (for simple values like locale)
-/// - List<String> storage (for cart items, favorites)
+/// - `List<String>` storage (for cart items, favorites)
 /// - Safe get/set operations with error handling
 /// - Clear/delete operations
 ///

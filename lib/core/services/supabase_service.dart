@@ -53,6 +53,7 @@ class SupabaseService {
       // Initialize Supabase
       await Supabase.initialize(
         url: SupabaseConfig.supabaseUrl,
+        // ignore: deprecated_member_use
         anonKey: SupabaseConfig.supabaseAnonKey,
         authOptions: const FlutterAuthClientOptions(
           authFlowType: AuthFlowType.pkce, // More secure than implicit flow

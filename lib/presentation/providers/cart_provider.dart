@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../data/models/product.dart';
 import '../../core/services/persistence_service.dart';
@@ -155,7 +154,7 @@ class CartProvider with ChangeNotifier, PersistentProviderMixin {
       oldPrice: (json['oldPrice'] as num).toDouble(),
       category: json['category'] as String,
       icon: IconData(
-        json['iconCodePoint'] as int,
+        json['iconCodePoint'] as int, // ignore: non_const_argument_for_const_parameter
         fontFamily: 'MaterialIcons',
       ),
       // Extended fields (optional with defaults)
