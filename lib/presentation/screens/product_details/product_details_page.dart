@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
+import '../../../core/utils/ui_helpers.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../data/models/product.dart';
 import '../../../data/data_sources/local/mock_products.dart';
@@ -56,11 +57,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   void _addToCart() {
     context.read<CartProvider>().addToCart(widget.product);
     final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.addedToCart(widget.product.name)),
-        duration: const Duration(seconds: 2),
-      ),
+    UIHelpers.showInfoMessage(
+      context,
+      l10n.addedToCart(widget.product.name),
+      duration: const Duration(seconds: 2),
     );
   }
 
@@ -78,23 +78,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     final l10n = AppLocalizations.of(context)!;
     final isFavorite = wishlistProvider.isFavorite(widget.product.id);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          isFavorite ? l10n.addedToWishlist : l10n.removedFromWishlist,
-        ),
-        duration: const Duration(seconds: 2),
-      ),
+    UIHelpers.showInfoMessage(
+      context,
+      isFavorite ? l10n.addedToWishlist : l10n.removedFromWishlist,
+      duration: const Duration(seconds: 2),
     );
   }
 
   void _share() {
     // In a real app, would use share plugin
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Share functionality would be implemented here'),
-        duration: Duration(seconds: 2),
-      ),
+    UIHelpers.showInfoMessage(
+      context,
+      'Share functionality would be implemented here',
+      duration: const Duration(seconds: 2),
     );
   }
 

@@ -5,6 +5,7 @@ import 'core/theme/app_theme.dart';
 import 'core/utils/responsive.dart';
 import 'core/utils/formatters.dart';
 import 'core/utils/auth_helpers.dart';
+import 'core/utils/ui_helpers.dart';
 import 'core/services/persistence_service.dart';
 import 'core/services/supabase_service.dart';
 import 'core/config/supabase_config.dart';
@@ -148,10 +149,9 @@ class _HomePageState extends State<HomePage> {
     cartProvider.addToCart(product);
 
     final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.addedToCart(product.name)),
-      ),
+    UIHelpers.showInfoMessage(
+      context,
+      l10n.addedToCart(product.name),
     );
   }
 
@@ -1012,11 +1012,9 @@ class _HomePageState extends State<HomePage> {
                           if (confirm == true) {
                             await authProvider?.signOut();
                             if (mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(l10n.signedOutSuccess),
-                                  backgroundColor: Colors.green,
-                                ),
+                              UIHelpers.showSuccessMessage(
+                                context,
+                                l10n.signedOutSuccess,
                               );
                             }
                           }
@@ -1051,13 +1049,10 @@ class _HomePageState extends State<HomePage> {
                                   context
                                       .read<LocaleProvider>()
                                       .setLocale(Locale(entry.key));
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Language changed to ${entry.value}',
-                                      ),
-                                      duration: const Duration(seconds: 1),
-                                    ),
+                                  UIHelpers.showInfoMessage(
+                                    context,
+                                    'Language changed to ${entry.value}',
+                                    duration: const Duration(seconds: 1),
                                   );
                                 },
                               );

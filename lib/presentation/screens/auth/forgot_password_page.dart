@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/validators.dart';
+import '../../../core/utils/ui_helpers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 
@@ -57,19 +58,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     });
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.resetPasswordEmailSent),
-          backgroundColor: Colors.green,
-        ),
+      UIHelpers.showSuccessMessage(
+        context,
+        AppLocalizations.of(context)!.resetPasswordEmailSent,
       );
     } else {
       final error = authProvider.error ?? AppLocalizations.of(context)!.resetPasswordError;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(error),
-          backgroundColor: Colors.red,
-        ),
+      UIHelpers.showErrorMessage(
+        context,
+        error,
       );
     }
   }

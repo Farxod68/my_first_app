@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/utils/auth_helpers.dart';
+import '../../../core/utils/ui_helpers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import 'login_page.dart';
@@ -69,20 +70,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
       // Sign up successful - navigate back to home
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.signUpSuccess),
-          backgroundColor: Colors.green,
-        ),
+      UIHelpers.showSuccessMessage(
+        context,
+        AppLocalizations.of(context)!.signUpSuccess,
       );
     } else {
       // Show error message
       final error = authProvider.error ?? AppLocalizations.of(context)!.signUpError;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(error),
-          backgroundColor: Colors.red,
-        ),
+      UIHelpers.showErrorMessage(
+        context,
+        error,
       );
     }
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/utils/responsive.dart';
+import '../../../core/utils/ui_helpers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/locale_provider.dart';
@@ -139,32 +140,25 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         }
 
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.profileUpdated),
-              backgroundColor: Colors.green,
-            ),
+          UIHelpers.showSuccessMessage(
+            context,
+            l10n.profileUpdated,
           );
           Navigator.pop(context);
         }
       } else {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  authProvider.error ?? l10n.profileUpdateFailed),
-              backgroundColor: Colors.red,
-            ),
+          UIHelpers.showErrorMessage(
+            context,
+            authProvider.error ?? l10n.profileUpdateFailed,
           );
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${l10n.profileUpdateFailed}: $e'),
-            backgroundColor: Colors.red,
-          ),
+        UIHelpers.showErrorMessage(
+          context,
+          '${l10n.profileUpdateFailed}: $e',
         );
       }
     } finally {
