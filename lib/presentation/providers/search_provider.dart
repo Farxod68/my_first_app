@@ -3,6 +3,7 @@ import '../../core/constants/app_constants.dart';
 import '../../core/services/persistence_service.dart';
 import '../../data/models/product.dart';
 import '../../data/models/filter_models.dart';
+import 'base_persistent_provider.dart';
 
 /// Search and Discovery state management provider
 ///
@@ -15,21 +16,17 @@ import '../../data/models/filter_models.dart';
 /// - Result computation
 ///
 /// Uses ChangeNotifier for state management with Provider pattern
-class SearchProvider with ChangeNotifier {
+class SearchProvider with ChangeNotifier, PersistentProviderMixin {
   final PersistenceService _persistenceService;
 
   SearchQuery _query = SearchQuery('');
   ProductFilters _filters = const ProductFilters();
   ProductSort _sortBy = ProductSort.relevance;
   List<String> _recentSearches = [];
-  bool _isLoaded = false;
 
   SearchProvider(this._persistenceService) {
     _loadRecentSearches();
   }
-
-  /// Check if recent searches have been loaded
-  bool get isLoaded => _isLoaded;
 
   /// Current search query
   SearchQuery get query => _query;
@@ -376,8 +373,7 @@ class SearchProvider with ChangeNotifier {
       debugPrint('Failed to load recent searches: $e');
       _recentSearches = [];
     } finally {
-      _isLoaded = true;
-      notifyListeners();
+      markAsLoaded();
     }
   }
 

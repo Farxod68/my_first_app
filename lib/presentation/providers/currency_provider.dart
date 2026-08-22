@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/services/persistence_service.dart';
+import 'base_persistent_provider.dart';
 
 /// Currency state management provider with persistence
 ///
@@ -16,17 +17,13 @@ import '../../core/services/persistence_service.dart';
 ///
 /// Uses ChangeNotifier for state management with Provider pattern
 /// Persists currency preference using PersistenceService
-class CurrencyProvider with ChangeNotifier {
+class CurrencyProvider with ChangeNotifier, PersistentProviderMixin {
   final PersistenceService _persistenceService;
   String _currentCurrency = 'USD';
-  bool _isLoaded = false;
 
   CurrencyProvider(this._persistenceService) {
     _loadCurrency();
   }
-
-  /// Check if currency data has been loaded from storage
-  bool get isLoaded => _isLoaded;
 
   /// Supported currencies for the application
   static const List<String> supportedCurrencies = [
@@ -97,8 +94,7 @@ class CurrencyProvider with ChangeNotifier {
       debugPrint('Failed to load currency: $e');
       // Continue with default currency
     } finally {
-      _isLoaded = true;
-      notifyListeners();
+      markAsLoaded();
     }
   }
 

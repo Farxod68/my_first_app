@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import '../../core/services/persistence_service.dart';
 import '../../core/constants/app_constants.dart';
 import '../../data/models/product.dart';
+import 'base_persistent_provider.dart';
 
 /// Recently Viewed Products state management provider with persistence
 ///
@@ -14,17 +15,13 @@ import '../../data/models/product.dart';
 ///
 /// Uses ChangeNotifier for state management with Provider pattern
 /// Persists recently viewed data using PersistenceService
-class RecentlyViewedProvider with ChangeNotifier {
+class RecentlyViewedProvider with ChangeNotifier, PersistentProviderMixin {
   final PersistenceService _persistenceService;
   final List<String> _recentlyViewedIds = [];
-  bool _isLoaded = false;
 
   RecentlyViewedProvider(this._persistenceService) {
     _loadRecentlyViewed();
   }
-
-  /// Check if recently viewed data has been loaded from storage
-  bool get isLoaded => _isLoaded;
 
   /// Get immutable list of recently viewed product IDs
   List<String> get recentlyViewedIds => List.unmodifiable(_recentlyViewedIds);
@@ -89,8 +86,7 @@ class RecentlyViewedProvider with ChangeNotifier {
       // Start with empty list if load fails
       _recentlyViewedIds.clear();
     } finally {
-      _isLoaded = true;
-      notifyListeners();
+      markAsLoaded();
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import '../../data/models/product.dart';
 import '../../core/services/persistence_service.dart';
+import 'base_persistent_provider.dart';
 
 /// Wishlist/Favorites state management provider with persistence
 ///
@@ -13,17 +14,13 @@ import '../../core/services/persistence_service.dart';
 ///
 /// Uses ChangeNotifier for state management with Provider pattern
 /// Persists wishlist data using PersistenceService
-class WishlistProvider with ChangeNotifier {
+class WishlistProvider with ChangeNotifier, PersistentProviderMixin {
   final PersistenceService _persistenceService;
   final Set<String> _favoriteProductIds = {};
-  bool _isLoaded = false;
 
   WishlistProvider(this._persistenceService) {
     _loadWishlist();
   }
-
-  /// Check if wishlist data has been loaded from storage
-  bool get isLoaded => _isLoaded;
 
   /// Get immutable set of favorited product IDs
   Set<String> get favoriteProductIds =>
@@ -97,8 +94,7 @@ class WishlistProvider with ChangeNotifier {
       // Start with empty wishlist if load fails
       _favoriteProductIds.clear();
     } finally {
-      _isLoaded = true;
-      notifyListeners();
+      markAsLoaded();
     }
   }
 

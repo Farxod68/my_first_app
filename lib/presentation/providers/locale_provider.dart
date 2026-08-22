@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/services/persistence_service.dart';
+import 'base_persistent_provider.dart';
 
 /// Locale/Language state management provider with persistence
 ///
@@ -17,17 +18,13 @@ import '../../core/services/persistence_service.dart';
 ///
 /// Uses ChangeNotifier for state management with Provider pattern
 /// Persists locale preference using PersistenceService
-class LocaleProvider with ChangeNotifier {
+class LocaleProvider with ChangeNotifier, PersistentProviderMixin {
   final PersistenceService _persistenceService;
   Locale _currentLocale = const Locale('en');
-  bool _isLoaded = false;
 
   LocaleProvider(this._persistenceService) {
     _loadLocale();
   }
-
-  /// Check if locale data has been loaded from storage
-  bool get isLoaded => _isLoaded;
 
   /// Supported locales for the application
   static const List<Locale> supportedLocales = [
@@ -87,8 +84,7 @@ class LocaleProvider with ChangeNotifier {
       debugPrint('Failed to load locale: $e');
       // Continue with default locale
     } finally {
-      _isLoaded = true;
-      notifyListeners();
+      markAsLoaded();
     }
   }
 

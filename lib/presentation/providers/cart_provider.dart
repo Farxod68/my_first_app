@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../data/models/product.dart';
 import '../../core/services/persistence_service.dart';
+import 'base_persistent_provider.dart';
 
 /// Cart state management provider with persistence
 ///
@@ -16,17 +17,13 @@ import '../../core/services/persistence_service.dart';
 ///
 /// Uses ChangeNotifier for state management with Provider pattern
 /// Persists cart data using PersistenceService
-class CartProvider with ChangeNotifier {
+class CartProvider with ChangeNotifier, PersistentProviderMixin {
   final PersistenceService _persistenceService;
   final List<Product> _cartItems = [];
-  bool _isLoaded = false;
 
   CartProvider(this._persistenceService) {
     _loadCart();
   }
-
-  /// Check if cart data has been loaded from storage
-  bool get isLoaded => _isLoaded;
 
   /// Get immutable list of cart items
   List<Product> get cartItems => List.unmodifiable(_cartItems);
@@ -103,8 +100,7 @@ class CartProvider with ChangeNotifier {
       // Start with empty cart if load fails
       _cartItems.clear();
     } finally {
-      _isLoaded = true;
-      notifyListeners();
+      markAsLoaded();
     }
   }
 
