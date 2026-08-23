@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/utils/ui_helpers.dart';
@@ -136,6 +137,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   if (!_emailSent) ...[
                     // Email field
                     TextFormField(
+                      key: WidgetKeys.forgotPasswordEmailField,
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.done,
@@ -153,6 +155,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                     // Send reset link button
                     ElevatedButton(
+                      key: WidgetKeys.forgotPasswordSendButton,
                       onPressed: _isLoading ? null : _handleResetPassword,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -161,6 +164,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ),
                       child: _isLoading
                           ? const SizedBox(
+                              key: WidgetKeys.forgotPasswordLoadingIndicator,
                               height: 20,
                               width: 20,
                               child: CircularProgressIndicator(
@@ -179,6 +183,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ] else ...[
                     // Success state - Resend button
                     OutlinedButton.icon(
+                      key: WidgetKeys.forgotPasswordResendButton,
                       onPressed: _resendCooldown > 0 ? null : _handleResetPassword,
                       icon: const Icon(Icons.refresh),
                       label: Text(
@@ -194,6 +199,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                     // Back to login button
                     ElevatedButton(
+                      key: WidgetKeys.forgotPasswordBackToLoginButton,
                       onPressed: () => Navigator.pop(context),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/utils/auth_helpers.dart';
@@ -173,6 +174,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   // Full name field
                   TextFormField(
+                    key: WidgetKeys.signupNameField,
                     controller: _nameController,
                     textInputAction: TextInputAction.next,
                     textCapitalization: TextCapitalization.words,
@@ -189,6 +191,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   // Email field
                   TextFormField(
+                    key: WidgetKeys.signupEmailField,
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
@@ -205,6 +208,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   // Password field
                   TextFormField(
+                    key: WidgetKeys.signupPasswordField,
                     controller: _passwordController,
                     obscureText: _obscurePassword,
                     textInputAction: TextInputAction.next,
@@ -215,6 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: l10n.passwordHint,
                       prefixIcon: const Icon(Icons.lock_outlined),
                       suffixIcon: IconButton(
+                        key: WidgetKeys.signupPasswordVisibilityToggle,
                         icon: Icon(
                           _obscurePassword
                               ? Icons.visibility_outlined
@@ -235,6 +240,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   // Password strength indicator
                   if (passwordStrength != PasswordStrength.empty)
                     Column(
+                      key: WidgetKeys.signupPasswordStrengthIndicator,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -264,6 +270,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   // Confirm password field
                   TextFormField(
+                    key: WidgetKeys.signupConfirmPasswordField,
                     controller: _confirmPasswordController,
                     obscureText: _obscureConfirmPassword,
                     textInputAction: TextInputAction.done,
@@ -274,6 +281,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: l10n.confirmPasswordHint,
                       prefixIcon: const Icon(Icons.lock_outlined),
                       suffixIcon: IconButton(
+                        key: WidgetKeys.signupConfirmPasswordVisibilityToggle,
                         icon: Icon(
                           _obscureConfirmPassword
                               ? Icons.visibility_outlined
@@ -293,6 +301,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   // Sign up button
                   ElevatedButton(
+                    key: WidgetKeys.signupButton,
                     onPressed: _isLoading ? null : _handleSignUp,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -301,6 +310,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     child: _isLoading
                         ? const SizedBox(
+                            key: WidgetKeys.signupLoadingIndicator,
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(
@@ -340,6 +350,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       Text(l10n.alreadyHaveAccount),
                       TextButton(
+                        key: WidgetKeys.signupLoginButton,
                         onPressed: _isLoading
                             ? null
                             : () {

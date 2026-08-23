@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/utils/auth_helpers.dart';
@@ -130,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   // Email field
                   TextFormField(
+                    key: WidgetKeys.loginEmailField,
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
@@ -146,6 +148,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   // Password field
                   TextFormField(
+                    key: WidgetKeys.loginPasswordField,
                     controller: _passwordController,
                     obscureText: _obscurePassword,
                     textInputAction: TextInputAction.done,
@@ -156,6 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                       hintText: l10n.passwordHint,
                       prefixIcon: const Icon(Icons.lock_outlined),
                       suffixIcon: IconButton(
+                        key: WidgetKeys.loginPasswordVisibilityToggle,
                         icon: Icon(
                           _obscurePassword
                               ? Icons.visibility_outlined
@@ -177,6 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
+                      key: WidgetKeys.loginForgotPasswordButton,
                       onPressed: _isLoading
                           ? null
                           : () {
@@ -194,6 +199,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   // Login button
                   ElevatedButton(
+                    key: WidgetKeys.loginButton,
                     onPressed: _isLoading ? null : _handleLogin,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -202,6 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: _isLoading
                         ? const SizedBox(
+                            key: WidgetKeys.loginLoadingIndicator,
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(
@@ -241,6 +248,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Text(l10n.dontHaveAccount),
                       TextButton(
+                        key: WidgetKeys.loginSignUpButton,
                         onPressed: _isLoading
                             ? null
                             : () {
