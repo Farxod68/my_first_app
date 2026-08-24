@@ -147,4 +147,122 @@ class WidgetKeys {
 
   /// Remove recent search button
   static Key searchRemoveRecent(int index) => Key('search_remove_recent_$index');
+
+  // ==========================================================================
+  // TASK 2.7 - FLOW TESTING KEYS
+  // ==========================================================================
+
+  // HomePage / Navigation
+  // ==========================================================================
+
+  /// Home page search button in app bar
+  static const homeSearchButton = Key('home_search_button');
+
+  /// Home page cart button in app bar
+  static const homeCartButton = Key('home_cart_button');
+
+  /// Cart badge showing item count
+  static const homeCartBadge = Key('home_cart_badge');
+
+  /// Bottom navigation bar
+  static const homeBottomNavigationBar = Key('home_bottom_navigation_bar');
+
+  /// Home tab navigation destination (index 0)
+  static const homeTab = Key('home_tab');
+
+  /// Categories tab navigation destination (index 1)
+  static const categoriesTab = Key('categories_tab');
+
+  /// Favorites tab navigation destination (index 2)
+  static const favoritesTab = Key('favorites_tab');
+
+  /// Profile tab navigation destination (index 3)
+  static const profileTab = Key('profile_tab');
+
+  // CartPage
+  // ==========================================================================
+
+  /// Empty cart state
+  static const cartEmptyState = Key('cart_empty_state');
+
+  /// Cart product list container
+  static const cartProductList = Key('cart_product_list');
+
+  /// Individual cart product item
+  static Key cartProductItem(String productId) => Key('cart_product_item_$productId');
+
+  // CategoryPage
+  // ==========================================================================
+
+  /// Empty category state
+  static const categoryEmptyState = Key('category_empty_state');
+
+  /// Category product list container
+  static const categoryProductList = Key('category_product_list');
+
+  /// Individual category product item
+  static Key categoryProductItem(String productId) => Key('category_product_item_$productId');
+
+  // SearchResultsPage
+  // ==========================================================================
+
+  /// Empty search results state
+  static const searchResultsEmptyState = Key('search_results_empty_state');
+
+  /// Search results product grid
+  static const searchResultsProductGrid = Key('search_results_product_grid');
+
+  /// Individual search result product item
+  static Key searchResultsProductItem(String productId) => Key('search_results_product_item_$productId');
+
+  /// Search results filter button
+  static const searchResultsFilterButton = Key('search_results_filter_button');
+
+  // ProductDetailsPage
+  // ==========================================================================
+
+  /// Product details favorite/wishlist button
+  static const productDetailsFavoriteButton = Key('product_details_favorite_button');
+
+  /// Product details add to cart button
+  static const productDetailsAddToCartButton = Key('product_details_add_to_cart_button');
+
+  /// Product details buy now button
+  static const productDetailsBuyNowButton = Key('product_details_buy_now_button');
+
+  /// Product details price display
+  static const productDetailsPrice = Key('product_details_price');
+
+  /// Product details title/name
+  static const productDetailsTitle = Key('product_details_title');
+
+  /// Product details description section
+  static const productDetailsDescription = Key('product_details_description');
+
+  /// Product details related products section
+  static const productDetailsRelatedProducts = Key('product_details_related_products');
+
+  // HomePage Sections
+  // ==========================================================================
+
+  /// Profile section avatar
+  static const profileAvatar = Key('profile_avatar');
+
+  /// Profile section login button (guest state)
+  static const profileLoginButton = Key('profile_login_button');
+
+  /// Profile section language dropdown
+  static const profileLanguageDropdown = Key('profile_language_dropdown');
+
+  /// Profile section edit button (authenticated state)
+  static const profileEditButton = Key('profile_edit_button');
+
+  /// Favorites section empty state
+  static const favoritesEmptyState = Key('favorites_empty_state');
+
+  /// Favorites section product list
+  static const favoritesProductList = Key('favorites_product_list');
+
+  /// Categories section grid
+  static const categoriesGrid = Key('categories_grid');
 }
