@@ -246,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(l10n.dontHaveAccount),
+                      Flexible(child: Text(l10n.dontHaveAccount)),
                       TextButton(
                         key: WidgetKeys.loginSignUpButton,
                         onPressed: _isLoading

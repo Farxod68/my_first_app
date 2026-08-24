@@ -348,7 +348,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(l10n.alreadyHaveAccount),
+                      Flexible(child: Text(l10n.alreadyHaveAccount)),
                       TextButton(
                         key: WidgetKeys.signupLoginButton,
                         onPressed: _isLoading
