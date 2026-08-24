@@ -52,4 +52,99 @@ class WidgetKeys {
   static const forgotPasswordLoadingIndicator = Key('forgot_password_loading_indicator');
   static const forgotPasswordResendButton = Key('forgot_password_resend_button');
   static const forgotPasswordBackToLoginButton = Key('forgot_password_back_to_login_button');
+
+  // ==========================================================================
+  // REUSABLE WIDGETS - Product Card
+  // ==========================================================================
+
+  /// Product card wrapper (entire card)
+  static Key productCard(String productId) => Key('product_card_$productId');
+
+  /// Favorite/wishlist toggle button
+  static Key productCardFavoriteButton(String productId) =>
+      Key('product_card_favorite_button_$productId');
+
+  /// Product icon display
+  static Key productCardIcon(String productId) =>
+      Key('product_card_icon_$productId');
+
+  /// Discount percentage badge
+  static Key productCardDiscountBadge(String productId) =>
+      Key('product_card_discount_badge_$productId');
+
+  /// Deal badge (Best Seller, Trending, etc.)
+  static Key productCardDealBadge(String productId) =>
+      Key('product_card_deal_badge_$productId');
+
+  /// Product name text
+  static Key productCardName(String productId) =>
+      Key('product_card_name_$productId');
+
+  /// Product category text
+  static Key productCardCategory(String productId) =>
+      Key('product_card_category_$productId');
+
+  /// Product rating display
+  static Key productCardRating(String productId) =>
+      Key('product_card_rating_$productId');
+
+  /// Current price text
+  static Key productCardPrice(String productId) =>
+      Key('product_card_price_$productId');
+
+  /// Old/strikethrough price text
+  static Key productCardOldPrice(String productId) =>
+      Key('product_card_old_price_$productId');
+
+  // ==========================================================================
+  // REUSABLE WIDGETS - Horizontal Product Section
+  // ==========================================================================
+
+  /// Horizontal product section wrapper
+  static Key horizontalProductSection(String sectionId) =>
+      Key('horizontal_product_section_$sectionId');
+
+  /// "View All" button in section header
+  static Key horizontalProductSectionViewAll(String sectionId) =>
+      Key('horizontal_product_section_view_all_$sectionId');
+
+  /// Horizontal scrollable product list
+  static Key horizontalProductSectionList(String sectionId) =>
+      Key('horizontal_product_section_list_$sectionId');
+
+  // ==========================================================================
+  // REUSABLE WIDGETS - Popular Categories Section
+  // ==========================================================================
+
+  /// Popular categories section wrapper
+  static const popularCategoriesSection = Key('popular_categories_section');
+
+  /// Horizontal scrollable category list
+  static const popularCategoriesList = Key('popular_categories_list');
+
+  /// Individual category item
+  static Key categoryItem(String categoryKey) =>
+      Key('category_item_$categoryKey');
+
+  // ==========================================================================
+  // REUSABLE WIDGETS - Product Search Delegate
+  // ==========================================================================
+
+  /// Clear search query button
+  static const searchClearButton = Key('search_clear_button');
+
+  /// Back button to close search
+  static const searchBackButton = Key('search_back_button');
+
+  /// Clear search history button
+  static const searchClearHistoryButton = Key('search_clear_history_button');
+
+  /// Search suggestions/history list
+  static const searchSuggestionsList = Key('search_suggestions_list');
+
+  /// Individual search suggestion item
+  static Key searchSuggestion(int index) => Key('search_suggestion_$index');
+
+  /// Remove recent search button
+  static Key searchRemoveRecent(int index) => Key('search_remove_recent_$index');
 }

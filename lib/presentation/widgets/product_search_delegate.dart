@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../core/constants/widget_keys.dart';
 import '../../data/models/product.dart';
 import '../../data/data_sources/local/mock_products.dart';
 import '../../l10n/app_localizations.dart';
@@ -25,6 +26,7 @@ class ProductSearchDelegate extends SearchDelegate<Product?> {
     return [
       if (query.isNotEmpty)
         IconButton(
+          key: WidgetKeys.searchClearButton,
           onPressed: () {
             query = '';
           },
@@ -36,6 +38,7 @@ class ProductSearchDelegate extends SearchDelegate<Product?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
+      key: WidgetKeys.searchBackButton,
       onPressed: () {
         close(context, null);
       },
@@ -88,6 +91,7 @@ class ProductSearchDelegate extends SearchDelegate<Product?> {
         }
 
         return ListView(
+          key: WidgetKeys.searchSuggestionsList,
           children: [
             // Section header
             if (query.isEmpty && suggestions.isNotEmpty)
@@ -106,6 +110,7 @@ class ProductSearchDelegate extends SearchDelegate<Product?> {
                     const Spacer(),
                     if (suggestions.isNotEmpty)
                       TextButton(
+                        key: WidgetKeys.searchClearHistoryButton,
                         onPressed: () => searchProvider.clearRecentSearches(),
                         child: Text(l10n.clearSearchHistory),
                       ),
@@ -114,8 +119,11 @@ class ProductSearchDelegate extends SearchDelegate<Product?> {
               ),
 
             // Suggestions
-            ...suggestions.map((suggestion) {
+            ...suggestions.asMap().entries.map((entry) {
+              final index = entry.key;
+              final suggestion = entry.value;
               return ListTile(
+                key: WidgetKeys.searchSuggestion(index),
                 leading: Icon(
                   query.isEmpty ? Icons.history : Icons.search,
                   color: Colors.grey.shade600,
@@ -127,6 +135,7 @@ class ProductSearchDelegate extends SearchDelegate<Product?> {
                 },
                 trailing: query.isEmpty
                     ? IconButton(
+                        key: WidgetKeys.searchRemoveRecent(index),
                         icon: const Icon(Icons.close, size: 20),
                         onPressed: () => searchProvider.removeRecentSearch(suggestion),
                       )

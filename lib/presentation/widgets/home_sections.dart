@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../core/constants/widget_keys.dart';
 import '../../data/models/product.dart';
 import '../../l10n/app_localizations.dart';
 import '../../presentation/providers/wishlist_provider.dart';
@@ -16,6 +17,7 @@ import '../../presentation/screens/product_details/product_details_page.dart';
 /// - Responsive spacing
 /// - Consistent ProductCard design
 class HorizontalProductSection extends StatelessWidget {
+  final String sectionId;
   final String title;
   final String? subtitle;
   final List<Product> products;
@@ -25,6 +27,7 @@ class HorizontalProductSection extends StatelessWidget {
 
   const HorizontalProductSection({
     super.key,
+    required this.sectionId,
     required this.title,
     this.subtitle,
     required this.products,
@@ -41,6 +44,7 @@ class HorizontalProductSection extends StatelessWidget {
     }
 
     return Column(
+      key: WidgetKeys.horizontalProductSection(sectionId),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Section header
@@ -73,6 +77,7 @@ class HorizontalProductSection extends StatelessWidget {
               ),
               if (onViewAll != null)
                 TextButton(
+                  key: WidgetKeys.horizontalProductSectionViewAll(sectionId),
                   onPressed: onViewAll,
                   child: Text(AppLocalizations.of(context)!.viewAll),
                 ),
@@ -84,6 +89,7 @@ class HorizontalProductSection extends StatelessWidget {
         SizedBox(
           height: 280,
           child: ListView.builder(
+            key: WidgetKeys.horizontalProductSectionList(sectionId),
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
             itemCount: products.length,
@@ -148,6 +154,7 @@ class PopularCategoriesSection extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Column(
+      key: WidgetKeys.popularCategoriesSection,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Section header
@@ -165,6 +172,7 @@ class PopularCategoriesSection extends StatelessWidget {
         SizedBox(
           height: 100,
           child: ListView.builder(
+            key: WidgetKeys.popularCategoriesList,
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
             itemCount: categories.length,
@@ -178,6 +186,7 @@ class PopularCategoriesSection extends StatelessWidget {
                 width: 100,
                 margin: EdgeInsets.only(right: index < categories.length - 1 ? 12 : 0),
                 child: InkWell(
+                  key: WidgetKeys.categoryItem(categoryKey),
                   onTap: onCategoryTap(categoryKey, categoryName),
                   borderRadius: BorderRadius.circular(12),
                   child: Container(

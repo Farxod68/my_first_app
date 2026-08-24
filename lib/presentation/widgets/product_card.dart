@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/constants/widget_keys.dart';
 import '../../data/models/product.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -41,6 +42,7 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: InkWell(
+        key: WidgetKeys.productCard(product.id),
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
         child: Column(
@@ -69,6 +71,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     child: Center(
                       child: Icon(
+                        key: WidgetKeys.productCardIcon(product.id),
                         product.icon,
                         size: 80,
                         color: const Color(0xFF0066CC),
@@ -87,6 +90,7 @@ class ProductCard extends StatelessWidget {
                           // Discount badge
                           if (product.discount > 0)
                             Container(
+                              key: WidgetKeys.productCardDiscountBadge(product.id),
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
                                 vertical: 4,
@@ -115,6 +119,7 @@ class ProductCard extends StatelessWidget {
                           if (product.badges.isNotEmpty) ...[
                             if (product.discount > 0) const SizedBox(height: 4),
                             Container(
+                              key: WidgetKeys.productCardDealBadge(product.id),
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 6,
                                 vertical: 3,
@@ -153,6 +158,7 @@ class ProductCard extends StatelessWidget {
                       shape: const CircleBorder(),
                       elevation: 2,
                       child: IconButton(
+                        key: WidgetKeys.productCardFavoriteButton(product.id),
                         iconSize: 20,
                         onPressed: onFavoriteToggle,
                         icon: Icon(
@@ -178,6 +184,7 @@ class ProductCard extends StatelessWidget {
                   children: [
                     // Product name
                     Text(
+                      key: WidgetKeys.productCardName(product.id),
                       product.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -192,6 +199,7 @@ class ProductCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
+                            key: WidgetKeys.productCardCategory(product.id),
                             getLocalizedCategory(product.category, l10n),
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                   color: Colors.grey.shade600,
@@ -204,6 +212,7 @@ class ProductCard extends StatelessWidget {
                         if (product.hasRating) ...[
                           const SizedBox(width: 4),
                           Icon(
+                            key: WidgetKeys.productCardRating(product.id),
                             Icons.star,
                             size: 12,
                             color: Colors.amber.shade700,
@@ -229,6 +238,7 @@ class ProductCard extends StatelessWidget {
                       children: [
                         // Current price
                         Text(
+                          key: WidgetKeys.productCardPrice(product.id),
                           formatPrice(product.price, locale),
                           style: Theme.of(context)
                               .textTheme.titleMedium
@@ -242,6 +252,7 @@ class ProductCard extends StatelessWidget {
                         // Old price (strikethrough)
                         if (product.discount > 0)
                           Text(
+                            key: WidgetKeys.productCardOldPrice(product.id),
                             formatPrice(product.oldPrice, locale),
                             style: Theme.of(context)
                                 .textTheme

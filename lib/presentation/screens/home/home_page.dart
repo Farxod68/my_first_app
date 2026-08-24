@@ -407,6 +407,7 @@ class _HomePageState extends State<HomePage> {
           builder: (context, recentlyViewedProvider, child) {
             final recentlyViewed = recentlyViewedProvider.getRecentlyViewedProducts(products);
             return HorizontalProductSection(
+              sectionId: 'recently_viewed',
               title: l10n.recentlyViewedTitle,
               subtitle: l10n.continueWhereLeftOff,
               products: recentlyViewed,
@@ -444,6 +445,7 @@ class _HomePageState extends State<HomePage> {
 
         // Biggest Discounts Section (using DealHelper)
         HorizontalProductSection(
+          sectionId: 'biggest_discounts',
           title: l10n.biggestDiscountsTitle,
           subtitle: l10n.savingsUpTo,
           products: DealHelper.getBiggestDiscounts(products)
@@ -455,6 +457,7 @@ class _HomePageState extends State<HomePage> {
 
         // Flash Deals Section (using DealHelper)
         HorizontalProductSection(
+          sectionId: 'flash_deals',
           title: l10n.flashDealsTitle,
           subtitle: l10n.limitedTimeOffers,
           products: DealHelper.getFlashDeals(products),
@@ -464,6 +467,7 @@ class _HomePageState extends State<HomePage> {
 
         // Today's Deals Section (using DealHelper)
         HorizontalProductSection(
+          sectionId: 'todays_deals',
           title: l10n.todaysDealsTitle,
           subtitle: l10n.bestDealsNow,
           products: DealHelper.getTodaysDeals(products)
