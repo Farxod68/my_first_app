@@ -9,7 +9,8 @@ import '../../models/user_model.dart';
 class AuthRemoteDataSource {
   final SupabaseClient _supabase;
 
-  AuthRemoteDataSource() : _supabase = SupabaseService.client;
+  AuthRemoteDataSource([SupabaseClient? supabase])
+      : _supabase = supabase ?? SupabaseService.client;
 
   /// Get current user from Supabase Auth
   Future<UserModel?> getCurrentUser() async {
