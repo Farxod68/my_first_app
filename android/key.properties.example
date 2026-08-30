@@ -1,0 +1,7 @@
+# Copy this file to android/key.properties and fill in your real release
+# keystore credentials. android/key.properties is git-ignored and must
+# NEVER be committed. See https://docs.flutter.dev/deployment/android#signing-the-app
+storePassword=REPLACE_WITH_KEYSTORE_PASSWORD
+keyPassword=REPLACE_WITH_KEY_PASSWORD
+keyAlias=REPLACE_WITH_KEY_ALIAS
+storeFile=REPLACE_WITH_ABSOLUTE_OR_RELATIVE_PATH_TO_KEYSTORE.jks

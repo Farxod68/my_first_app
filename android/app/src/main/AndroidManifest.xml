@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Required for release builds to reach Supabase/network services. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="TopBuy Deals"
         android:name="${applicationName}"
