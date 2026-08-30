@@ -337,7 +337,7 @@ class _SortButton extends StatelessWidget {
           else
             const SizedBox(width: 18),
           const SizedBox(width: 8),
-          Text(label),
+          Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
         ],
       ),
     );
