@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
+import '../../../core/constants/widget_keys.dart';
 import '../../../data/models/product.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -36,6 +37,7 @@ class CategoryPage extends StatelessWidget {
       ),
       body: products.isEmpty
           ? Center(
+              key: WidgetKeys.categoryEmptyState,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -60,6 +62,7 @@ class CategoryPage extends StatelessWidget {
               ),
             )
           : ListView(
+              key: WidgetKeys.categoryProductList,
               padding: EdgeInsets.all(horizontalPadding),
               children: [
                 Center(
@@ -71,6 +74,7 @@ class CategoryPage extends StatelessWidget {
                       children: [
                         for (final product in products)
                           Card(
+                            key: WidgetKeys.categoryProductItem(product.id),
                             child: ListTile(
                               leading: CircleAvatar(
                                 child: Icon(product.icon),

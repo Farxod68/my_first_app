@@ -4,6 +4,7 @@ import '../../../core/utils/responsive.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/ui_helpers.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../core/constants/widget_keys.dart';
 import '../../../data/models/product.dart';
 import '../../../data/data_sources/local/mock_products.dart';
 import '../../../l10n/app_localizations.dart';
@@ -136,6 +137,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   actions: [
                     IconButton(
+                      key: WidgetKeys.homeSearchButton,
                       onPressed: () {
                         showSearch(
                           context: context,
@@ -148,6 +150,7 @@ class _HomePageState extends State<HomePage> {
                       builder: (context, cartProvider, child) => Stack(
                         children: [
                           IconButton(
+                            key: WidgetKeys.homeCartButton,
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -164,6 +167,7 @@ class _HomePageState extends State<HomePage> {
                               right: 4,
                               top: 4,
                               child: CircleAvatar(
+                                key: WidgetKeys.homeCartBadge,
                                 radius: 9,
                                 backgroundColor: Colors.red,
                                 child: Text(
@@ -206,6 +210,7 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
+            key: WidgetKeys.homeSearchButton,
             onPressed: () {
               showSearch(
                 context: context,
@@ -218,6 +223,7 @@ class _HomePageState extends State<HomePage> {
             builder: (context, cartProvider, child) => Stack(
               children: [
                 IconButton(
+                  key: WidgetKeys.homeCartButton,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -233,6 +239,7 @@ class _HomePageState extends State<HomePage> {
                     right: 4,
                     top: 4,
                     child: CircleAvatar(
+                      key: WidgetKeys.homeCartBadge,
                       radius: 9,
                       backgroundColor: Colors.red,
                       child: Text(
@@ -259,6 +266,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       bottomNavigationBar: NavigationBar(
+        key: WidgetKeys.homeBottomNavigationBar,
         selectedIndex: selectedIndex,
         onDestinationSelected: (index) {
           setState(() {
@@ -267,21 +275,25 @@ class _HomePageState extends State<HomePage> {
         },
         destinations: [
           NavigationDestination(
+            key: WidgetKeys.homeTab,
             icon: const Icon(Icons.home_outlined),
             selectedIcon: const Icon(Icons.home),
             label: l10n.homePage,
           ),
           NavigationDestination(
+            key: WidgetKeys.categoriesTab,
             icon: const Icon(Icons.category_outlined),
             selectedIcon: const Icon(Icons.category),
             label: l10n.categories,
           ),
           NavigationDestination(
+            key: WidgetKeys.favoritesTab,
             icon: const Icon(Icons.favorite_border),
             selectedIcon: const Icon(Icons.favorite),
             label: l10n.favorites,
           ),
           NavigationDestination(
+            key: WidgetKeys.profileTab,
             icon: const Icon(Icons.person_outline),
             selectedIcon: const Icon(Icons.person),
             label: l10n.profile,
@@ -584,6 +596,7 @@ class _HomePageState extends State<HomePage> {
             ),
             child: isWideScreen
                 ? GridView.builder(
+                    key: WidgetKeys.categoriesGrid,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: categories.length,
@@ -646,6 +659,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   )
                 : Column(
+                    key: WidgetKeys.categoriesGrid,
                     children: [
                       for (final category in categories)
                         Card(
@@ -697,6 +711,7 @@ class _HomePageState extends State<HomePage> {
 
         if (favoriteProducts.isEmpty) {
       return Center(
+        key: WidgetKeys.favoritesEmptyState,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -720,6 +735,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     return ListView(
+      key: WidgetKeys.favoritesProductList,
       padding: EdgeInsets.all(horizontalPadding),
       children: [
         Center(
@@ -779,6 +795,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               CircleAvatar(
+                key: WidgetKeys.profileAvatar,
                 radius: isWideScreen ? 60 : 50,
                 backgroundColor: isAuthenticated
                     ? Colors.green.shade100
@@ -845,6 +862,7 @@ class _HomePageState extends State<HomePage> {
                   // Edit Profile section (for authenticated users)
                   if (hasAuthProvider && isAuthenticated) ...[
                     ListTile(
+                      key: WidgetKeys.profileEditButton,
                       leading: const Icon(Icons.edit_outlined),
                       title: Text(l10n.editProfile),
                       subtitle: Text(l10n.updatePersonalInfo),
@@ -865,6 +883,7 @@ class _HomePageState extends State<HomePage> {
                   if (hasAuthProvider) ...[
                     if (!isAuthenticated)
                       ListTile(
+                        key: WidgetKeys.profileLoginButton,
                         leading: const Icon(Icons.login),
                         title: Text(l10n.login),
                         subtitle: Text(l10n.signInToSeeMore),
@@ -917,6 +936,7 @@ class _HomePageState extends State<HomePage> {
                     const Divider(height: 1),
                   ],
                   ListTile(
+                    key: WidgetKeys.profileLanguageDropdown,
                     leading: const Icon(Icons.language),
                     title: Text(l10n.language),
                     subtitle: Text(languages[locale] ?? 'English'),

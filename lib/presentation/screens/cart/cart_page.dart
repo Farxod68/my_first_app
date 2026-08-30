@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
+import '../../../core/constants/widget_keys.dart';
 import '../../../data/models/product.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -32,6 +33,7 @@ class CartPage extends StatelessWidget {
       ),
       body: cart.isEmpty
           ? Center(
+              key: WidgetKeys.cartEmptyState,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -52,6 +54,7 @@ class CartPage extends StatelessWidget {
               ),
             )
           : ListView(
+              key: WidgetKeys.cartProductList,
               padding: EdgeInsets.all(horizontalPadding),
               children: [
                 Center(
@@ -63,6 +66,7 @@ class CartPage extends StatelessWidget {
                       children: [
                         for (final product in cart)
                           Card(
+                            key: WidgetKeys.cartProductItem(product.id),
                             child: ListTile(
                               leading: CircleAvatar(
                                 child: Icon(product.icon),
