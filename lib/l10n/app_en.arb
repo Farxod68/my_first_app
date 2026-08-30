@@ -722,5 +722,12 @@
   "mostLovedItems": "Shop our most loved items",
   "updatePersonalInfo": "Update your personal information",
   "confirmSignOut": "Are you sure you want to sign out?",
-  "signedOutSuccess": "Signed out successfully"
+  "signedOutSuccess": "Signed out successfully",
+  "deleteAccount": "Delete Account",
+  "deleteAccountSubtitle": "Permanently delete your account and data",
+  "deleteAccountConfirmTitle": "Delete Account?",
+  "deleteAccountConfirmMessage": "This will permanently delete your account, profile, and all associated data. This action cannot be undone.",
+  "deleteAccountConfirmButton": "Delete Permanently",
+  "deleteAccountSuccess": "Your account has been permanently deleted",
+  "deleteAccountFailed": "Failed to delete account"
 }

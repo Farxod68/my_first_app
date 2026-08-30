@@ -845,6 +845,87 @@ void main() {
       });
     });
 
+    group('deleteAccount', () {
+      setUp(() async {
+        provider = AuthProvider(mockAuthRepository);
+        await Future.delayed(Duration.zero);
+
+        // Sign in first
+        final testUser = TestData.createTestUser();
+        authStateController.add(testUser);
+        await Future.delayed(Duration.zero);
+      });
+
+      test('successful deletion returns true and clears the user', () async {
+        when(() => mockAuthRepository.deleteAccount())
+            .thenAnswer((_) async {});
+
+        expect(provider.currentUser, isNotNull);
+
+        final result = await provider.deleteAccount();
+
+        expect(result, isTrue);
+        expect(provider.currentUser, isNull);
+        expect(provider.isAuthenticated, isFalse);
+        expect(provider.isLoading, isFalse);
+        expect(provider.error, isNull);
+      });
+
+      test('sets loading state during deletion', () async {
+        final completer = Completer<void>();
+        when(() => mockAuthRepository.deleteAccount())
+            .thenAnswer((_) => completer.future);
+
+        final future = provider.deleteAccount();
+
+        await Future.delayed(Duration.zero);
+        expect(provider.isLoading, isTrue);
+
+        completer.complete();
+        await future;
+
+        expect(provider.isLoading, isFalse);
+      });
+
+      test('clears error before deletion', () async {
+        when(() => mockAuthRepository.deleteAccount())
+            .thenThrow(AuthException('Previous error'));
+        await provider.deleteAccount();
+        expect(provider.error, isNotNull);
+
+        when(() => mockAuthRepository.deleteAccount())
+            .thenAnswer((_) async {});
+        await provider.deleteAccount();
+
+        expect(provider.error, isNull);
+      });
+
+      test('AuthException failure returns false, keeps user, sets error',
+          () async {
+        when(() => mockAuthRepository.deleteAccount())
+            .thenThrow(AuthException('Session expired: please sign in again'));
+
+        final result = await provider.deleteAccount();
+
+        expect(result, isFalse);
+        expect(provider.currentUser, isNotNull);
+        expect(provider.isLoading, isFalse);
+        expect(provider.error, 'Session expired: please sign in again');
+      });
+
+      test('unexpected error returns false, keeps user, sets a generic error',
+          () async {
+        when(() => mockAuthRepository.deleteAccount())
+            .thenThrow(Exception('network down'));
+
+        final result = await provider.deleteAccount();
+
+        expect(result, isFalse);
+        expect(provider.currentUser, isNotNull);
+        expect(provider.error, contains('Account deletion failed'));
+      });
+    });
+
     group('State Transitions', () {
       setUp(() async {
         provider = AuthProvider(mockAuthRepository);

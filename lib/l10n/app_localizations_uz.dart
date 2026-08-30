@@ -677,4 +677,27 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get signedOutSuccess => 'Muvaffaqiyatli chiqildi';
+
+  @override
+  String get deleteAccount => 'Hisobni o\'chirish';
+
+  @override
+  String get deleteAccountSubtitle =>
+      'Hisobingiz va ma\'lumotlaringizni butunlay o\'chirib tashlang';
+
+  @override
+  String get deleteAccountConfirmTitle => 'Hisobni o\'chirasizmi?';
+
+  @override
+  String get deleteAccountConfirmMessage =>
+      'Bu hisobingizni, profilingizni va unga tegishli barcha ma\'lumotlarni butunlay o\'chirib tashlaydi. Bu amalni qaytarib bo\'lmaydi.';
+
+  @override
+  String get deleteAccountConfirmButton => 'Butunlay o\'chirish';
+
+  @override
+  String get deleteAccountSuccess => 'Hisobingiz butunlay o\'chirildi';
+
+  @override
+  String get deleteAccountFailed => 'Hisobni o\'chirib bo\'lmadi';
 }

@@ -715,5 +715,12 @@
   "mostLovedItems": "Eng yaxshi ko'rilgan mahsulotlarni xarid qiling",
   "updatePersonalInfo": "Shaxsiy ma'lumotlaringizni yangilang",
   "confirmSignOut": "Chiqishni xohlaysizmi?",
-  "signedOutSuccess": "Muvaffaqiyatli chiqildi"
+  "signedOutSuccess": "Muvaffaqiyatli chiqildi",
+  "deleteAccount": "Hisobni o'chirish",
+  "deleteAccountSubtitle": "Hisobingiz va ma'lumotlaringizni butunlay o'chirib tashlang",
+  "deleteAccountConfirmTitle": "Hisobni o'chirasizmi?",
+  "deleteAccountConfirmMessage": "Bu hisobingizni, profilingizni va unga tegishli barcha ma'lumotlarni butunlay o'chirib tashlaydi. Bu amalni qaytarib bo'lmaydi.",
+  "deleteAccountConfirmButton": "Butunlay o'chirish",
+  "deleteAccountSuccess": "Hisobingiz butunlay o'chirildi",
+  "deleteAccountFailed": "Hisobni o'chirib bo'lmadi"
 }

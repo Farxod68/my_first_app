@@ -92,4 +92,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> isAuthenticated() async {
     return await _remoteDataSource.isAuthenticated();
   }
+
+  @override
+  Future<void> deleteAccount() async {
+    await _remoteDataSource.deleteAccount();
+  }
 }

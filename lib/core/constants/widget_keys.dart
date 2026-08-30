@@ -265,4 +265,14 @@ class WidgetKeys {
 
   /// Categories section grid
   static const categoriesGrid = Key('categories_grid');
+
+  // ==========================================================================
+  // ProfileEditPage - Account Deletion
+  // ==========================================================================
+
+  /// Entry point that opens the delete-account confirmation dialog
+  static const deleteAccountButton = Key('delete_account_button');
+
+  /// Confirm button inside the delete-account confirmation dialog
+  static const deleteAccountConfirmButton = Key('delete_account_confirm_button');
 }

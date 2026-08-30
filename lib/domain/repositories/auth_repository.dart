@@ -64,4 +64,10 @@ abstract class AuthRepository {
 
   /// Check if user is authenticated
   Future<bool> isAuthenticated();
+
+  /// Permanently delete the currently authenticated user's account
+  ///
+  /// Deletes the user's auth record and profile data, then clears the
+  /// local session. Throws AuthException if deletion fails.
+  Future<void> deleteAccount();
 }

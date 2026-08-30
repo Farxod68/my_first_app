@@ -10,6 +10,8 @@ class MockSupabaseClient extends Mock implements SupabaseClient {}
 
 class MockGoTrueClient extends Mock implements GoTrueClient {}
 
+class MockFunctionsClient extends Mock implements FunctionsClient {}
+
 // Mock auth objects
 class MockUser extends Mock implements User {}
 
@@ -172,6 +174,7 @@ void main() {
   group('AuthRemoteDataSource', () {
     late MockSupabaseClient mockSupabase;
     late MockGoTrueClient mockAuth;
+    late MockFunctionsClient mockFunctions;
     late AuthRemoteDataSource dataSource;
 
     // Test data
@@ -182,8 +185,10 @@ void main() {
     setUp(() {
       mockSupabase = MockSupabaseClient();
       mockAuth = MockGoTrueClient();
+      mockFunctions = MockFunctionsClient();
 
       when(() => mockSupabase.auth).thenReturn(mockAuth);
+      when(() => mockSupabase.functions).thenReturn(mockFunctions);
 
       dataSource = AuthRemoteDataSource(mockSupabase);
     });
@@ -1089,6 +1094,108 @@ void main() {
         await dataSource.isAuthenticated();
 
         verify(() => mockAuth.currentUser).called(1);
+      });
+    });
+
+    group('deleteAccount', () {
+      test('invokes the delete-account Edge Function and signs out on success',
+          () async {
+        when(() => mockFunctions.invoke('delete-account')).thenAnswer(
+          (_) async => const FunctionResponse(data: null, status: 200),
+        );
+        when(() => mockAuth.signOut()).thenAnswer((_) async {});
+
+        await dataSource.deleteAccount();
+
+        verify(() => mockFunctions.invoke('delete-account')).called(1);
+        verify(() => mockAuth.signOut()).called(1);
+      });
+
+      test('does not sign out when the Edge Function call fails', () async {
+        when(() => mockFunctions.invoke('delete-account')).thenThrow(
+          const FunctionsHttpException(status: 500, details: 'server error'),
+        );
+
+        await expectLater(
+          () => dataSource.deleteAccount(),
+          throwsA(isA<AuthException>()),
+        );
+
+        verifyNever(() => mockAuth.signOut());
+      });
+
+      test('maps a 401 Edge Function response to a session-expired message',
+          () async {
+        when(() => mockFunctions.invoke('delete-account')).thenThrow(
+          const FunctionsHttpException(status: 401, details: 'unauthorized'),
+        );
+
+        expect(
+          () => dataSource.deleteAccount(),
+          throwsA(isA<AuthException>().having(
+            (e) => e.message,
+            'message',
+            contains('Session expired'),
+          )),
+        );
+      });
+
+      test('maps a 403 Edge Function response to a session-expired message',
+          () async {
+        when(() => mockFunctions.invoke('delete-account')).thenThrow(
+          const FunctionsHttpException(status: 403, details: 'forbidden'),
+        );
+
+        expect(
+          () => dataSource.deleteAccount(),
+          throwsA(isA<AuthException>().having(
+            (e) => e.message,
+            'message',
+            contains('Session expired'),
+          )),
+        );
+      });
+
+      test('maps a network/transport failure to a network error message',
+          () async {
+        when(() => mockFunctions.invoke('delete-account')).thenThrow(
+          const FunctionsFetchException(details: 'connection refused'),
+        );
+
+        expect(
+          () => dataSource.deleteAccount(),
+          throwsA(isA<AuthException>().having(
+            (e) => e.message,
+            'message',
+            contains('Network error'),
+          )),
+        );
+      });
+
+      test('wraps an unexpected error in AuthException', () async {
+        when(() => mockFunctions.invoke('delete-account'))
+            .thenThrow(StateError('boom'));
+
+        expect(
+          () => dataSource.deleteAccount(),
+          throwsA(isA<AuthException>().having(
+            (e) => e.message,
+            'message',
+            contains('Account deletion failed'),
+          )),
+        );
+      });
+
+      test('succeeds even if the trailing local sign-out throws', () async {
+        when(() => mockFunctions.invoke('delete-account')).thenAnswer(
+          (_) async => const FunctionResponse(data: null, status: 200),
+        );
+        when(() => mockAuth.signOut())
+            .thenThrow(Exception('already signed out'));
+
+        await dataSource.deleteAccount();
+
+        verify(() => mockFunctions.invoke('delete-account')).called(1);
       });
     });
 

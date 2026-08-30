@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show AuthException;
+import 'package:my_first_app/core/constants/widget_keys.dart';
 import 'package:my_first_app/domain/entities/user_entity.dart';
 import 'package:my_first_app/l10n/app_localizations.dart';
 import 'package:my_first_app/presentation/providers/auth_provider.dart';
@@ -71,6 +73,20 @@ class ProfileEditTestContext {
           languageCode: any(named: 'languageCode'),
           currencyCode: any(named: 'currencyCode'),
         ));
+  }
+
+  /// Stubs deleteAccount to succeed.
+  void stubDeleteAccountSuccess() {
+    when(() => mockAuthRepository.deleteAccount()).thenAnswer((_) async {});
+  }
+
+  /// Stubs deleteAccount to fail with [error].
+  void stubDeleteAccountFailure(Object error) {
+    when(() => mockAuthRepository.deleteAccount()).thenThrow(error);
+  }
+
+  void verifyDeleteAccountNeverCalled() {
+    verifyNever(() => mockAuthRepository.deleteAccount());
   }
 }
 
@@ -435,6 +451,156 @@ void main() {
       expect(cancelButton.onPressed, isNull);
 
       completer.complete(user);
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets(
+        '15. Delete Account row is visible for an authenticated user',
+        (tester) async {
+      await pumpProfileEditPage(
+        tester,
+        user: TestData.createTestUser(),
+      );
+
+      expect(find.byKey(WidgetKeys.deleteAccountButton), findsOneWidget);
+      expect(find.text('Delete Account'), findsOneWidget);
+    });
+
+    testWidgets(
+        '16. Tapping Delete Account opens a confirmation dialog explaining the deletion is permanent',
+        (tester) async {
+      final context = await pumpProfileEditPage(
+        tester,
+        user: TestData.createTestUser(),
+      );
+
+      await tester.ensureVisible(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Delete Account?'), findsOneWidget);
+      expect(
+        find.textContaining('cannot be undone'),
+        findsOneWidget,
+      );
+      context.verifyDeleteAccountNeverCalled();
+    });
+
+    testWidgets(
+        '17. Cancelling the confirmation dialog does not delete the account',
+        (tester) async {
+      final context = await pumpProfileEditPage(
+        tester,
+        user: TestData.createTestUser(),
+      );
+
+      await tester.ensureVisible(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.widgetWithText(TextButton, 'Cancel'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Delete Account?'), findsNothing);
+      context.verifyDeleteAccountNeverCalled();
+      expect(find.byType(ProfileEditPage), findsOneWidget);
+    });
+
+    testWidgets(
+        '18. Confirming deletion calls deleteAccount, shows confirmation, and returns to the previous screen',
+        (tester) async {
+      final context = await pumpProfileEditPageWithPreviousRoute(
+        tester,
+        user: TestData.createTestUser(),
+      );
+      context.stubDeleteAccountSuccess();
+
+      await tester.ensureVisible(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountConfirmButton));
+      await tester.pumpAndSettle();
+
+      verify(() => context.mockAuthRepository.deleteAccount()).called(1);
+      expect(
+        find.text('Your account has been permanently deleted'),
+        findsOneWidget,
+      );
+      expect(find.byType(ProfileEditPage), findsNothing);
+      expect(find.text('Open Profile'), findsOneWidget);
+    });
+
+    testWidgets(
+        '19. A failed deletion (repository error) shows the error and keeps the page open',
+        (tester) async {
+      final context = await pumpProfileEditPage(
+        tester,
+        user: TestData.createTestUser(),
+      );
+      context.stubDeleteAccountFailure(AuthException('Session expired: please sign in again'));
+
+      await tester.ensureVisible(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountConfirmButton));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text('Session expired: please sign in again'),
+        findsOneWidget,
+      );
+      expect(find.byType(ProfileEditPage), findsOneWidget);
+    });
+
+    testWidgets(
+        '20. An unexpected error during deletion shows the fallback failure message',
+        (tester) async {
+      final context = await pumpProfileEditPage(
+        tester,
+        user: TestData.createTestUser(),
+      );
+      context.stubDeleteAccountFailure(Exception('boom'));
+
+      await tester.ensureVisible(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountConfirmButton));
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('Account deletion failed'), findsOneWidget);
+      expect(find.byType(ProfileEditPage), findsOneWidget);
+    });
+
+    testWidgets(
+        '21. While deleting, the Delete Account row shows a spinner and is disabled',
+        (tester) async {
+      final context = await pumpProfileEditPage(
+        tester,
+        user: TestData.createTestUser(),
+      );
+      final completer = Completer<void>();
+      when(() => context.mockAuthRepository.deleteAccount())
+          .thenAnswer((_) => completer.future);
+
+      await tester.ensureVisible(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountConfirmButton));
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      final deleteTile = tester.widget<ListTile>(
+        find.byKey(WidgetKeys.deleteAccountButton),
+      );
+      expect(deleteTile.onTap, isNull);
+
+      completer.complete();
       await tester.pumpAndSettle();
     });
   });

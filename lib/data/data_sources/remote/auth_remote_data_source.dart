@@ -188,4 +188,40 @@ class AuthRemoteDataSource {
   Future<bool> isAuthenticated() async {
     return _supabase.auth.currentUser != null;
   }
+
+  /// Permanently delete the currently authenticated user's account
+  ///
+  /// Invokes the `delete-account` Supabase Edge Function, which runs
+  /// server-side with the service_role key (never exposed to this client)
+  /// to verify the caller's session and delete only their own account via
+  /// the Supabase Auth Admin API. Deleting the auth user cascades to their
+  /// `profiles` row automatically (see supabase/migrations/001).
+  ///
+  /// See supabase/functions/delete-account/index.ts for the server code,
+  /// which must be deployed separately via the Supabase CLI/dashboard.
+  Future<void> deleteAccount() async {
+    try {
+      await _supabase.functions.invoke('delete-account');
+    } on FunctionsFetchException catch (e) {
+      throw AuthException('Network error: ${e.details ?? 'could not reach the server'}');
+    } on FunctionsHttpException catch (e) {
+      if (e.status == 401 || e.status == 403) {
+        throw AuthException('Session expired: please sign in again');
+      }
+      throw AuthException('Account deletion failed: ${e.details ?? e.reasonPhrase ?? 'server error'}');
+    } on FunctionException catch (e) {
+      throw AuthException('Account deletion failed: ${e.details ?? e.reasonPhrase ?? 'unknown error'}');
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
+    } catch (e) {
+      throw AuthException('Account deletion failed: $e');
+    }
+
+    try {
+      await _supabase.auth.signOut();
+    } catch (_) {
+      // Account is already deleted server-side; a local sign-out failure
+      // here is not user-facing.
+    }
+  }
 }

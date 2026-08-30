@@ -846,6 +846,36 @@ void main() {
       });
     });
 
+    group('deleteAccount', () {
+      test('delegates to data source', () async {
+        when(() => mockDataSource.deleteAccount()).thenAnswer((_) async {});
+
+        await repository.deleteAccount();
+
+        verify(() => mockDataSource.deleteAccount()).called(1);
+      });
+
+      test('returns Future<void>', () async {
+        when(() => mockDataSource.deleteAccount()).thenAnswer((_) async {});
+
+        final result = repository.deleteAccount();
+
+        expect(result, isA<Future<void>>());
+        await result;
+      });
+
+      test('propagates exception from data source', () async {
+        when(() => mockDataSource.deleteAccount())
+            .thenThrow(Exception('Deletion failed'));
+
+        expect(
+          () => repository.deleteAccount(),
+          throwsA(isA<Exception>()),
+        );
+        verify(() => mockDataSource.deleteAccount()).called(1);
+      });
+    });
+
     group('Error Handling', () {
       test('does not catch or modify exceptions', () async {
         when(() => mockDataSource.getCurrentUser())

@@ -219,6 +219,31 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  /// Permanently delete the current user's account
+  ///
+  /// Clears the local user/session on success. Returns false and sets
+  /// [error] on failure (session expired, network error, or unexpected
+  /// error), leaving the current session untouched.
+  Future<bool> deleteAccount() async {
+    _setLoading(true);
+    _clearError();
+
+    try {
+      await _authRepository.deleteAccount();
+      _currentUser = null;
+      _setLoading(false);
+      return true;
+    } on AuthException catch (e) {
+      _setError(e.message);
+      _setLoading(false);
+      return false;
+    } catch (e) {
+      _setError('Account deletion failed: ${e.toString()}');
+      _setLoading(false);
+      return false;
+    }
+  }
+
   /// Set loading state
   void _setLoading(bool loading) {
     _isLoading = loading;

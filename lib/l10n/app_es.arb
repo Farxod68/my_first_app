@@ -208,5 +208,12 @@
   "mostLovedItems": "Compra nuestros artículos más queridos",
   "updatePersonalInfo": "Actualiza tu información personal",
   "confirmSignOut": "¿Estás seguro de que quieres cerrar sesión?",
-  "signedOutSuccess": "Sesión cerrada exitosamente"
+  "signedOutSuccess": "Sesión cerrada exitosamente",
+  "deleteAccount": "Eliminar cuenta",
+  "deleteAccountSubtitle": "Elimina permanentemente tu cuenta y tus datos",
+  "deleteAccountConfirmTitle": "¿Eliminar cuenta?",
+  "deleteAccountConfirmMessage": "Esto eliminará permanentemente tu cuenta, perfil y todos los datos asociados. Esta acción no se puede deshacer.",
+  "deleteAccountConfirmButton": "Eliminar permanentemente",
+  "deleteAccountSuccess": "Tu cuenta ha sido eliminada permanentemente",
+  "deleteAccountFailed": "No se pudo eliminar la cuenta"
 }

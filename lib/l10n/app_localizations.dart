@@ -1355,6 +1355,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signed out successfully'**
   String get signedOutSuccess;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete your account and data'**
+  String get deleteAccountSubtitle;
+
+  /// No description provided for @deleteAccountConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account?'**
+  String get deleteAccountConfirmTitle;
+
+  /// No description provided for @deleteAccountConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete your account, profile, and all associated data. This action cannot be undone.'**
+  String get deleteAccountConfirmMessage;
+
+  /// No description provided for @deleteAccountConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Permanently'**
+  String get deleteAccountConfirmButton;
+
+  /// No description provided for @deleteAccountSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been permanently deleted'**
+  String get deleteAccountSuccess;
+
+  /// No description provided for @deleteAccountFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete account'**
+  String get deleteAccountFailed;
 }
 
 class _AppLocalizationsDelegate

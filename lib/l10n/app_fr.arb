@@ -208,5 +208,12 @@
   "mostLovedItems": "Achetez nos articles les plus aimés",
   "updatePersonalInfo": "Mettez à jour vos informations personnelles",
   "confirmSignOut": "Êtes-vous sûr de vouloir vous déconnecter?",
-  "signedOutSuccess": "Déconnexion réussie"
+  "signedOutSuccess": "Déconnexion réussie",
+  "deleteAccount": "Supprimer le compte",
+  "deleteAccountSubtitle": "Supprimer définitivement votre compte et vos données",
+  "deleteAccountConfirmTitle": "Supprimer le compte ?",
+  "deleteAccountConfirmMessage": "Cette action supprimera définitivement votre compte, votre profil et toutes les données associées. Cette action est irréversible.",
+  "deleteAccountConfirmButton": "Supprimer définitivement",
+  "deleteAccountSuccess": "Votre compte a été définitivement supprimé",
+  "deleteAccountFailed": "Échec de la suppression du compte"
 }

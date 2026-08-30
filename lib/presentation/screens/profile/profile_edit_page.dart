@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/ui_helpers.dart';
 import '../../../l10n/app_localizations.dart';
@@ -33,6 +34,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   final _phoneController = TextEditingController();
 
   bool _isLoading = false;
+  bool _isDeleting = false;
   String? _selectedLanguage;
   String? _selectedCurrency;
 
@@ -165,6 +167,70 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       if (mounted) {
         setState(() {
           _isLoading = false;
+        });
+      }
+    }
+  }
+
+  /// Show the destructive confirmation dialog, then permanently delete the
+  /// account if confirmed.
+  Future<void> _deleteAccount() async {
+    final l10n = AppLocalizations.of(context)!;
+
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteAccountConfirmTitle),
+        content: Text(l10n.deleteAccountConfirmMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            key: WidgetKeys.deleteAccountConfirmButton,
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: Text(l10n.deleteAccountConfirmButton),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm != true || !mounted) {
+      return;
+    }
+
+    setState(() {
+      _isDeleting = true;
+    });
+
+    final authProvider = context.read<AuthProvider>();
+
+    try {
+      final success = await authProvider.deleteAccount();
+
+      if (!mounted) {
+        return;
+      }
+
+      if (success) {
+        UIHelpers.showSuccessMessage(context, l10n.deleteAccountSuccess);
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      } else {
+        UIHelpers.showErrorMessage(
+          context,
+          authProvider.error ?? l10n.deleteAccountFailed,
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        UIHelpers.showErrorMessage(context, '${l10n.deleteAccountFailed}: $e');
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isDeleting = false;
         });
       }
     }
@@ -446,6 +512,36 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             fontSize: 16,
                           ),
                         ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Danger Zone: permanent account deletion
+                    Card(
+                      color: Colors.red.shade50,
+                      child: ListTile(
+                        key: WidgetKeys.deleteAccountButton,
+                        leading: const Icon(
+                          Icons.delete_forever,
+                          color: Colors.red,
+                        ),
+                        title: Text(
+                          l10n.deleteAccount,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                        subtitle: Text(l10n.deleteAccountSubtitle),
+                        trailing: _isDeleting
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.red,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : null,
+                        onTap: _isDeleting ? null : _deleteAccount,
                       ),
                     ),
 

@@ -678,4 +678,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get signedOutSuccess => 'Déconnexion réussie';
+
+  @override
+  String get deleteAccount => 'Supprimer le compte';
+
+  @override
+  String get deleteAccountSubtitle =>
+      'Supprimer définitivement votre compte et vos données';
+
+  @override
+  String get deleteAccountConfirmTitle => 'Supprimer le compte ?';
+
+  @override
+  String get deleteAccountConfirmMessage =>
+      'Cette action supprimera définitivement votre compte, votre profil et toutes les données associées. Cette action est irréversible.';
+
+  @override
+  String get deleteAccountConfirmButton => 'Supprimer définitivement';
+
+  @override
+  String get deleteAccountSuccess =>
+      'Votre compte a été définitivement supprimé';
+
+  @override
+  String get deleteAccountFailed => 'Échec de la suppression du compte';
 }
