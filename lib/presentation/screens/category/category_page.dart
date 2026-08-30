@@ -4,6 +4,7 @@ import '../../../core/utils/responsive.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../data/models/product.dart';
 import '../../../l10n/app_localizations.dart';
+import '../product_details/product_details_page.dart';
 
 /// Category page displaying filtered products by category
 ///
@@ -75,19 +76,83 @@ class CategoryPage extends StatelessWidget {
                         for (final product in products)
                           Card(
                             key: WidgetKeys.categoryProductItem(product.id),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                child: Icon(product.icon),
-                              ),
-                              title: Text(product.name),
-                              subtitle: Text(
-                                formatPrice(product.price, locale),
-                              ),
-                              trailing: ElevatedButton(
-                                onPressed: () {
-                                  onAddToCart(product);
-                                },
-                                child: Text(l10n.addToCart),
+                            clipBehavior: Clip.antiAlias,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        ProductDetailsPage(product: product),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CircleAvatar(
+                                      child: Icon(product.icon),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    // Product name, price, and Add to Cart each
+                                    // get the full row width on their own line,
+                                    // so a long localized button label never
+                                    // has to compete with the text for space.
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            product.name,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            formatPrice(product.price, locale),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                onAddToCart(product);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 16,
+                                                  vertical: 10,
+                                                ),
+                                              ),
+                                              child: Text(
+                                                l10n.addToCart,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
