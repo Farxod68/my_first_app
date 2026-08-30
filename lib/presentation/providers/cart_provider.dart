@@ -144,6 +144,56 @@ class CartProvider with ChangeNotifier, PersistentProviderMixin {
     };
   }
 
+  /// Maps a persisted icon code point back to the exact const [IconData] it
+  /// came from. Reconstructing IconData from a runtime int (as the old code
+  /// did) defeats Flutter's release-mode icon tree-shaker, since it can no
+  /// longer prove which icons are reachable. Every icon any [Product] can
+  /// carry (see mock_products.dart) is a literal here instead, so the
+  /// tree-shaker can see them all statically.
+  ///
+  /// Keys are the literal Material Icons code points (from the Flutter SDK's
+  /// icons.dart), not `Icons.x.codePoint` - Dart doesn't allow accessing an
+  /// instance field of a const object as a map key in a const expression.
+  static const Map<int, IconData> _iconByCodePoint = {
+    0xe037: Icons.ac_unit,
+    0xe03a: Icons.access_time,
+    0xe041: Icons.account_balance_wallet,
+    0xe064: Icons.air,
+    0xe0c4: Icons.backpack,
+    0xe0d7: Icons.bed,
+    0xe0e0: Icons.blender,
+    0xe113: Icons.brush,
+    0xe11c: Icons.business_center,
+    0xe130: Icons.camera_alt,
+    0xe152: Icons.charging_station,
+    0xe15d: Icons.checkroom,
+    0xe166: Icons.clean_hands,
+    0xe167: Icons.cleaning_services,
+    0xe179: Icons.coffee_maker,
+    0xe1dc: Icons.directions_run,
+    0xe1e1: Icons.directions_walk,
+    0xe28d: Icons.fitness_center,
+    0xe2ff: Icons.headphones,
+    0xe351: Icons.keyboard,
+    0xe35e: Icons.kitchen,
+    0xe367: Icons.laptop,
+    0xe379: Icons.light,
+    0xe3c1: Icons.luggage,
+    0xe40b: Icons.mouse,
+    0xe56f: Icons.self_improvement,
+    0xe5c6: Icons.smartphone,
+    0xe5db: Icons.speaker,
+    0xe5e5: Icons.sports_baseball,
+    0xf06c3: Icons.sports_gymnastics,
+    0xe609: Icons.storage,
+    0xe63e: Icons.tablet_android,
+    0xe697: Icons.usb,
+    0xe6ce: Icons.watch,
+    0xe6cf: Icons.watch_later,
+    0xf05a2: Icons.water_drop,
+    0xe6d9: Icons.wb_sunny,
+  };
+
   /// Convert JSON map to Product
   Product _productFromJson(Map<String, dynamic> json) {
     return Product(
@@ -153,10 +203,8 @@ class CartProvider with ChangeNotifier, PersistentProviderMixin {
       price: (json['price'] as num).toDouble(),
       oldPrice: (json['oldPrice'] as num).toDouble(),
       category: json['category'] as String,
-      icon: IconData(
-        json['iconCodePoint'] as int, // ignore: non_const_argument_for_const_parameter
-        fontFamily: 'MaterialIcons',
-      ),
+      icon: _iconByCodePoint[json['iconCodePoint'] as int] ??
+          Icons.shopping_bag,
       // Extended fields (optional with defaults)
       subtitle: json['subtitle'] as String?,
       description: json['description'] as String?,
