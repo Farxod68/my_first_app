@@ -9,8 +9,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../presentation/providers/cart_provider.dart';
 import '../../../presentation/providers/wishlist_provider.dart';
 import '../product_details/product_details_page.dart';
-import '../cart/cart_page.dart';
-import '../../widgets/product_search_delegate.dart';
+import '../../widgets/home_app_bar_actions.dart';
 import 'tabs/home_tab.dart';
 import 'tabs/categories_tab.dart';
 import 'tabs/favorites_tab.dart';
@@ -126,55 +125,7 @@ class _HomePageState extends State<HomePage> {
                     _getPageTitle(l10n),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  actions: [
-                    IconButton(
-                      key: WidgetKeys.homeSearchButton,
-                      onPressed: () {
-                        showSearch(
-                          context: context,
-                          delegate: ProductSearchDelegate(),
-                        );
-                      },
-                      icon: const Icon(Icons.search),
-                    ),
-                    Consumer<CartProvider>(
-                      builder: (context, cartProvider, child) => Stack(
-                        children: [
-                          IconButton(
-                            key: WidgetKeys.homeCartButton,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      CartPage(cart: cartProvider.cartItems),
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.shopping_cart_outlined),
-                          ),
-                          if (cartProvider.itemCount > 0)
-                            Positioned(
-                              right: AppSpacing.xs,
-                              top: AppSpacing.xs,
-                              child: CircleAvatar(
-                                key: WidgetKeys.homeCartBadge,
-                                radius: 9,
-                                backgroundColor: Colors.red,
-                                child: Text(
-                                  '${cartProvider.itemCount}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.sm),
-                  ],
+                  actions: HomeAppBarActions.build(context, trailingGap: true),
                 ),
                 body: IndexedStack(
                   index: selectedIndex,
@@ -209,53 +160,7 @@ class _HomePageState extends State<HomePage> {
           l10n.appTitle,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        actions: [
-          IconButton(
-            key: WidgetKeys.homeSearchButton,
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: ProductSearchDelegate(),
-              );
-            },
-            icon: const Icon(Icons.search),
-          ),
-          Consumer<CartProvider>(
-            builder: (context, cartProvider, child) => Stack(
-              children: [
-                IconButton(
-                  key: WidgetKeys.homeCartButton,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => CartPage(cart: cartProvider.cartItems),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.shopping_cart_outlined),
-                ),
-                if (cartProvider.itemCount > 0)
-                  Positioned(
-                    right: AppSpacing.xs,
-                    top: AppSpacing.xs,
-                    child: CircleAvatar(
-                      key: WidgetKeys.homeCartBadge,
-                      radius: 9,
-                      backgroundColor: Colors.red,
-                      child: Text(
-                        '${cartProvider.itemCount}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ],
+        actions: HomeAppBarActions.build(context),
       ),
       body: IndexedStack(
         index: selectedIndex,
