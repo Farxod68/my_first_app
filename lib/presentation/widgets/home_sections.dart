@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/constants/widget_keys.dart';
 import '../../data/models/product.dart';
 import '../../l10n/app_localizations.dart';
-import '../../presentation/providers/wishlist_provider.dart';
-import '../../presentation/widgets/product_card.dart';
+import '../../presentation/widgets/favoritable_product_card.dart';
 import '../../presentation/screens/product_details/product_details_page.dart';
 
 /// Reusable horizontal product section for Home page
@@ -100,24 +98,15 @@ class HorizontalProductSection extends StatelessWidget {
               return Container(
                 width: 180,
                 margin: EdgeInsets.only(right: index < products.length - 1 ? AppSpacing.lg : 0),
-                child: Consumer<WishlistProvider>(
-                  builder: (context, wishlistProvider, child) {
-                    final isFavorite = wishlistProvider.isFavorite(product.id);
-                    return ProductCard(
-                      product: product,
-                      isFavorite: isFavorite,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ProductDetailsPage(product: product),
-                          ),
-                        );
-                      },
-                      onFavoriteToggle: () {
-                        wishlistProvider.toggleFavorite(product.id);
-                      },
-                      locale: locale,
+                child: FavoritableProductCard.build(
+                  product: product,
+                  locale: locale,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProductDetailsPage(product: product),
+                      ),
                     );
                   },
                 ),

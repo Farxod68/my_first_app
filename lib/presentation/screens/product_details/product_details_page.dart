@@ -13,7 +13,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../presentation/providers/cart_provider.dart';
 import '../../../presentation/providers/wishlist_provider.dart';
 import '../../../presentation/providers/recently_viewed_provider.dart';
-import '../../../presentation/widgets/product_card.dart';
+import '../../../presentation/widgets/favoritable_product_card.dart';
 
 /// Premium Product Details Page for TOPBUY DEALS
 ///
@@ -857,25 +857,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 margin: EdgeInsets.only(
                   right: index < relatedProducts.length - 1 ? AppSpacing.lg : 0,
                 ),
-                child: Consumer<WishlistProvider>(
-                  builder: (context, wishlistProvider, child) {
-                    final isFavorite = wishlistProvider.isFavorite(product.id);
-                    return ProductCard(
-                      product: product,
-                      isFavorite: isFavorite,
-                      onTap: () {
-                        // Navigate to this product's details
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ProductDetailsPage(product: product),
-                          ),
-                        );
-                      },
-                      onFavoriteToggle: () {
-                        wishlistProvider.toggleFavorite(product.id);
-                      },
-                      locale: locale,
+                child: FavoritableProductCard.build(
+                  product: product,
+                  locale: locale,
+                  onTap: () {
+                    // Navigate to this product's details
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProductDetailsPage(product: product),
+                      ),
                     );
                   },
                 ),

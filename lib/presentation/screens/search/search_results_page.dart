@@ -8,8 +8,7 @@ import '../../../data/models/product.dart';
 import '../../../data/data_sources/local/mock_products.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../presentation/providers/search_provider.dart';
-import '../../../presentation/providers/wishlist_provider.dart';
-import '../../../presentation/widgets/product_card.dart';
+import '../../../presentation/widgets/favoritable_product_card.dart';
 import '../../../presentation/screens/product_details/product_details_page.dart';
 
 /// Search Results Page with Filters and Sorting
@@ -235,24 +234,15 @@ class _ResultsGrid extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final product = results[index];
-        return Consumer<WishlistProvider>(
-          builder: (context, wishlistProvider, child) {
-            final isFavorite = wishlistProvider.isFavorite(product.id);
-            return ProductCard(
-              product: product,
-              isFavorite: isFavorite,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ProductDetailsPage(product: product),
-                  ),
-                );
-              },
-              onFavoriteToggle: () {
-                wishlistProvider.toggleFavorite(product.id);
-              },
-              locale: locale,
+        return FavoritableProductCard.build(
+          product: product,
+          locale: locale,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ProductDetailsPage(product: product),
+              ),
             );
           },
         );
