@@ -3,8 +3,8 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_elevation.dart';
 import '../../core/theme/app_radius.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/utils/deal_badge_helper.dart';
 import '../../core/utils/formatters.dart';
-import '../../core/constants/app_constants.dart';
 import '../../core/constants/widget_keys.dart';
 import '../../data/models/product.dart';
 import '../../l10n/app_localizations.dart';
@@ -129,7 +129,7 @@ class ProductCard extends StatelessWidget {
                                 vertical: 3,
                               ),
                               decoration: BoxDecoration(
-                                color: _getBadgeColor(product.badges.first),
+                                color: DealBadgeHelper.color(product.badges.first),
                                 borderRadius: BorderRadius.circular(6),
                                 boxShadow: [
                                   BoxShadow(
@@ -140,7 +140,7 @@ class ProductCard extends StatelessWidget {
                                 ],
                               ),
                               child: Text(
-                                _getLocalizedBadge(product.badges.first, l10n),
+                                DealBadgeHelper.label(product.badges.first, l10n),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -278,49 +278,5 @@ class ProductCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  /// Get badge color based on badge type
-  Color _getBadgeColor(String badge) {
-    switch (badge) {
-      case DealBadges.bestSeller:
-        return AppColors.info; // Blue
-      case DealBadges.trending:
-        return const Color(0xFFE91E63); // Pink
-      case DealBadges.flashSale:
-        return const Color(0xFFFF6F00); // Orange
-      case DealBadges.limitedTime:
-        return AppColors.warning; // Deep Orange
-      case DealBadges.priceDrop:
-        return const Color(0xFF388E3C); // Green
-      case DealBadges.newArrival:
-        return const Color(0xFF7B1FA2); // Purple
-      case DealBadges.freeShipping:
-        return const Color(0xFF00796B); // Teal
-      default:
-        return const Color(0xFF616161); // Gray
-    }
-  }
-
-  /// Get localized badge text
-  String _getLocalizedBadge(String badge, AppLocalizations l10n) {
-    switch (badge) {
-      case DealBadges.bestSeller:
-        return l10n.bestSeller;
-      case DealBadges.trending:
-        return l10n.trending;
-      case DealBadges.flashSale:
-        return l10n.flashSale;
-      case DealBadges.limitedTime:
-        return l10n.limitedTime;
-      case DealBadges.priceDrop:
-        return l10n.priceDrop;
-      case DealBadges.newArrival:
-        return l10n.newArrival;
-      case DealBadges.freeShipping:
-        return l10n.freeShipping;
-      default:
-        return badge;
-    }
   }
 }

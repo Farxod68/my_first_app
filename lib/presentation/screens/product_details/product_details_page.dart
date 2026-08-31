@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/utils/deal_badge_helper.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/ui_helpers.dart';
-import '../../../core/constants/app_constants.dart';
 import '../../../data/models/product.dart';
 import '../../../data/data_sources/local/mock_products.dart';
 import '../../../l10n/app_localizations.dart';
@@ -379,17 +379,17 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   vertical: 5,
                 ),
                 decoration: BoxDecoration(
-                  color: _getBadgeColor(badge).withValues(alpha: 0.15),
+                  color: DealBadgeHelper.color(badge).withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(
-                    color: _getBadgeColor(badge),
+                    color: DealBadgeHelper.color(badge),
                     width: 1,
                   ),
                 ),
                 child: Text(
-                  _getLocalizedBadge(badge, l10n),
+                  DealBadgeHelper.label(badge, l10n),
                   style: TextStyle(
-                    color: _getBadgeColor(badge),
+                    color: DealBadgeHelper.color(badge),
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
                   ),
@@ -885,47 +885,5 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         ),
       ],
     );
-  }
-
-  Color _getBadgeColor(String badge) {
-    switch (badge) {
-      case DealBadges.bestSeller:
-        return AppColors.info;
-      case DealBadges.trending:
-        return const Color(0xFFE91E63);
-      case DealBadges.flashSale:
-        return const Color(0xFFFF6F00);
-      case DealBadges.limitedTime:
-        return AppColors.warning;
-      case DealBadges.priceDrop:
-        return const Color(0xFF388E3C);
-      case DealBadges.newArrival:
-        return const Color(0xFF7B1FA2);
-      case DealBadges.freeShipping:
-        return const Color(0xFF00796B);
-      default:
-        return const Color(0xFF616161);
-    }
-  }
-
-  String _getLocalizedBadge(String badge, AppLocalizations l10n) {
-    switch (badge) {
-      case DealBadges.bestSeller:
-        return l10n.bestSeller;
-      case DealBadges.trending:
-        return l10n.trending;
-      case DealBadges.flashSale:
-        return l10n.flashSale;
-      case DealBadges.limitedTime:
-        return l10n.limitedTime;
-      case DealBadges.priceDrop:
-        return l10n.priceDrop;
-      case DealBadges.newArrival:
-        return l10n.newArrival;
-      case DealBadges.freeShipping:
-        return l10n.freeShipping;
-      default:
-        return badge;
-    }
   }
 }
