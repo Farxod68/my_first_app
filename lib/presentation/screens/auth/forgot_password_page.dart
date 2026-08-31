@@ -98,7 +98,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           padding: EdgeInsets.all(ScreenSize.getHorizontalPadding(context)),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: isWideScreen ? 400 : double.infinity,
+              maxWidth: isWideScreen ? ContentWidth.authForm : double.infinity,
             ),
             child: Form(
               key: _formKey,

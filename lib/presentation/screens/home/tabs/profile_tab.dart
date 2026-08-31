@@ -123,7 +123,7 @@ class ProfileTab extends StatelessWidget {
         Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: isWideScreen ? 600 : double.infinity,
+              maxWidth: isWideScreen ? ContentWidth.settings : double.infinity,
             ),
             child: Card(
               child: Column(

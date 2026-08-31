@@ -137,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
           padding: EdgeInsets.all(ScreenSize.getHorizontalPadding(context)),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: isWideScreen ? 400 : double.infinity,
+              maxWidth: isWideScreen ? ContentWidth.authForm : double.infinity,
             ),
             child: Form(
               key: _formKey,

@@ -309,7 +309,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: isWideScreen ? 600 : double.infinity,
+                  maxWidth: isWideScreen ? ContentWidth.settings : double.infinity,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

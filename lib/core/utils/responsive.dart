@@ -12,6 +12,33 @@ class Breakpoints {
   static const double desktop = 1200;
 }
 
+/// Named content-width caps for centered, `isWideScreen`-gated layouts.
+///
+/// Consolidates the three max-width values that were each already
+/// duplicated verbatim (same number, same `isWideScreen` condition) across
+/// multiple screens: [authForm] for the login/signup/forgot-password forms,
+/// [settings] for the profile edit/settings screens, and [list] for the
+/// cart/category/favorites product-row screens. Every value here is
+/// unchanged from what those screens already rendered - this class only
+/// removes the duplication, not the values themselves.
+///
+/// Does NOT cover the app's few single-use, `isDesktop`-gated max-widths
+/// (e.g. the home hero banner, the home product grid, or the product
+/// details image gallery) - those have no duplicate sibling today, so
+/// there is nothing to consolidate for them yet.
+class ContentWidth {
+  ContentWidth._();
+
+  /// Login / sign up / forgot password forms.
+  static const double authForm = 400;
+
+  /// Profile edit and profile settings screens.
+  static const double settings = 600;
+
+  /// Cart, category, and favorites product-row lists.
+  static const double list = 800;
+}
+
 /// Screen size helper utilities for responsive design
 ///
 /// Provides methods to:

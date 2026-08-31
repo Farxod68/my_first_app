@@ -52,7 +52,7 @@ class FavoritesTab extends StatelessWidget {
             Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: isWideScreen ? 800 : double.infinity,
+                  maxWidth: isWideScreen ? ContentWidth.list : double.infinity,
                 ),
                 child: Column(
                   children: [
