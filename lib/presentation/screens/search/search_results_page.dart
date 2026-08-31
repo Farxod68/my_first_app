@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/constants/app_constants.dart';
@@ -95,7 +96,7 @@ class _SearchHeader extends StatelessWidget {
     final searchProvider = context.watch<SearchProvider>();
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: Colors.grey.shade50,
         border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
@@ -110,7 +111,7 @@ class _SearchHeader extends StatelessWidget {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
 
           // Result count
           Text(
@@ -120,10 +121,10 @@ class _SearchHeader extends StatelessWidget {
 
           // Active filters chips
           if (searchProvider.hasFilters) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.sm,
               children: _buildFilterChips(context, searchProvider),
             ),
           ],
@@ -186,7 +187,7 @@ class _SearchHeader extends StatelessWidget {
         icon: const Icon(Icons.clear_all, size: 18),
         label: Text(l10n.clearFilters),
         style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
         ),
       ));
     }
@@ -228,8 +229,8 @@ class _ResultsGrid extends StatelessWidget {
       itemCount: results.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: gridColumns,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
+        crossAxisSpacing: AppSpacing.lg,
+        mainAxisSpacing: AppSpacing.lg,
         childAspectRatio: ScreenSize.isMobile(context) ? 0.60 : 0.65,
       ),
       itemBuilder: (context, index) {
@@ -268,7 +269,7 @@ class _EmptyState extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(AppSpacing.xxxl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -277,7 +278,7 @@ class _EmptyState extends StatelessWidget {
               size: 80,
               color: Colors.grey.shade300,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             Text(
               searchProvider.hasSearch
                   ? l10n.noResultsFor(searchProvider.query.raw)
@@ -285,14 +286,14 @@ class _EmptyState extends StatelessWidget {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               l10n.tryDifferentSearch,
               style: TextStyle(color: Colors.grey.shade600),
               textAlign: TextAlign.center,
             ),
             if (searchProvider.hasFilters) ...[
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               ElevatedButton.icon(
                 onPressed: () => searchProvider.clearFilters(),
                 icon: const Icon(Icons.clear_all),
@@ -336,7 +337,7 @@ class _SortButton extends StatelessWidget {
             const Icon(Icons.check, size: 18)
           else
             const SizedBox(width: 18),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
           Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
         ],
       ),
@@ -361,7 +362,7 @@ class _FilterSheet extends StatelessWidget {
               children: [
                 // Header
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(AppSpacing.lg),
                   decoration: BoxDecoration(
                     border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
                   ),
@@ -389,28 +390,28 @@ class _FilterSheet extends StatelessWidget {
                 Expanded(
                   child: ListView(
                     controller: scrollController,
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(AppSpacing.lg),
                     children: [
                       // Category filter
                       _FilterSection(
                         title: l10n.category,
                         child: _CategoryFilter(),
                       ),
-                      const Divider(height: 32),
+                      const Divider(height: AppSpacing.xxxl),
 
                       // Rating filter
                       _FilterSection(
                         title: l10n.minRating,
                         child: _RatingFilter(),
                       ),
-                      const Divider(height: 32),
+                      const Divider(height: AppSpacing.xxxl),
 
                       // Discount filter
                       _FilterSection(
                         title: l10n.minDiscount,
                         child: _DiscountFilter(),
                       ),
-                      const Divider(height: 32),
+                      const Divider(height: AppSpacing.xxxl),
 
                       // Availability toggles
                       _FilterSection(
@@ -437,7 +438,7 @@ class _FilterSheet extends StatelessWidget {
                 // Apply button
                 SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(AppSpacing.lg),
                     child: SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -475,7 +476,7 @@ class _FilterSection extends StatelessWidget {
           title,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         child,
       ],
     );
@@ -499,8 +500,8 @@ class _CategoryFilter extends StatelessWidget {
     ];
 
     return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+      spacing: AppSpacing.sm,
+      runSpacing: AppSpacing.sm,
       children: categories.map((category) {
         final isSelected = searchProvider.filters.category == category;
         final label = category == null
@@ -528,8 +529,8 @@ class _RatingFilter extends StatelessWidget {
     final ratings = [null, 4.0, 3.0, 2.0];
 
     return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+      spacing: AppSpacing.sm,
+      runSpacing: AppSpacing.sm,
       children: ratings.map((rating) {
         final isSelected = searchProvider.filters.minRating == rating;
         final label = rating == null
@@ -557,8 +558,8 @@ class _DiscountFilter extends StatelessWidget {
     final discounts = [null, 50, 30, 20, 10];
 
     return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+      spacing: AppSpacing.sm,
+      runSpacing: AppSpacing.sm,
       children: discounts.map((discount) {
         final isSelected = searchProvider.filters.minDiscount == discount;
         final label = discount == null

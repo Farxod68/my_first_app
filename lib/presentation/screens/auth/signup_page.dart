@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/validators.dart';
@@ -150,7 +151,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     size: 80,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Title
                   Text(
@@ -160,7 +161,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
 
                   // Subtitle
                   Text(
@@ -170,7 +171,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: AppSpacing.xxxl),
 
                   // Full name field
                   TextFormField(
@@ -187,7 +188,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     validator: _validateName,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // Email field
                   TextFormField(
@@ -204,7 +205,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     validator: (value) => FormValidators.validateEmail(context, value),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // Password field
                   TextFormField(
@@ -235,7 +236,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     validator: (value) => FormValidators.validatePassword(context, value),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
 
                   // Password strength indicator
                   if (passwordStrength != PasswordStrength.empty)
@@ -253,7 +254,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 minHeight: 4,
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: AppSpacing.md),
                             Text(
                               passwordStrength.label(l10n),
                               style: TextStyle(
@@ -264,7 +265,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppSpacing.sm),
                       ],
                     ),
 
@@ -297,14 +298,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     validator: _validateConfirmPassword,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Sign up button
                   ElevatedButton(
                     key: WidgetKeys.signupButton,
                     onPressed: _isLoading ? null : _handleSignUp,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.white,
                     ),
@@ -326,14 +327,14 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Divider
                   Row(
                     children: [
                       const Expanded(child: Divider()),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                         child: Text(
                           l10n.or,
                           style: TextStyle(color: Colors.grey.shade600),
@@ -342,7 +343,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       const Expanded(child: Divider()),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Login link
                   Row(

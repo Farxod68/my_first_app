@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/constants/widget_keys.dart';
@@ -42,7 +43,7 @@ class CartPage extends StatelessWidget {
                     size: 100,
                     color: Colors.grey.shade300,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   Text(
                     l10n.emptyCart,
                     style: TextStyle(

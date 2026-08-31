@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'app_colors.dart';
+
 /// TOPBUY DEALS App Theme Configuration
 ///
 /// Contains the complete Material 3 theme definition including:
@@ -8,6 +10,15 @@ import 'package:flutter/material.dart';
 /// - Card styling
 /// - Button styling
 /// - AppBar styling
+///
+/// Phase 0 design-token foundation: [lightTheme] also registers
+/// [AppColorsExtension] so future screens can read brand/semantic colors via
+/// `Theme.of(context).extension<AppColorsExtension>()`. This is purely
+/// additive — it does not change any existing color, style, or widget
+/// currently rendered by the app. See also `app_spacing.dart`,
+/// `app_radius.dart`, and `app_elevation.dart` for the rest of the token
+/// foundation (spacing/radius/elevation are plain static constants and
+/// don't need to be registered on [ThemeData]).
 class AppTheme {
   // Brand colors
   static const Color primaryBlue = Color(0xFF0066CC);
@@ -104,6 +115,9 @@ class AppTheme {
         elevation: 0,
         scrolledUnderElevation: 2,
       ),
+      extensions: const <ThemeExtension<dynamic>>[
+        AppColorsExtension.light,
+      ],
     );
   }
 }

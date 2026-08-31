@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/validators.dart';
@@ -107,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                     size: 80,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Title
                   Text(
@@ -117,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
 
                   // Subtitle
                   Text(
@@ -127,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: AppSpacing.xxxl),
 
                   // Email field
                   TextFormField(
@@ -144,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     validator: (value) => FormValidators.validateEmail(context, value),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // Password field
                   TextFormField(
@@ -175,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     validator: (value) => FormValidators.validatePassword(context, value),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
 
                   // Forgot password link
                   Align(
@@ -195,14 +196,14 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(l10n.forgotPassword),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Login button
                   ElevatedButton(
                     key: WidgetKeys.loginButton,
                     onPressed: _isLoading ? null : _handleLogin,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.white,
                     ),
@@ -224,14 +225,14 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Divider
                   Row(
                     children: [
                       const Expanded(child: Divider()),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                         child: Text(
                           l10n.or,
                           style: TextStyle(color: Colors.grey.shade600),
@@ -240,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                       const Expanded(child: Divider()),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Sign up link
                   Row(

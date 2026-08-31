@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_elevation.dart';
+import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/constants/widget_keys.dart';
@@ -39,11 +43,11 @@ class ProductCard extends StatelessWidget {
       elevation: 3,
       shadowColor: Colors.black.withValues(alpha: 0.1),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppRadius.largeAll,
       ),
       child: InkWell(
         key: WidgetKeys.productCard(product.id),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppRadius.largeAll,
         onTap: onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,12 +65,12 @@ class ProductCard extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          const Color(0xFF0066CC).withValues(alpha: 0.05),
-                          const Color(0xFF00C853).withValues(alpha: 0.05),
+                          AppColors.primaryBlue.withValues(alpha: 0.05),
+                          AppColors.accentGreen.withValues(alpha: 0.05),
                         ],
                       ),
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(16),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(AppRadius.large),
                       ),
                     ),
                     child: Center(
@@ -74,7 +78,7 @@ class ProductCard extends StatelessWidget {
                         key: WidgetKeys.productCardIcon(product.id),
                         product.icon,
                         size: 80,
-                        color: const Color(0xFF0066CC),
+                        color: AppColors.primaryBlue,
                       ),
                     ),
                   ),
@@ -82,8 +86,8 @@ class ProductCard extends StatelessWidget {
                   // Badges section (discount + deal badges)
                   if (product.discount > 0 || product.badges.isNotEmpty)
                     Positioned(
-                      top: 8,
-                      left: 8,
+                      top: AppSpacing.sm,
+                      left: AppSpacing.sm,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -92,11 +96,11 @@ class ProductCard extends StatelessWidget {
                             Container(
                               key: WidgetKeys.productCardDiscountBadge(product.id),
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
+                                horizontal: AppSpacing.sm,
+                                vertical: AppSpacing.xs,
                               ),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFD32F2F),
+                                color: AppColors.danger,
                                 borderRadius: BorderRadius.circular(8),
                                 boxShadow: [
                                   BoxShadow(
@@ -117,7 +121,7 @@ class ProductCard extends StatelessWidget {
                             ),
                           // Deal badges (show first badge only to avoid clutter)
                           if (product.badges.isNotEmpty) ...[
-                            if (product.discount > 0) const SizedBox(height: 4),
+                            if (product.discount > 0) const SizedBox(height: AppSpacing.xs),
                             Container(
                               key: WidgetKeys.productCardDealBadge(product.id),
                               padding: const EdgeInsets.symmetric(
@@ -151,12 +155,12 @@ class ProductCard extends StatelessWidget {
 
                   // Favorite button
                   Positioned(
-                    top: 4,
-                    right: 4,
+                    top: AppSpacing.xs,
+                    right: AppSpacing.xs,
                     child: Material(
                       color: Colors.white,
                       shape: const CircleBorder(),
-                      elevation: 2,
+                      elevation: AppElevation.resting,
                       child: IconButton(
                         key: WidgetKeys.productCardFavoriteButton(product.id),
                         iconSize: 20,
@@ -164,7 +168,7 @@ class ProductCard extends StatelessWidget {
                         icon: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
                           color: isFavorite
-                              ? const Color(0xFFD32F2F)
+                              ? AppColors.danger
                               : Colors.grey.shade600,
                         ),
                       ),
@@ -210,7 +214,7 @@ class ProductCard extends StatelessWidget {
                           ),
                         ),
                         if (product.hasRating) ...[
-                          const SizedBox(width: 4),
+                          const SizedBox(width: AppSpacing.xs),
                           Icon(
                             key: WidgetKeys.productCardRating(product.id),
                             Icons.star,
@@ -243,7 +247,7 @@ class ProductCard extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme.titleMedium
                               ?.copyWith(
-                                color: const Color(0xFF0066CC),
+                                color: AppColors.primaryBlue,
                                 fontWeight: FontWeight.bold,
                               ),
                           maxLines: 1,
@@ -280,13 +284,13 @@ class ProductCard extends StatelessWidget {
   Color _getBadgeColor(String badge) {
     switch (badge) {
       case DealBadges.bestSeller:
-        return const Color(0xFF1976D2); // Blue
+        return AppColors.info; // Blue
       case DealBadges.trending:
         return const Color(0xFFE91E63); // Pink
       case DealBadges.flashSale:
         return const Color(0xFFFF6F00); // Orange
       case DealBadges.limitedTime:
-        return const Color(0xFFF57C00); // Deep Orange
+        return AppColors.warning; // Deep Orange
       case DealBadges.priceDrop:
         return const Color(0xFF388E3C); // Green
       case DealBadges.newArrival:

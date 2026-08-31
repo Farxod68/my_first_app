@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/validators.dart';
@@ -110,7 +111,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     size: 80,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Title
                   Text(
@@ -120,7 +121,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
 
                   // Subtitle
                   Text(
@@ -132,7 +133,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: AppSpacing.xxxl),
 
                   if (!_emailSent) ...[
                     // Email field
@@ -151,14 +152,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ),
                       validator: (value) => FormValidators.validateEmail(context, value),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
 
                     // Send reset link button
                     ElevatedButton(
                       key: WidgetKeys.forgotPasswordSendButton,
                       onPressed: _isLoading ? null : _handleResetPassword,
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
                       ),
@@ -192,17 +193,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             : l10n.resendEmail,
                       ),
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Back to login button
                     ElevatedButton(
                       key: WidgetKeys.forgotPasswordBackToLoginButton,
                       onPressed: () => Navigator.pop(context),
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
                       ),
@@ -216,11 +217,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ),
                   ],
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Help text
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(AppSpacing.lg),
                     decoration: BoxDecoration(
                       color: Colors.blue.shade50,
                       borderRadius: BorderRadius.circular(8),
@@ -233,7 +234,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           color: Colors.blue.shade700,
                           size: 20,
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: AppSpacing.md),
                         Expanded(
                           child: Text(
                             l10n.resetPasswordHelpText,

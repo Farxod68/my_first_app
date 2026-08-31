@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../core/theme/app_radius.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/constants/widget_keys.dart';
 import '../../data/models/product.dart';
 import '../../l10n/app_localizations.dart';
@@ -49,7 +51,7 @@ class HorizontalProductSection extends StatelessWidget {
       children: [
         // Section header
         Padding(
-          padding: EdgeInsets.fromLTRB(horizontalPadding, 0, horizontalPadding, 8),
+          padding: EdgeInsets.fromLTRB(horizontalPadding, 0, horizontalPadding, AppSpacing.sm),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -64,7 +66,7 @@ class HorizontalProductSection extends StatelessWidget {
                           ),
                     ),
                     if (subtitle != null) ...[
-                      const SizedBox(height: 4),
+                      const SizedBox(height: AppSpacing.xs),
                       Text(
                         subtitle!,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -97,7 +99,7 @@ class HorizontalProductSection extends StatelessWidget {
               final product = products[index];
               return Container(
                 width: 180,
-                margin: EdgeInsets.only(right: index < products.length - 1 ? 16 : 0),
+                margin: EdgeInsets.only(right: index < products.length - 1 ? AppSpacing.lg : 0),
                 child: Consumer<WishlistProvider>(
                   builder: (context, wishlistProvider, child) {
                     final isFavorite = wishlistProvider.isFavorite(product.id);
@@ -123,7 +125,7 @@ class HorizontalProductSection extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xxl),
       ],
     );
   }
@@ -159,7 +161,7 @@ class PopularCategoriesSection extends StatelessWidget {
       children: [
         // Section header
         Padding(
-          padding: EdgeInsets.fromLTRB(horizontalPadding, 0, horizontalPadding, 12),
+          padding: EdgeInsets.fromLTRB(horizontalPadding, 0, horizontalPadding, AppSpacing.md),
           child: Text(
             l10n.categories,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -184,15 +186,15 @@ class PopularCategoriesSection extends StatelessWidget {
 
               return Container(
                 width: 100,
-                margin: EdgeInsets.only(right: index < categories.length - 1 ? 12 : 0),
+                margin: EdgeInsets.only(right: index < categories.length - 1 ? AppSpacing.md : 0),
                 child: InkWell(
                   key: WidgetKeys.categoryItem(categoryKey),
                   onTap: onCategoryTap(categoryKey, categoryName),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: AppRadius.smallAll,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: AppRadius.smallAll,
                       border: Border.all(
                         color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                       ),
@@ -205,7 +207,7 @@ class PopularCategoriesSection extends StatelessWidget {
                           size: 32,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppSpacing.sm),
                         Text(
                           categoryName,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -223,7 +225,7 @@ class PopularCategoriesSection extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xxl),
       ],
     );
   }
@@ -235,6 +237,6 @@ class SectionSpacing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(height: 24);
+    return const SizedBox(height: AppSpacing.xxl);
   }
 }

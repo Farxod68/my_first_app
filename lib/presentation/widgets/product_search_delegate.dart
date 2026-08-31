@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/constants/widget_keys.dart';
 import '../../data/models/product.dart';
 import '../../data/data_sources/local/mock_products.dart';
@@ -80,7 +81,7 @@ class ProductSearchDelegate extends SearchDelegate<Product?> {
         if (suggestions.isEmpty && query.isEmpty) {
           return Center(
             child: Padding(
-              padding: const EdgeInsets.all(32),
+              padding: const EdgeInsets.all(AppSpacing.xxxl),
               child: Text(
                 l10n.searchHint,
                 style: TextStyle(color: Colors.grey.shade600),
@@ -96,7 +97,7 @@ class ProductSearchDelegate extends SearchDelegate<Product?> {
             // Section header
             if (query.isEmpty && suggestions.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.sm),
                 child: Row(
                   children: [
                     Text(

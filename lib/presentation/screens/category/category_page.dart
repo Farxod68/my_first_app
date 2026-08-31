@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/constants/widget_keys.dart';
@@ -47,9 +48,9 @@ class CategoryPage extends StatelessWidget {
                     size: 80,
                     color: Colors.grey.shade300,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxxl),
                     child: Text(
                       l10n.noCategoryProducts,
                       style: TextStyle(
@@ -88,14 +89,14 @@ class CategoryPage extends StatelessWidget {
                                 );
                               },
                               child: Padding(
-                                padding: const EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(AppSpacing.md),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     CircleAvatar(
                                       child: Icon(product.icon),
                                     ),
-                                    const SizedBox(width: 12),
+                                    const SizedBox(width: AppSpacing.md),
                                     // Product name, price, and Add to Cart each
                                     // get the full row width on their own line,
                                     // so a long localized button label never
@@ -113,7 +114,7 @@ class CategoryPage extends StatelessWidget {
                                                 .textTheme
                                                 .titleMedium,
                                           ),
-                                          const SizedBox(height: 4),
+                                          const SizedBox(height: AppSpacing.xs),
                                           Text(
                                             formatPrice(product.price, locale),
                                             maxLines: 1,
@@ -128,7 +129,7 @@ class CategoryPage extends StatelessWidget {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                           ),
-                                          const SizedBox(height: 8),
+                                          const SizedBox(height: AppSpacing.sm),
                                           Align(
                                             alignment: Alignment.centerRight,
                                             child: ElevatedButton(
@@ -137,7 +138,7 @@ class CategoryPage extends StatelessWidget {
                                               },
                                               style: ElevatedButton.styleFrom(
                                                 padding: const EdgeInsets.symmetric(
-                                                  horizontal: 16,
+                                                  horizontal: AppSpacing.lg,
                                                   vertical: 10,
                                                 ),
                                               ),

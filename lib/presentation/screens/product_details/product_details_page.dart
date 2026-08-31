@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_radius.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/ui_helpers.dart';
@@ -124,7 +127,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               );
             },
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSpacing.sm),
         ],
       ),
       body: isDesktop ? _buildDesktopLayout(l10n, locale) : _buildMobileTabletLayout(l10n, locale, isWideScreen),
@@ -142,7 +145,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         Expanded(
           flex: 5,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(AppSpacing.xxl),
             child: _buildImageGallery(true),
           ),
         ),
@@ -150,14 +153,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         Expanded(
           flex: 5,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(AppSpacing.xxl),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildProductHeader(l10n, locale),
-                const SizedBox(height: 24),
+                const SizedBox(height: AppSpacing.xxl),
                 _buildPurchaseActions(l10n, locale),
-                const Divider(height: 40),
+                const Divider(height: AppSpacing.xxxxl),
                 _buildProductSections(l10n, locale),
               ],
             ),
@@ -178,12 +181,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
           // Product information
           Padding(
-            padding: EdgeInsets.all(isWideScreen ? 24 : 16),
+            padding: EdgeInsets.all(isWideScreen ? AppSpacing.xxl : AppSpacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildProductHeader(l10n, locale),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.lg),
                 _buildProductSections(l10n, locale),
                 const SizedBox(height: 80), // Space for sticky bottom bar
               ],
@@ -210,18 +213,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF0066CC).withValues(alpha: 0.05),
-                  const Color(0xFF00C853).withValues(alpha: 0.05),
+                  AppColors.primaryBlue.withValues(alpha: 0.05),
+                  AppColors.accentGreen.withValues(alpha: 0.05),
                 ],
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: AppRadius.largeAll,
               border: Border.all(color: Colors.grey.shade200),
             ),
             child: Center(
               child: Icon(
                 widget.product.icon,
                 size: isDesktop ? 200 : 120,
-                color: const Color(0xFF0066CC),
+                color: AppColors.primaryBlue,
               ),
             ),
           ),
@@ -247,7 +250,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
         ],
 
         // Product title
@@ -262,7 +265,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
         // Subtitle
         if (widget.product.subtitle != null) ...[
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             widget.product.subtitle!,
             style: TextStyle(
@@ -272,7 +275,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
         ],
 
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
 
         // Rating and reviews
         if (widget.product.hasRating)
@@ -289,7 +292,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   );
                 }),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 widget.product.rating.toStringAsFixed(1),
                 style: const TextStyle(
@@ -298,7 +301,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 ),
               ),
               if (widget.product.hasReviews) ...[
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 Text(
                   l10n.reviewsCount(widget.product.reviewCount),
                   style: TextStyle(
@@ -310,7 +313,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             ],
           ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.lg),
 
         // Pricing section
         Wrap(
@@ -322,10 +325,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               style: const TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF0066CC),
+                color: AppColors.primaryBlue,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSpacing.md),
 
             // Old price
             if (widget.product.discount > 0) ...[
@@ -337,13 +340,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   decoration: TextDecoration.lineThrough,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
 
               // Discount badge
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.xs,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.red,
@@ -362,13 +365,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ],
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
 
         // Deal badges
         if (widget.product.badges.isNotEmpty)
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
             children: widget.product.badges.take(3).map((badge) {
               return Container(
                 padding: const EdgeInsets.symmetric(
@@ -395,7 +398,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             }).toList(),
           ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.lg),
 
         // Stock status
         _buildStockStatus(l10n),
@@ -407,7 +410,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget _buildStockStatus(AppLocalizations l10n) {
     if (widget.product.isOutOfStock) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: Colors.red.shade50,
           borderRadius: BorderRadius.circular(8),
@@ -417,7 +420,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.cancel, size: 18, color: Colors.red.shade700),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Text(
               l10n.outOfStock,
               style: TextStyle(
@@ -430,7 +433,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       );
     } else if (widget.product.isLowStock) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: Colors.orange.shade50,
           borderRadius: BorderRadius.circular(8),
@@ -440,7 +443,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.warning_amber, size: 18, color: Colors.orange.shade700),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Text(
               l10n.onlyLeft(widget.product.stock),
               style: TextStyle(
@@ -453,7 +456,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       );
     } else {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: Colors.green.shade50,
           borderRadius: BorderRadius.circular(8),
@@ -463,7 +466,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.check_circle, size: 18, color: Colors.green.shade700),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Text(
               l10n.inStock,
               style: TextStyle(
@@ -471,7 +474,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: AppSpacing.xs),
             Text(
               '• ${l10n.unitsInStock(widget.product.stock)}',
               style: TextStyle(
@@ -504,12 +507,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             ),
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: AppRadius.smallAll,
               ),
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
 
         // Buy Now button
         SizedBox(
@@ -523,7 +526,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             ),
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: AppRadius.smallAll,
               ),
               side: BorderSide(
                 width: 2,
@@ -535,7 +538,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
         // Free shipping indicator
         if (widget.product.hasFreeShipping && !isOutOfStock) ...[
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           Wrap(
             alignment: WrapAlignment.center,
             children: [
@@ -560,7 +563,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     final isOutOfStock = widget.product.isOutOfStock;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -585,7 +588,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF0066CC),
+                      color: AppColors.primaryBlue,
                     ),
                   ),
                   if (widget.product.discount > 0)
@@ -600,7 +603,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 ],
               ),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: AppSpacing.lg),
 
             // Add to Cart button
             Expanded(
@@ -635,7 +638,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         // Description
         if (widget.product.description != null) ...[
           _buildSectionTitle(l10n.description),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           Text(
             widget.product.description!,
             style: TextStyle(
@@ -644,15 +647,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               color: Colors.grey.shade800,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
         ],
 
         // Key Features
         if (widget.product.features != null && widget.product.features!.isNotEmpty) ...[
           _buildSectionTitle(l10n.keyFeatures),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           ...widget.product.features!.map((feature) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -661,7 +664,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       size: 20,
                       color: Colors.green.shade600,
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: AppSpacing.md),
                     Expanded(
                       child: Text(
                         feature,
@@ -671,42 +674,42 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   ],
                 ),
               )),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
         ],
 
         // Specifications
         if (widget.product.specifications != null && widget.product.specifications!.isNotEmpty) ...[
           _buildSectionTitle(l10n.specifications),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           _buildSpecificationsTable(),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
         ],
 
         // Shipping Information
         _buildSectionTitle(l10n.shippingInfo),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         _buildShippingInfo(l10n),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xxl),
 
         // Seller Information
         if (widget.product.seller != null) ...[
           _buildSectionTitle(l10n.soldBy),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
               color: Colors.grey.shade50,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: AppRadius.smallAll,
               border: Border.all(color: Colors.grey.shade200),
             ),
             child: Row(
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundColor: const Color(0xFF0066CC).withValues(alpha: 0.1),
-                  child: const Icon(Icons.store, color: Color(0xFF0066CC)),
+                  backgroundColor: AppColors.primaryBlue.withValues(alpha: 0.1),
+                  child: const Icon(Icons.store, color: AppColors.primaryBlue),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Text(
                     widget.product.seller!,
@@ -719,7 +722,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               ],
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xxl),
         ],
 
         // Related Products
@@ -742,13 +745,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade200),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppRadius.smallAll,
       ),
       child: Column(
         children: widget.product.specifications!.entries.map((entry) {
           final isLast = entry == widget.product.specifications!.entries.last;
           return Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
               border: isLast
                   ? null
@@ -784,10 +787,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   Widget _buildShippingInfo(AppLocalizations l10n) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: Colors.blue.shade50,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppRadius.smallAll,
         border: Border.all(color: Colors.blue.shade100),
       ),
       child: Column(
@@ -796,7 +799,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Wrap(
             children: [
               Icon(Icons.local_shipping, color: Colors.blue.shade700),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpacing.md),
               Text(
                 l10n.deliveryIn('3-5'),
                 style: TextStyle(
@@ -808,11 +811,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             ],
           ),
           if (widget.product.hasFreeShipping) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Wrap(
               children: [
                 Icon(Icons.check_circle, size: 18, color: Colors.green.shade600),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Text(
                   l10n.freeShipping,
                   style: TextStyle(
@@ -841,7 +844,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSectionTitle(l10n.relatedProducts),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.lg),
         SizedBox(
           height: 280,
           child: ListView.builder(
@@ -852,7 +855,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               return Container(
                 width: 180,
                 margin: EdgeInsets.only(
-                  right: index < relatedProducts.length - 1 ? 16 : 0,
+                  right: index < relatedProducts.length - 1 ? AppSpacing.lg : 0,
                 ),
                 child: Consumer<WishlistProvider>(
                   builder: (context, wishlistProvider, child) {
@@ -887,13 +890,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Color _getBadgeColor(String badge) {
     switch (badge) {
       case DealBadges.bestSeller:
-        return const Color(0xFF1976D2);
+        return AppColors.info;
       case DealBadges.trending:
         return const Color(0xFFE91E63);
       case DealBadges.flashSale:
         return const Color(0xFFFF6F00);
       case DealBadges.limitedTime:
-        return const Color(0xFFF57C00);
+        return AppColors.warning;
       case DealBadges.priceDrop:
         return const Color(0xFF388E3C);
       case DealBadges.newArrival:

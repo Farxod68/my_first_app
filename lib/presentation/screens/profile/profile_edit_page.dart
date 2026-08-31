@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/ui_helpers.dart';
@@ -271,7 +272,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         child: ListView(
           padding: EdgeInsets.all(horizontalPadding),
           children: [
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.xxl),
 
             // Profile Avatar Placeholder
             Center(
@@ -302,7 +303,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ),
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSpacing.xxxl),
 
             // Personal Information Section
             Center(
@@ -319,7 +320,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             fontWeight: FontWeight.bold,
                           ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Email (Read-only)
                     TextFormField(
@@ -335,7 +336,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       readOnly: true,
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Full Name
                     TextFormField(
@@ -351,7 +352,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       validator: _validateName,
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Phone Number
                     TextFormField(
@@ -367,7 +368,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       validator: _validatePhone,
                     ),
 
-                    const SizedBox(height: 32),
+                    const SizedBox(height: AppSpacing.xxxl),
 
                     // Preferences Section
                     Text(
@@ -376,7 +377,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             fontWeight: FontWeight.bold,
                           ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Language Preference
                     Card(
@@ -418,7 +419,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 8),
+                    const SizedBox(height: AppSpacing.sm),
 
                     // Currency Preference
                     Card(
@@ -465,7 +466,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 32),
+                    const SizedBox(height: AppSpacing.xxxl),
 
                     // Save Button
                     SizedBox(
@@ -496,7 +497,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Cancel Button
                     SizedBox(
@@ -515,7 +516,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 32),
+                    const SizedBox(height: AppSpacing.xxxl),
 
                     // Danger Zone: permanent account deletion
                     Card(
@@ -545,7 +546,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: AppSpacing.xxl),
                   ],
                 ),
               ),
