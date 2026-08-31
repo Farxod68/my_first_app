@@ -64,6 +64,26 @@ void main() async {
         ),
 
         // Auth provider (conditional on Supabase)
+        //
+        // SAFETY CONTRACT — do not remove this `if` without reading this:
+        // `AuthRemoteDataSource()` (used below via `AuthRepositoryImpl`)
+        // eagerly resolves `SupabaseService.client` in its constructor
+        // initializer list, and that getter throws synchronously if
+        // `SupabaseService.initialize()` was never called (see
+        // supabase_service.dart). Because `HomePage`'s body is an
+        // `IndexedStack`, ALL FOUR tabs - including ProfileTab - build
+        // eagerly on first frame, so registering this provider
+        // unconditionally would throw during app launch itself whenever
+        // Supabase isn't configured, not just on a guarded screen.
+        //
+        // Every widget that reads `AuthProvider` non-nullably
+        // (`context.read/watch<AuthProvider>()`, without the `?`) — the
+        // auth screens and ProfileEditPage — is therefore only safe to
+        // reach through navigation gated behind a NULLABLE lookup first,
+        // e.g. `final hasAuthProvider = context.watch<AuthProvider?>() !=
+        // null;` as ProfileTab does before ever linking to them. If you
+        // add a new way to reach LoginPage/SignUpPage/ForgotPasswordPage/
+        // ProfileEditPage, gate it the same way.
         if (supabaseInitialized)
           ChangeNotifierProvider(
             create: (_) => AuthProvider(

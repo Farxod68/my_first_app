@@ -13,6 +13,13 @@ import '../../widgets/navigation_chevron.dart';
 
 /// Profile Edit Page
 ///
+/// Precondition: only reachable when `AuthProvider` is registered (see the
+/// safety contract comment at its registration in `main.dart`). Every
+/// entry point into this page must be gated behind a nullable
+/// `context.watch<AuthProvider?>()` check first, as `ProfileTab` does -
+/// this page itself reads `AuthProvider` non-nullably in several places
+/// (e.g. `_initializeForm`, `_saveProfile`, `build`).
+///
 /// Allows authenticated users to edit their profile information:
 /// - Full name
 /// - Phone number

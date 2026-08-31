@@ -15,6 +15,12 @@ import 'forgot_password_page.dart';
 
 /// Login page for TOPBUY DEALS
 ///
+/// Precondition: only reachable when `AuthProvider` is registered (see the
+/// safety contract comment at its registration in `main.dart`). Every
+/// entry point into this page must be gated behind a nullable
+/// `context.watch<AuthProvider?>()` check first, as `ProfileTab` does -
+/// this page itself reads `AuthProvider` non-nullably (see `_handleLogin`).
+///
 /// Features:
 /// - Email and password authentication
 /// - Form validation
