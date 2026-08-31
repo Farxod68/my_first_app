@@ -8,6 +8,7 @@ import '../../../core/utils/auth_helpers.dart';
 import '../../../core/utils/ui_helpers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/password_visibility_toggle.dart';
 import 'login_page.dart';
 
 /// Sign up page for TOPBUY DEALS
@@ -219,14 +220,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       labelText: l10n.password,
                       hintText: l10n.passwordHint,
                       prefixIcon: const Icon(Icons.lock_outlined),
-                      suffixIcon: IconButton(
+                      suffixIcon: PasswordVisibilityToggle(
                         key: WidgetKeys.signupPasswordVisibilityToggle,
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
-                        ),
-                        onPressed: () {
+                        obscured: _obscurePassword,
+                        onToggle: () {
                           setState(() {
                             _obscurePassword = !_obscurePassword;
                           });
@@ -281,14 +278,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       labelText: l10n.confirmPassword,
                       hintText: l10n.confirmPasswordHint,
                       prefixIcon: const Icon(Icons.lock_outlined),
-                      suffixIcon: IconButton(
+                      suffixIcon: PasswordVisibilityToggle(
                         key: WidgetKeys.signupConfirmPasswordVisibilityToggle,
-                        icon: Icon(
-                          _obscureConfirmPassword
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
-                        ),
-                        onPressed: () {
+                        obscured: _obscureConfirmPassword,
+                        onToggle: () {
                           setState(() {
                             _obscureConfirmPassword = !_obscureConfirmPassword;
                           });
