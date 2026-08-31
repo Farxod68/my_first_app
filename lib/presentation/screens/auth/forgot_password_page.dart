@@ -8,6 +8,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/utils/ui_helpers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/button_loading_indicator.dart';
 
 /// Forgot password page for TOPBUY DEALS
 ///
@@ -165,14 +166,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         foregroundColor: Colors.white,
                       ),
                       child: _isLoading
-                          ? const SizedBox(
+                          ? const ButtonLoadingIndicator(
                               key: WidgetKeys.forgotPasswordLoadingIndicator,
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
                             )
                           : Text(
                               l10n.sendResetLink,

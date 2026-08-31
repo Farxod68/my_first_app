@@ -8,6 +8,7 @@ import '../../../core/utils/auth_helpers.dart';
 import '../../../core/utils/ui_helpers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/button_loading_indicator.dart';
 import '../../widgets/password_visibility_toggle.dart';
 import 'signup_page.dart';
 import 'forgot_password_page.dart';
@@ -205,14 +206,8 @@ class _LoginPageState extends State<LoginPage> {
                       foregroundColor: Colors.white,
                     ),
                     child: _isLoading
-                        ? const SizedBox(
+                        ? const ButtonLoadingIndicator(
                             key: WidgetKeys.loginLoadingIndicator,
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
                           )
                         : Text(
                             l10n.login,

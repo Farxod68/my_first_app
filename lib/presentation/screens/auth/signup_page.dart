@@ -8,6 +8,7 @@ import '../../../core/utils/auth_helpers.dart';
 import '../../../core/utils/ui_helpers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/button_loading_indicator.dart';
 import '../../widgets/password_visibility_toggle.dart';
 import 'login_page.dart';
 
@@ -303,14 +304,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       foregroundColor: Colors.white,
                     ),
                     child: _isLoading
-                        ? const SizedBox(
+                        ? const ButtonLoadingIndicator(
                             key: WidgetKeys.signupLoadingIndicator,
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
                           )
                         : Text(
                             l10n.signUp,
