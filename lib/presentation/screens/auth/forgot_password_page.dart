@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
@@ -231,7 +232,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       children: [
                         Icon(
                           Icons.info_outline,
-                          color: Colors.blue.shade700,
+                          color: AppColors.info,
                           size: 20,
                         ),
                         const SizedBox(width: AppSpacing.md),

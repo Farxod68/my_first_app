@@ -419,12 +419,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.cancel, size: 18, color: Colors.red.shade700),
+            Icon(Icons.cancel, size: 18, color: AppColors.danger),
             const SizedBox(width: AppSpacing.sm),
             Text(
               l10n.outOfStock,
               style: TextStyle(
-                color: Colors.red.shade700,
+                color: AppColors.danger,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -442,12 +442,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.warning_amber, size: 18, color: Colors.orange.shade700),
+            Icon(Icons.warning_amber, size: 18, color: AppColors.warning),
             const SizedBox(width: AppSpacing.sm),
             Text(
               l10n.onlyLeft(widget.product.stock),
               style: TextStyle(
-                color: Colors.orange.shade700,
+                color: AppColors.warning,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -798,14 +798,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         children: [
           Wrap(
             children: [
-              Icon(Icons.local_shipping, color: Colors.blue.shade700),
+              Icon(Icons.local_shipping, color: AppColors.info),
               const SizedBox(width: AppSpacing.md),
               Text(
                 l10n.deliveryIn('3-5'),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
-                  color: Colors.blue.shade700,
+                  color: AppColors.info,
                 ),
               ),
             ],
