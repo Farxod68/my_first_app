@@ -5,6 +5,7 @@ import '../../../core/utils/responsive.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../data/models/product.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../widgets/empty_state.dart';
 import '../product_details/product_details_page.dart';
 
 /// Category page displaying filtered products by category
@@ -38,30 +39,12 @@ class CategoryPage extends StatelessWidget {
         title: Text(title),
       ),
       body: products.isEmpty
-          ? Center(
+          ? EmptyState(
               key: WidgetKeys.categoryEmptyState,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.inventory_2_outlined,
-                    size: 80,
-                    color: Colors.grey.shade300,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxxl),
-                    child: Text(
-                      l10n.noCategoryProducts,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey.shade600,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
+              icon: Icons.inventory_2_outlined,
+              message: l10n.noCategoryProducts,
+              textAlign: TextAlign.center,
+              textPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxxl),
             )
           : ListView(
               key: WidgetKeys.categoryProductList,

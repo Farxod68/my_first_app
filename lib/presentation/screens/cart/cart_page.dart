@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../data/models/product.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../widgets/empty_state.dart';
 
 /// Shopping cart page displaying added products
 ///
@@ -33,26 +33,12 @@ class CartPage extends StatelessWidget {
         title: Text(l10n.cart),
       ),
       body: cart.isEmpty
-          ? Center(
+          ? EmptyState(
               key: WidgetKeys.cartEmptyState,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 100,
-                    color: Colors.grey.shade300,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  Text(
-                    l10n.emptyCart,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey.shade600,
-                    ),
-                  ),
-                ],
-              ),
+              icon: Icons.shopping_cart_outlined,
+              iconSize: 100,
+              message: l10n.emptyCart,
+              fontSize: 20,
             )
           : ListView(
               key: WidgetKeys.cartProductList,

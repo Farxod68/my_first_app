@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/responsive.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/constants/widget_keys.dart';
@@ -8,6 +7,7 @@ import '../../../../data/models/product.dart';
 import '../../../../data/data_sources/local/mock_products.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../providers/wishlist_provider.dart';
+import '../../../widgets/empty_state.dart';
 
 /// Favorites (wishlist) tab content.
 ///
@@ -37,27 +37,11 @@ class FavoritesTab extends StatelessWidget {
             wishlistProvider.getFavoriteProducts(products);
 
         if (favoriteProducts.isEmpty) {
-          return Center(
+          return EmptyState(
             key: WidgetKeys.favoritesEmptyState,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.favorite_border,
-                  size: 80,
-                  color: Colors.grey.shade300,
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                Text(
-                  l10n.noFavoriteProducts,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey.shade600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+            icon: Icons.favorite_border,
+            message: l10n.noFavoriteProducts,
+            textAlign: TextAlign.center,
           );
         }
 
