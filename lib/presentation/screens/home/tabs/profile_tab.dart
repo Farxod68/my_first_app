@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/responsive.dart';
 import '../../../../core/utils/ui_helpers.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/constants/widget_keys.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../providers/cart_provider.dart';
@@ -43,12 +44,7 @@ class ProfileTab extends StatelessWidget {
     final horizontalPadding = ScreenSize.getHorizontalPadding(context);
     final isWideScreen = !ScreenSize.isMobile(context);
 
-    final Map<String, String> languages = {
-      'en': 'English',
-      'es': 'Español',
-      'fr': 'Français',
-      'uz': 'O\'zbekcha',
-    };
+    final languages = LanguageNames.byCode;
 
     // Check if Supabase is initialized and get auth state
     final hasAuthProvider = context.watch<AuthProvider?>() != null;

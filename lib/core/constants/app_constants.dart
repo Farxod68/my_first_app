@@ -8,6 +8,21 @@
 /// - Default values and limits
 library;
 
+/// Display names for supported languages, keyed by language code.
+///
+/// Native-language labels shown in language-picker UI (e.g. "Français" for
+/// 'fr'). Kept separate from `LocaleProvider.supportedLocales` - that list
+/// holds the `Locale` objects the app actually supports; this map only
+/// holds the human-readable strings a picker displays for each of them.
+class LanguageNames {
+  static const Map<String, String> byCode = {
+    'en': 'English',
+    'es': 'Español',
+    'fr': 'Français',
+    'uz': "O'zbekcha",
+  };
+}
+
 /// Category Keys
 class CategoryKeys {
   static const String electronics = 'electronics';

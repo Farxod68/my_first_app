@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_spacing.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/ui_helpers.dart';
@@ -256,12 +257,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       );
     }
 
-    final Map<String, String> languages = {
-      'en': 'English',
-      'es': 'Español',
-      'fr': 'Français',
-      'uz': "O'zbekcha",
-    };
+    final languages = LanguageNames.byCode;
 
     return Scaffold(
       appBar: AppBar(
