@@ -9,6 +9,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/locale_provider.dart';
 import '../../providers/currency_provider.dart';
+import '../../widgets/navigation_chevron.dart';
 
 /// Profile Edit Page
 ///
@@ -381,7 +382,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                         leading: const Icon(Icons.language),
                         title: Text(l10n.languagePreference),
                         subtitle: Text(languages[_selectedLanguage] ?? 'English'),
-                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        trailing: const NavigationChevron(),
                         onTap: () {
                           showDialog(
                             context: context,
@@ -425,7 +426,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                         subtitle: Text(
                             CurrencyProvider.currencyNames[_selectedCurrency] ??
                                 'US Dollar'),
-                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        trailing: const NavigationChevron(),
                         onTap: () {
                           showDialog(
                             context: context,

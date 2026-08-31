@@ -7,6 +7,7 @@ import '../../../../data/models/product.dart';
 import '../../../../data/data_sources/local/mock_products.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../category/category_page.dart';
+import '../../../widgets/navigation_chevron.dart';
 
 /// Categories tab content.
 ///
@@ -115,7 +116,7 @@ class CategoriesTab extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                const Icon(Icons.arrow_forward_ios, size: 16),
+                                const NavigationChevron(),
                               ],
                             ),
                           ),
@@ -134,7 +135,7 @@ class CategoriesTab extends StatelessWidget {
                             ),
                             title: Text(category['name'] as String),
                             trailing:
-                                const Icon(Icons.arrow_forward_ios, size: 16),
+                                const NavigationChevron(),
                             onTap: () {
                               final filtered = products
                                   .where((product) =>

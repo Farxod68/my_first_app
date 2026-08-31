@@ -13,6 +13,7 @@ import '../../../providers/auth_provider.dart';
 import '../../cart/cart_page.dart';
 import '../../auth/login_page.dart';
 import '../../profile/profile_edit_page.dart';
+import '../../../widgets/navigation_chevron.dart';
 
 /// Profile tab content.
 ///
@@ -131,7 +132,7 @@ class ProfileTab extends StatelessWidget {
                       leading: const Icon(Icons.edit_outlined),
                       title: Text(l10n.editProfile),
                       subtitle: Text(l10n.updatePersonalInfo),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      trailing: const NavigationChevron(),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -152,7 +153,7 @@ class ProfileTab extends StatelessWidget {
                         leading: const Icon(Icons.login),
                         title: Text(l10n.login),
                         subtitle: Text(l10n.signInToSeeMore),
-                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        trailing: const NavigationChevron(),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -167,7 +168,7 @@ class ProfileTab extends StatelessWidget {
                         leading: const Icon(Icons.logout),
                         title: Text(l10n.logout),
                         subtitle: Text('${l10n.signedInAs} ${user?.email}'),
-                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        trailing: const NavigationChevron(),
                         onTap: () async {
                           final confirm = await showDialog<bool>(
                             context: context,
@@ -205,7 +206,7 @@ class ProfileTab extends StatelessWidget {
                     leading: const Icon(Icons.language),
                     title: Text(l10n.language),
                     subtitle: Text(languages[locale] ?? 'English'),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    trailing: const NavigationChevron(),
                     onTap: () {
                       showDialog(
                         context: context,
@@ -258,7 +259,7 @@ class ProfileTab extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : const Icon(Icons.arrow_forward_ios, size: 16),
+                          : const NavigationChevron(),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -287,7 +288,7 @@ class ProfileTab extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : const Icon(Icons.arrow_forward_ios, size: 16),
+                          : const NavigationChevron(),
                       onTap: onNavigateToFavorites,
                     ),
                   ),
