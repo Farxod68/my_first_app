@@ -9,11 +9,13 @@ import 'package:my_first_app/core/utils/formatters.dart';
 import 'package:my_first_app/data/data_sources/local/mock_products.dart';
 import 'package:my_first_app/l10n/app_localizations.dart';
 import 'package:my_first_app/presentation/providers/cart_provider.dart';
+import 'package:my_first_app/presentation/providers/currency_provider.dart';
 import 'package:my_first_app/presentation/providers/recently_viewed_provider.dart';
 import 'package:my_first_app/presentation/providers/wishlist_provider.dart';
 import 'package:my_first_app/presentation/screens/product_details/product_details_page.dart';
 import '../helpers/test_data.dart';
 import '../mocks/mock_cart_provider.dart';
+import '../mocks/mock_persistence_service.dart';
 import '../mocks/mock_recently_viewed_provider.dart';
 import '../mocks/mock_wishlist_provider.dart';
 
@@ -53,6 +55,13 @@ void main() {
           .thenReturn(null);
     });
 
+    CurrencyProvider createCurrencyProvider() {
+      final mockPersistenceService = MockPersistenceService();
+      when(() => mockPersistenceService.getString('currency_code'))
+          .thenReturn(null);
+      return CurrencyProvider(mockPersistenceService);
+    }
+
     // Tablet-range viewport (< 1200px desktop breakpoint) for the
     // mobile/tablet layout, wide enough to avoid the already-reported
     // narrow-width overflow in the stock-status row.
@@ -70,6 +79,9 @@ void main() {
                 value: mockWishlistProvider),
             ChangeNotifierProvider<RecentlyViewedProvider>.value(
                 value: mockRecentlyViewedProvider),
+            ChangeNotifierProvider<CurrencyProvider>(
+              create: (_) => createCurrencyProvider(),
+            ),
           ],
           child: MaterialApp(
             theme: AppTheme.lightTheme,
@@ -110,7 +122,7 @@ void main() {
       // The current price is shown twice: once in the product header and
       // once in the sticky bottom purchase bar (both always rendered
       // together on the mobile/tablet layout).
-      expect(find.text(formatPrice(99.99, 'en')), findsNWidgets(2));
+      expect(find.text(formatPrice(99.99, 'USD', 'en')), findsNWidgets(2));
     });
 
     testWidgets('3. Discount present shows old price and discount badge',
@@ -125,7 +137,7 @@ void main() {
 
       // Old price is shown in both the header and the sticky bottom bar;
       // the discount badge only appears once, in the header.
-      expect(find.text(formatPrice(100.0, 'en')), findsNWidgets(2));
+      expect(find.text(formatPrice(100.0, 'USD', 'en')), findsNWidgets(2));
       expect(find.text('-20%'), findsOneWidget);
     });
 
@@ -139,7 +151,7 @@ void main() {
 
       await pump(tester, product);
 
-      expect(find.text(formatPrice(50.0, 'en')), findsNWidgets(2));
+      expect(find.text(formatPrice(50.0, 'USD', 'en')), findsNWidgets(2));
       expect(find.textContaining('%'), findsNothing);
     });
 
@@ -292,6 +304,9 @@ void main() {
                 value: mockWishlistProvider),
             ChangeNotifierProvider<RecentlyViewedProvider>.value(
                 value: mockRecentlyViewedProvider),
+            ChangeNotifierProvider<CurrencyProvider>(
+              create: (_) => createCurrencyProvider(),
+            ),
           ],
           child: MaterialApp(
             theme: AppTheme.lightTheme,

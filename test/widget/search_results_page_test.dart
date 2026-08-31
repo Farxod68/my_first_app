@@ -8,6 +8,7 @@ import 'package:my_first_app/core/theme/app_theme.dart';
 import 'package:my_first_app/data/data_sources/local/mock_products.dart';
 import 'package:my_first_app/l10n/app_localizations.dart';
 import 'package:my_first_app/presentation/providers/cart_provider.dart';
+import 'package:my_first_app/presentation/providers/currency_provider.dart';
 import 'package:my_first_app/presentation/providers/recently_viewed_provider.dart';
 import 'package:my_first_app/presentation/providers/search_provider.dart';
 import 'package:my_first_app/presentation/providers/wishlist_provider.dart';
@@ -66,6 +67,13 @@ void main() {
       return SearchProvider(mockPersistenceService);
     }
 
+    CurrencyProvider createCurrencyProvider() {
+      final mockPersistenceService = MockPersistenceService();
+      when(() => mockPersistenceService.getString('currency_code'))
+          .thenReturn(null);
+      return CurrencyProvider(mockPersistenceService);
+    }
+
     Future<void> pumpPage(
       WidgetTester tester,
       SearchProvider searchProvider,
@@ -85,6 +93,9 @@ void main() {
                 value: mockCartProvider),
             ChangeNotifierProvider<RecentlyViewedProvider>.value(
                 value: mockRecentlyViewedProvider),
+            ChangeNotifierProvider<CurrencyProvider>(
+              create: (_) => createCurrencyProvider(),
+            ),
           ],
           child: MaterialApp(
             theme: AppTheme.lightTheme,

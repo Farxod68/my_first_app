@@ -69,7 +69,7 @@ void main() {
 
       await pumpAppWithNavigation(tester, CartPage(cart: [product]));
 
-      final expectedPrice = formatPrice(99.99, 'en');
+      final expectedPrice = formatPrice(99.99, 'USD', 'en');
       expect(
         find.descendant(
           of: find.byKey(WidgetKeys.cartProductItem('p1')),

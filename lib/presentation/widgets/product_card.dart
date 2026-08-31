@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_elevation.dart';
 import '../../core/theme/app_radius.dart';
@@ -8,6 +9,7 @@ import '../../core/utils/formatters.dart';
 import '../../core/constants/widget_keys.dart';
 import '../../data/models/product.dart';
 import '../../l10n/app_localizations.dart';
+import '../providers/currency_provider.dart';
 
 /// Reusable product card widget for TOPBUY DEALS
 ///
@@ -38,6 +40,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final currencyCode = context.watch<CurrencyProvider>().currentCurrency;
 
     return Card(
       elevation: 3,
@@ -243,7 +246,7 @@ class ProductCard extends StatelessWidget {
                         // Current price
                         Text(
                           key: WidgetKeys.productCardPrice(product.id),
-                          formatPrice(product.price, locale),
+                          formatPrice(product.price, currencyCode, locale),
                           style: Theme.of(context)
                               .textTheme.titleMedium
                               ?.copyWith(
@@ -257,7 +260,7 @@ class ProductCard extends StatelessWidget {
                         if (product.discount > 0)
                           Text(
                             key: WidgetKeys.productCardOldPrice(product.id),
-                            formatPrice(product.oldPrice, locale),
+                            formatPrice(product.oldPrice, currencyCode, locale),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall

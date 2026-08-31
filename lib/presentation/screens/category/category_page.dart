@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../data/models/product.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../presentation/providers/currency_provider.dart';
 import '../../widgets/empty_state.dart';
 import '../product_details/product_details_page.dart';
 
@@ -31,6 +33,7 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context).languageCode;
+    final currencyCode = context.watch<CurrencyProvider>().currentCurrency;
     final horizontalPadding = ScreenSize.getHorizontalPadding(context);
     final isWideScreen = !ScreenSize.isMobile(context);
 
@@ -99,7 +102,7 @@ class CategoryPage extends StatelessWidget {
                                           ),
                                           const SizedBox(height: AppSpacing.xs),
                                           Text(
-                                            formatPrice(product.price, locale),
+                                            formatPrice(product.price, currencyCode, locale),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: Theme.of(context)

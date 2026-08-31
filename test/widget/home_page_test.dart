@@ -7,6 +7,7 @@ import 'package:my_first_app/core/constants/widget_keys.dart';
 import 'package:my_first_app/core/theme/app_theme.dart';
 import 'package:my_first_app/l10n/app_localizations.dart';
 import 'package:my_first_app/presentation/providers/cart_provider.dart';
+import 'package:my_first_app/presentation/providers/currency_provider.dart';
 import 'package:my_first_app/presentation/providers/recently_viewed_provider.dart';
 import 'package:my_first_app/presentation/providers/search_provider.dart';
 import 'package:my_first_app/presentation/providers/wishlist_provider.dart';
@@ -17,6 +18,7 @@ import 'package:my_first_app/presentation/screens/product_details/product_detail
 import 'package:my_first_app/presentation/widgets/product_card.dart';
 import '../helpers/test_data.dart';
 import '../mocks/mock_cart_provider.dart';
+import '../mocks/mock_persistence_service.dart';
 import '../mocks/mock_recently_viewed_provider.dart';
 import '../mocks/mock_search_provider.dart';
 import '../mocks/mock_wishlist_provider.dart';
@@ -40,6 +42,10 @@ Future<void> pumpHomePage(
   tester.view.devicePixelRatio = 1.0;
   addTearDown(tester.view.reset);
 
+  final mockPersistenceService = MockPersistenceService();
+  when(() => mockPersistenceService.getString('currency_code'))
+      .thenReturn(null);
+
   await tester.pumpWidget(
     MultiProvider(
       providers: [
@@ -52,6 +58,9 @@ Future<void> pumpHomePage(
         ),
         ChangeNotifierProvider<SearchProvider>.value(
           value: mockSearchProvider,
+        ),
+        ChangeNotifierProvider<CurrencyProvider>(
+          create: (_) => CurrencyProvider(mockPersistenceService),
         ),
       ],
       child: MaterialApp(

@@ -11,6 +11,7 @@ import '../../../data/models/product.dart';
 import '../../../data/data_sources/local/mock_products.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../presentation/providers/cart_provider.dart';
+import '../../../presentation/providers/currency_provider.dart';
 import '../../../presentation/providers/wishlist_provider.dart';
 import '../../../presentation/providers/recently_viewed_provider.dart';
 import '../../../presentation/widgets/favoritable_product_card.dart';
@@ -101,6 +102,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context).languageCode;
+    final currencyCode = context.watch<CurrencyProvider>().currentCurrency;
     final isWideScreen = !ScreenSize.isMobile(context);
     final isDesktop = ScreenSize.isDesktop(context);
 
@@ -130,14 +132,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           const SizedBox(width: AppSpacing.sm),
         ],
       ),
-      body: isDesktop ? _buildDesktopLayout(l10n, locale) : _buildMobileTabletLayout(l10n, locale, isWideScreen),
+      body: isDesktop
+          ? _buildDesktopLayout(l10n, currencyCode, locale)
+          : _buildMobileTabletLayout(l10n, currencyCode, locale, isWideScreen),
       // Sticky bottom bar for mobile/tablet with purchase actions
-      bottomNavigationBar: !isDesktop ? _buildStickyBottomBar(l10n, locale) : null,
+      bottomNavigationBar: !isDesktop ? _buildStickyBottomBar(l10n, currencyCode, locale) : null,
     );
   }
 
   /// Desktop layout with side-by-side image gallery and product info
-  Widget _buildDesktopLayout(AppLocalizations l10n, String locale) {
+  Widget _buildDesktopLayout(AppLocalizations l10n, String currencyCode, String locale) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -157,7 +161,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildProductHeader(l10n, locale),
+                _buildProductHeader(l10n, currencyCode, locale),
                 const SizedBox(height: AppSpacing.xxl),
                 _buildPurchaseActions(l10n, locale),
                 const Divider(height: AppSpacing.xxxxl),
@@ -171,7 +175,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   /// Mobile/Tablet layout with scrollable content
-  Widget _buildMobileTabletLayout(AppLocalizations l10n, String locale, bool isWideScreen) {
+  Widget _buildMobileTabletLayout(AppLocalizations l10n, String currencyCode, String locale, bool isWideScreen) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +189,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildProductHeader(l10n, locale),
+                _buildProductHeader(l10n, currencyCode, locale),
                 const SizedBox(height: AppSpacing.lg),
                 _buildProductSections(l10n, locale),
                 const SizedBox(height: 80), // Space for sticky bottom bar
@@ -236,7 +240,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   /// Product header with title, brand, rating, price
-  Widget _buildProductHeader(AppLocalizations l10n, String locale) {
+  Widget _buildProductHeader(AppLocalizations l10n, String currencyCode, String locale) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -321,7 +325,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           children: [
             // Current price
             Text(
-              formatPrice(widget.product.price, locale),
+              formatPrice(widget.product.price, currencyCode, locale),
               style: const TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -333,7 +337,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             // Old price
             if (widget.product.discount > 0) ...[
               Text(
-                formatPrice(widget.product.oldPrice, locale),
+                formatPrice(widget.product.oldPrice, currencyCode, locale),
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.grey.shade500,
@@ -559,7 +563,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   /// Sticky bottom bar for mobile/tablet
-  Widget _buildStickyBottomBar(AppLocalizations l10n, String locale) {
+  Widget _buildStickyBottomBar(AppLocalizations l10n, String currencyCode, String locale) {
     final isOutOfStock = widget.product.isOutOfStock;
 
     return Container(
@@ -584,7 +588,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    formatPrice(widget.product.price, locale),
+                    formatPrice(widget.product.price, currencyCode, locale),
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -593,7 +597,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   ),
                   if (widget.product.discount > 0)
                     Text(
-                      formatPrice(widget.product.oldPrice, locale),
+                      formatPrice(widget.product.oldPrice, currencyCode, locale),
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey.shade500,

@@ -29,47 +29,67 @@ String getLocalizedCategory(String categoryKey, AppLocalizations l10n) {
   }
 }
 
-/// Formats price with currency conversion based on locale
+/// Maps an app locale code to the `NumberFormat` locale string used for
+/// number-grouping style (decimal/thousands separators) only.
 ///
-/// Supports:
-/// - English (en): USD with $ symbol
-/// - Spanish (es): EUR with € symbol (0.92 conversion rate)
-/// - French (fr): EUR with € symbol (0.92 conversion rate)
-/// - Uzbek (uz): UZS with so'm suffix (12,500 conversion rate)
-///
-/// Returns formatted price string appropriate for the locale
-String formatPrice(double price, String locale) {
-  final NumberFormat formatter;
-
+/// This is deliberately independent of currency selection - see
+/// [formatPrice]. Falls back to 'en_US' style grouping for any locale
+/// without a dedicated case, matching the previous default behavior.
+String _numberFormatLocaleFor(String locale) {
   switch (locale) {
     case 'uz':
+      return 'uz';
+    case 'fr':
+      return 'fr_FR';
+    case 'es':
+      return 'es_ES';
+    default:
+      return 'en_US';
+  }
+}
+
+/// Formats [price] (stored in USD, the app's base currency) for display in
+/// [currencyCode], using [locale] only for locale-specific number-grouping
+/// style - never for currency selection. `CurrencyProvider.currentCurrency`
+/// is the source of truth callers should pass as [currencyCode].
+///
+/// Supports the app's existing three currencies, reusing the exact
+/// conversion rates and symbols already in use before currency and locale
+/// were decoupled:
+/// - USD: rate 1, symbol $, 2 decimal digits (base currency, no conversion)
+/// - EUR: rate 0.92, symbol €, 2 decimal digits
+/// - UZS: rate 12,500, so'm suffix (no leading symbol), 0 decimal digits
+///
+/// Any unrecognized [currencyCode] falls back to USD, matching the
+/// previous function's unrecognized-locale fallback behavior.
+///
+/// Returns the formatted price string appropriate for the given currency.
+String formatPrice(double price, String currencyCode, String locale) {
+  final numberFormatLocale = _numberFormatLocaleFor(locale);
+  final NumberFormat formatter;
+
+  switch (currencyCode) {
+    case 'UZS':
       // Convert USD to UZS (1 USD ≈ 12,500 UZS)
       formatter = NumberFormat.currency(
-        locale: 'uz',
+        locale: numberFormatLocale,
         symbol: '',
         decimalDigits: 0,
       );
       return '${formatter.format(price * 12500)} so\'m';
-    case 'fr':
-      // Convert USD to EUR (1 USD ≈ 0.92 EUR) - French locale
+    case 'EUR':
+      // Convert USD to EUR (1 USD ≈ 0.92 EUR)
       formatter = NumberFormat.currency(
-        locale: 'fr_FR',
+        locale: numberFormatLocale,
         symbol: '€',
         decimalDigits: 2,
       );
       return formatter.format(price * 0.92);
-    case 'es':
-      // Convert USD to EUR (1 USD ≈ 0.92 EUR) - Spanish locale
-      formatter = NumberFormat.currency(
-        locale: 'es_ES',
-        symbol: '€',
-        decimalDigits: 2,
-      );
-      return formatter.format(price * 0.92);
+    case 'USD':
     default:
-      // English - USD (base currency)
+      // USD is the base currency - no conversion
       formatter = NumberFormat.currency(
-        locale: 'en_US',
+        locale: numberFormatLocale,
         symbol: '\$',
         decimalDigits: 2,
       );

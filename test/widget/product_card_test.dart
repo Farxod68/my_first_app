@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:my_first_app/core/constants/app_constants.dart';
 import 'package:my_first_app/core/constants/widget_keys.dart';
+import 'package:my_first_app/presentation/providers/currency_provider.dart';
 import 'package:my_first_app/presentation/widgets/product_card.dart';
+import 'package:provider/provider.dart';
 import '../helpers/test_data.dart';
 import '../helpers/widget_test_helpers.dart';
+import '../mocks/mock_persistence_service.dart';
 
 void main() {
   group('ProductCard Widget Tests', () {
@@ -324,8 +328,13 @@ void main() {
       expect(favoriteTapped, isTrue);
     });
 
-    testWidgets('formats price for Spanish locale (EUR)', (tester) async {
+    testWidgets(
+        'shows price in the currency selected via CurrencyProvider, independent of locale',
+        (tester) async {
       final product = TestData.createTestProduct(price: 100.0);
+      final mockPersistence = MockPersistenceService();
+      when(() => mockPersistence.getString('currency_code')).thenReturn('EUR');
+      final eurCurrencyProvider = CurrencyProvider(mockPersistence);
 
       await pumpApp(
         tester,
@@ -337,15 +346,62 @@ void main() {
           locale: 'es',
         ),
         locale: const Locale('es'),
+        providers: [
+          ChangeNotifierProvider<CurrencyProvider>.value(
+            value: eurCurrencyProvider,
+          ),
+        ],
       );
+      await tester.pump();
 
       expect(find.byKey(WidgetKeys.productCardPrice(product.id)), findsOneWidget);
-      // Spanish locale should show EUR (100 USD * 0.92 = 92 EUR)
+      // CurrencyProvider selects EUR (100 USD * 0.92 = 92 EUR), regardless
+      // of the 'es' locale passed for number-grouping style.
       final priceText = tester.widget<Text>(
         find.byKey(WidgetKeys.productCardPrice(product.id)),
       );
       expect(priceText.data, contains('92'));
       expect(priceText.data, contains('€'));
+    });
+
+    testWidgets(
+        'updates displayed price when CurrencyProvider.currentCurrency changes',
+        (tester) async {
+      final product = TestData.createTestProduct(price: 100.0);
+      final mockPersistence = MockPersistenceService();
+      when(() => mockPersistence.getString('currency_code')).thenReturn(null);
+      when(() => mockPersistence.saveString(any(), any()))
+          .thenAnswer((_) async => true);
+      final currencyProvider = CurrencyProvider(mockPersistence);
+
+      await pumpApp(
+        tester,
+        ProductCard(
+          product: product,
+          isFavorite: false,
+          onTap: () {},
+          onFavoriteToggle: () {},
+          locale: 'en',
+        ),
+        providers: [
+          ChangeNotifierProvider<CurrencyProvider>.value(
+            value: currencyProvider,
+          ),
+        ],
+      );
+      await tester.pump();
+
+      expect(find.textContaining('\$100.00'), findsOneWidget);
+
+      currencyProvider.setCurrency('EUR');
+      await tester.pump();
+
+      final priceText = tester.widget<Text>(
+        find.byKey(WidgetKeys.productCardPrice(product.id)),
+      );
+      expect(priceText.data, contains('92'));
+      expect(priceText.data, contains('€'));
+      expect(find.textContaining('\$100.00'), findsNothing);
     });
 
     testWidgets('localizes category name for Spanish locale', (tester) async {

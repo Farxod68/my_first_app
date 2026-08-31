@@ -6,6 +6,7 @@ import '../../../../core/constants/widget_keys.dart';
 import '../../../../data/models/product.dart';
 import '../../../../data/data_sources/local/mock_products.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../providers/currency_provider.dart';
 import '../../../providers/wishlist_provider.dart';
 import '../../../widgets/empty_state.dart';
 
@@ -28,6 +29,7 @@ class FavoritesTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context).languageCode;
+    final currencyCode = context.watch<CurrencyProvider>().currentCurrency;
     final horizontalPadding = ScreenSize.getHorizontalPadding(context);
     final isWideScreen = !ScreenSize.isMobile(context);
 
@@ -61,7 +63,7 @@ class FavoritesTab extends StatelessWidget {
                         child: ListTile(
                           leading: Icon(product.icon),
                           title: Text(product.name),
-                          subtitle: Text(formatPrice(product.price, locale)),
+                          subtitle: Text(formatPrice(product.price, currencyCode, locale)),
                           trailing: const Icon(
                             Icons.favorite,
                             color: Colors.red,

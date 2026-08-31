@@ -103,7 +103,7 @@ void main() {
       expect(
         find.descendant(
           of: itemFinder,
-          matching: find.text(formatPrice(49.5, 'en')),
+          matching: find.text(formatPrice(49.5, 'USD', 'en')),
         ),
         findsOneWidget,
       );

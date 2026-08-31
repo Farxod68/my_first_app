@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:my_first_app/main.dart';
 import 'package:my_first_app/core/services/persistence_service.dart';
 import 'package:my_first_app/presentation/providers/cart_provider.dart';
+import 'package:my_first_app/presentation/providers/currency_provider.dart';
 import 'package:my_first_app/presentation/providers/wishlist_provider.dart';
 import 'package:my_first_app/presentation/providers/locale_provider.dart';
 import 'package:my_first_app/presentation/providers/recently_viewed_provider.dart';
@@ -23,6 +24,9 @@ void main() {
         providers: [
           ChangeNotifierProvider(
             create: (_) => CartProvider(persistenceService),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => CurrencyProvider(persistenceService),
           ),
           ChangeNotifierProvider(
             create: (_) => WishlistProvider(persistenceService),
