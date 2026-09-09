@@ -77,12 +77,30 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                     child: Center(
-                      child: Icon(
-                        key: WidgetKeys.productCardIcon(product.id),
-                        product.icon,
-                        size: 80,
-                        color: AppColors.primaryBlue,
-                      ),
+                      child: product.images.isNotEmpty
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(AppRadius.large),
+                              ),
+                              child: Image.network(
+                                product.images.first,
+                                key: WidgetKeys.productCardIcon(product.id),
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => Icon(
+                                  product.icon,
+                                  size: 80,
+                                  color: AppColors.primaryBlue,
+                                ),
+                              ),
+                            )
+                          : Icon(
+                              key: WidgetKeys.productCardIcon(product.id),
+                              product.icon,
+                              size: 80,
+                              color: AppColors.primaryBlue,
+                            ),
                     ),
                   ),
 

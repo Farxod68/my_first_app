@@ -51,6 +51,30 @@ void main() {
       expect(iconWidget.icon, equals(Icons.laptop));
     });
 
+    testWidgets('renders real product image when images is not empty', (tester) async {
+      final product = TestData.createTestProduct(
+        images: ['https://example.com/product-001.png'],
+      );
+
+      await pumpApp(
+        tester,
+        ProductCard(
+          product: product,
+          isFavorite: false,
+          onTap: () {},
+          onFavoriteToggle: () {},
+          locale: 'en',
+        ),
+      );
+
+      expect(find.byKey(WidgetKeys.productCardIcon(product.id)), findsOneWidget);
+      final imageWidget = tester.widget<Image>(
+        find.byKey(WidgetKeys.productCardIcon(product.id)),
+      );
+      final imageProvider = imageWidget.image as NetworkImage;
+      expect(imageProvider.url, equals('https://example.com/product-001.png'));
+    });
+
     testWidgets('renders product category (localized)', (tester) async {
       final product = TestData.createTestProduct(category: 'electronics');
 

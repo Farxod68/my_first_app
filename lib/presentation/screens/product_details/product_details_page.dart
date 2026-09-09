@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/constants/widget_keys.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -8,10 +9,11 @@ import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/ui_helpers.dart';
 import '../../../data/models/product.dart';
-import '../../../data/data_sources/local/mock_products.dart';
+import '../../../data/data_sources/local/mock_products.dart' as mock_catalog;
 import '../../../l10n/app_localizations.dart';
 import '../../../presentation/providers/cart_provider.dart';
 import '../../../presentation/providers/currency_provider.dart';
+import '../../../presentation/providers/product_provider.dart';
 import '../../../presentation/providers/wishlist_provider.dart';
 import '../../../presentation/providers/recently_viewed_provider.dart';
 import '../../../presentation/widgets/favoritable_product_card.dart';
@@ -35,6 +37,16 @@ import '../../../presentation/widgets/favoritable_product_card.dart';
 /// - Recently viewed tracking
 ///
 /// Fully responsive with optimized layouts for mobile, tablet, and desktop
+///
+/// Phase 29E-4: this page has always received a fully-resolved [Product]
+/// object from its caller (HomeTab, CategoriesTab, SearchResultsPage, etc.),
+/// so that data flow is unchanged. The only direct dependency this page had
+/// on the local mock catalog was the "Related Products" section, which
+/// scanned the mock catalog's top-level `products` list for other items in
+/// the same category. That lookup now prefers `ProductProvider.products`
+/// when it's registered (see `_buildRelatedProducts`), falling back to the
+/// local mock catalog when it isn't - mirroring HomeTab's (29E-1),
+/// CategoriesTab's (29E-2), and SearchResultsPage's (29E-3) migrations.
 class ProductDetailsPage extends StatefulWidget {
   final Product product;
 
@@ -225,15 +237,29 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               border: Border.all(color: Colors.grey.shade200),
             ),
             child: Center(
-              child: Icon(
-                widget.product.icon,
-                size: isDesktop ? 200 : 120,
-                color: AppColors.primaryBlue,
-              ),
+              child: widget.product.images.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: AppRadius.largeAll,
+                      child: Image.network(
+                        widget.product.images.first,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Icon(
+                          widget.product.icon,
+                          size: isDesktop ? 200 : 120,
+                          color: AppColors.primaryBlue,
+                        ),
+                      ),
+                    )
+                  : Icon(
+                      widget.product.icon,
+                      size: isDesktop ? 200 : 120,
+                      color: AppColors.primaryBlue,
+                    ),
             ),
           ),
           // In a real app, would show thumbnail navigation here
-          // For now, just show the icon as placeholder
         ],
       ),
     );
@@ -835,9 +861,46 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
+  /// Resolves the catalog used to compute "Related Products" from
+  /// ProductProvider (Supabase) when it's registered, falling back to the
+  /// local mock catalog when it isn't - same pattern as HomeTab,
+  /// CategoriesTab, and SearchResultsPage. The product actually displayed by
+  /// this page always comes from `widget.product` (supplied by the caller),
+  /// so only this related-products lookup depends on the catalog.
   Widget _buildRelatedProducts(AppLocalizations l10n, String locale) {
+    final productProvider = context.watch<ProductProvider?>();
+
+    final List<Product> catalog;
+    if (productProvider == null) {
+      // Supabase not configured/initialized for this build - ProductProvider
+      // isn't registered in the tree at all.
+      catalog = mock_catalog.products;
+    } else if (productProvider.isLoading && productProvider.products.isEmpty) {
+      return const Center(
+        key: WidgetKeys.productDetailsPageLoading,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: AppSpacing.xl),
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else if (productProvider.error != null && productProvider.products.isEmpty) {
+      // Safe error state: no crash, related products section is simply
+      // absent for this load.
+      return const SizedBox.shrink(key: WidgetKeys.productDetailsPageError);
+    } else if (productProvider.products.isEmpty) {
+      // Catalog finished loading but is empty - distinct from "requested
+      // product not found" below.
+      return const SizedBox.shrink(key: WidgetKeys.productDetailsPageEmpty);
+    } else if (!productProvider.products.any((p) => p.id == widget.product.id)) {
+      // Catalog loaded with products, but the currently viewed product isn't
+      // among them - never substitute a different product's related items.
+      return const SizedBox.shrink(key: WidgetKeys.productDetailsPageNotFound);
+    } else {
+      catalog = productProvider.products;
+    }
+
     // Get products from same category, excluding current product
-    final relatedProducts = products
+    final relatedProducts = catalog
         .where((p) => p.category == widget.product.category && p.id != widget.product.id)
         .take(4)
         .toList();

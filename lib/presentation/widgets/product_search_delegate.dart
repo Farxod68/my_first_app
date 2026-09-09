@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/constants/widget_keys.dart';
 import '../../data/models/product.dart';
-import '../../data/data_sources/local/mock_products.dart';
+import '../../data/data_sources/local/mock_products.dart' as mock_catalog;
 import '../../l10n/app_localizations.dart';
+import '../../presentation/providers/product_provider.dart';
 import '../../presentation/providers/search_provider.dart';
 import '../../presentation/screens/search/search_results_page.dart';
 
@@ -16,6 +17,16 @@ import '../../presentation/screens/search/search_results_page.dart';
 /// - Search suggestions
 /// - Navigation to full search results page
 /// - Direct product navigation
+///
+/// Phase 29E-5: the catalog scanned by `SearchProvider.getSuggestions` in
+/// [buildSuggestions] now comes from `ProductProvider` when Supabase is
+/// configured, mirroring HomeTab's (29E-1), CategoriesTab's (29E-2),
+/// SearchResultsPage's (29E-3), and FavoritesTab's (29E-5) migrations.
+/// `ProductProvider` is registered above `MaterialApp` in main.dart, so it's
+/// reachable from the `BuildContext` this delegate's build methods receive
+/// via `showSearch()`'s route, same as any other screen. [buildResults]
+/// itself doesn't read the catalog - it only forwards the query to
+/// `SearchResultsPage`, already migrated in 29E-3.
 class ProductSearchDelegate extends SearchDelegate<Product?> {
   ProductSearchDelegate();
 
@@ -71,12 +82,23 @@ class ProductSearchDelegate extends SearchDelegate<Product?> {
   @override
   Widget buildSuggestions(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final productProvider = context.watch<ProductProvider?>();
+
+    // Supabase not configured/initialized for this build - ProductProvider
+    // isn't registered in the tree at all. Fall back to the static mock
+    // catalog exactly as this delegate behaved before this migration. While
+    // ProductProvider is registered but still loading, or has errored,
+    // `products` is empty - `getSuggestions` on an empty catalog safely
+    // yields no suggestions rather than crashing.
+    final catalog = productProvider == null
+        ? mock_catalog.products
+        : productProvider.products;
 
     return Consumer<SearchProvider>(
       builder: (context, searchProvider, child) {
         final suggestions = query.isEmpty
             ? searchProvider.recentSearches
-            : searchProvider.getSuggestions(products, maxSuggestions: 8);
+            : searchProvider.getSuggestions(catalog, maxSuggestions: 8);
 
         if (suggestions.isEmpty && query.isEmpty) {
           return Center(

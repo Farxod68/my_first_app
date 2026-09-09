@@ -4,10 +4,13 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../core/constants/widget_keys.dart';
 import '../../../data/models/product.dart';
-import '../../../data/data_sources/local/mock_products.dart';
+import '../../../data/data_sources/local/mock_products.dart' as mock_catalog;
 import '../../../l10n/app_localizations.dart';
+import '../../../presentation/providers/product_provider.dart';
 import '../../../presentation/providers/search_provider.dart';
+import '../../../presentation/widgets/empty_state.dart';
 import '../../../presentation/widgets/favoritable_product_card.dart';
 import '../../../presentation/screens/product_details/product_details_page.dart';
 
@@ -23,13 +26,21 @@ import '../../../presentation/screens/product_details/product_details_page.dart'
 /// - Result count
 ///
 /// Fully responsive with mobile bottom sheet and desktop sidebar (simplified)
+///
+/// Phase 29E-3: the product catalog searched/filtered/sorted below now comes
+/// from `ProductProvider` when Supabase is configured, mirroring HomeTab's
+/// (29E-1) and CategoriesTab's (29E-2) migrations exactly. `SearchProvider`'s
+/// search/filter/sort logic is unchanged - it still just receives whichever
+/// `List<Product>` catalog is resolved here. `ProductProvider` is only
+/// registered in `main.dart` when `supabaseInitialized` is true, so this
+/// reads it via a NULLABLE lookup and falls back to the local mock catalog
+/// when it isn't registered at all.
 class SearchResultsPage extends StatelessWidget {
   const SearchResultsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
       appBar: AppBar(
@@ -39,25 +50,7 @@ class SearchResultsPage extends StatelessWidget {
           _SortButton(),
         ],
       ),
-      body: Consumer<SearchProvider>(
-        builder: (context, searchProvider, child) {
-          final results = searchProvider.searchAndFilter(products);
-
-          return Column(
-            children: [
-              // Search query and filters header
-              _SearchHeader(results: results),
-
-              // Results grid
-              Expanded(
-                child: results.isEmpty
-                    ? _EmptyState()
-                    : _ResultsGrid(results: results, locale: locale),
-              ),
-            ],
-          );
-        },
-      ),
+      body: _CatalogBody(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showFilters(context),
         icon: const Icon(Icons.filter_list),
@@ -80,6 +73,84 @@ class SearchResultsPage extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       builder: (_) => _FilterSheet(),
+    );
+  }
+}
+
+/// Resolves the product catalog from ProductProvider (Supabase) when
+/// available, falling back to the local mock catalog when it isn't
+/// registered, and renders the loading/error/empty catalog states before
+/// ever reaching the search/filter UI in [_SearchResultsBody].
+class _CatalogBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final productProvider = context.watch<ProductProvider?>();
+
+    // Supabase not configured/initialized for this build - ProductProvider
+    // isn't registered in the tree at all. Fall back to the static mock
+    // catalog exactly as SearchResultsPage behaved before this migration.
+    if (productProvider == null) {
+      return _SearchResultsBody(catalog: mock_catalog.products);
+    }
+
+    if (productProvider.isLoading && productProvider.products.isEmpty) {
+      return const Center(
+        key: WidgetKeys.searchResultsPageLoading,
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (productProvider.error != null && productProvider.products.isEmpty) {
+      return EmptyState(
+        key: WidgetKeys.searchResultsPageError,
+        icon: Icons.cloud_off,
+        message: l10n.noResults,
+      );
+    }
+
+    if (productProvider.products.isEmpty) {
+      return EmptyState(
+        key: WidgetKeys.searchResultsPageEmpty,
+        icon: Icons.inventory_2_outlined,
+        message: l10n.noResults,
+      );
+    }
+
+    return _SearchResultsBody(catalog: productProvider.products);
+  }
+}
+
+/// The original SearchResultsPage body content, unchanged, now
+/// parameterized by [catalog] instead of reading the mock catalog's
+/// top-level `products` list directly.
+class _SearchResultsBody extends StatelessWidget {
+  final List<Product> catalog;
+
+  const _SearchResultsBody({required this.catalog});
+
+  @override
+  Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context).languageCode;
+
+    return Consumer<SearchProvider>(
+      builder: (context, searchProvider, child) {
+        final results = searchProvider.searchAndFilter(catalog);
+
+        return Column(
+          children: [
+            // Search query and filters header
+            _SearchHeader(results: results),
+
+            // Results grid
+            Expanded(
+              child: results.isEmpty
+                  ? _EmptyState()
+                  : _ResultsGrid(results: results, locale: locale),
+            ),
+          ],
+        );
+      },
     );
   }
 }

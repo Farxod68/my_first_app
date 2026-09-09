@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/responsive.dart';
 import '../../../../core/constants/widget_keys.dart';
 import '../../../../data/models/product.dart';
-import '../../../../data/data_sources/local/mock_products.dart';
+import '../../../../data/data_sources/local/mock_products.dart' as mock_catalog;
 import '../../../../l10n/app_localizations.dart';
+import '../../../providers/product_provider.dart';
 import '../../category/category_page.dart';
+import '../../../widgets/empty_state.dart';
 import '../../../widgets/navigation_chevron.dart';
 
 /// Categories tab content.
@@ -16,11 +19,80 @@ import '../../../widgets/navigation_chevron.dart';
 /// callback below is the same `HomePage` instance method the original code
 /// called directly, now passed in so this widget has no dependency on
 /// `HomePage`'s private state.
+///
+/// Phase 29E-2: the product catalog used to filter each category now comes
+/// from `ProductProvider` when Supabase is configured, mirroring HomeTab's
+/// Phase 29E-1 migration exactly. The six category definitions themselves
+/// (key/name/icon) are UI-only metadata — not backed by Supabase's
+/// `categories` table — and are unchanged. `ProductProvider` is only
+/// registered in `main.dart` when `supabaseInitialized` is true (same
+/// SAFETY CONTRACT as `AuthProvider`/`HomeTab` there), so this reads it via
+/// a NULLABLE lookup and falls back to the local mock catalog when it isn't
+/// registered at all.
 class CategoriesTab extends StatelessWidget {
   final void Function(Product product, BuildContext context) onAddToCart;
 
   const CategoriesTab({
     super.key,
+    required this.onAddToCart,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final productProvider = context.watch<ProductProvider?>();
+
+    // Supabase not configured/initialized for this build - ProductProvider
+    // isn't registered in the tree at all. Fall back to the static mock
+    // catalog exactly as CategoriesTab behaved before this migration.
+    if (productProvider == null) {
+      return _CategoriesTabBody(
+        products: mock_catalog.products,
+        onAddToCart: onAddToCart,
+      );
+    }
+
+    if (productProvider.isLoading && productProvider.products.isEmpty) {
+      return const Center(
+        key: WidgetKeys.categoriesTabLoading,
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (productProvider.error != null && productProvider.products.isEmpty) {
+      return EmptyState(
+        key: WidgetKeys.categoriesTabError,
+        icon: Icons.cloud_off,
+        message: l10n.noResults,
+      );
+    }
+
+    if (productProvider.products.isEmpty) {
+      return EmptyState(
+        key: WidgetKeys.categoriesTabEmpty,
+        icon: Icons.inventory_2_outlined,
+        message: l10n.noResults,
+      );
+    }
+
+    return _CategoriesTabBody(
+      products: productProvider.products,
+      onAddToCart: onAddToCart,
+    );
+  }
+}
+
+/// The original CategoriesTab layout, unchanged, now parameterized by
+/// [products] instead of reading the mock catalog's top-level `products`
+/// list directly. Every reference to `products` below is this field. The
+/// six category definitions (key/name/icon) remain local UI-only metadata,
+/// exactly as before.
+class _CategoriesTabBody extends StatelessWidget {
+  final List<Product> products;
+  final void Function(Product product, BuildContext context) onAddToCart;
+
+  const _CategoriesTabBody({
+    required this.products,
     required this.onAddToCart,
   });
 

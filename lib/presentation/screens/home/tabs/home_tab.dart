@@ -4,12 +4,15 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/responsive.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/constants/widget_keys.dart';
 import '../../../../data/models/product.dart';
-import '../../../../data/data_sources/local/mock_products.dart';
+import '../../../../data/data_sources/local/mock_products.dart' as mock_catalog;
 import '../../../../l10n/app_localizations.dart';
 import '../../../providers/wishlist_provider.dart';
 import '../../../providers/recently_viewed_provider.dart';
+import '../../../providers/product_provider.dart';
 import '../../category/category_page.dart';
+import '../../../widgets/empty_state.dart';
 import '../../../widgets/product_card.dart';
 import '../../../widgets/home_sections.dart';
 import '../../../../domain/use_cases/deal_helper.dart';
@@ -21,6 +24,16 @@ import '../../../../domain/use_cases/deal_helper.dart';
 /// below are the same `HomePage` instance methods the original code called
 /// directly, now passed in so this widget has no dependency on `HomePage`'s
 /// private state.
+///
+/// Phase 29E-1: the product catalog now comes from `ProductProvider` when
+/// Supabase is configured. `ProductProvider` is only registered in
+/// `main.dart` when `supabaseInitialized` is true (same SAFETY CONTRACT as
+/// `AuthProvider` there — its data source eagerly resolves
+/// `SupabaseService.client`), so this reads it via a NULLABLE lookup and
+/// falls back to the local mock catalog when it isn't registered at all,
+/// preserving the app's existing local-only-mode behavior. When the
+/// provider *is* registered, its loading/error/empty states are handled
+/// explicitly instead of ever passing incomplete data to the product grid.
 class HomeTab extends StatelessWidget {
   final void Function(Product product, BuildContext context) onAddToCart;
   final void Function(Product product, BuildContext context) onOpenProduct;
@@ -28,6 +41,71 @@ class HomeTab extends StatelessWidget {
 
   const HomeTab({
     super.key,
+    required this.onAddToCart,
+    required this.onOpenProduct,
+    required this.onToggleFavorite,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final productProvider = context.watch<ProductProvider?>();
+
+    // Supabase not configured/initialized for this build - ProductProvider
+    // isn't registered in the tree at all. Fall back to the static mock
+    // catalog exactly as HomeTab behaved before this migration.
+    if (productProvider == null) {
+      return _HomeTabBody(
+        products: mock_catalog.products,
+        onAddToCart: onAddToCart,
+        onOpenProduct: onOpenProduct,
+        onToggleFavorite: onToggleFavorite,
+      );
+    }
+
+    if (productProvider.isLoading && productProvider.products.isEmpty) {
+      return const Center(
+        key: WidgetKeys.homeTabLoading,
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (productProvider.error != null && productProvider.products.isEmpty) {
+      return EmptyState(
+        key: WidgetKeys.homeTabError,
+        icon: Icons.cloud_off,
+        message: l10n.noResults,
+      );
+    }
+
+    if (productProvider.products.isEmpty) {
+      return EmptyState(
+        key: WidgetKeys.homeTabEmpty,
+        icon: Icons.inventory_2_outlined,
+        message: l10n.noResults,
+      );
+    }
+
+    return _HomeTabBody(
+      products: productProvider.products,
+      onAddToCart: onAddToCart,
+      onOpenProduct: onOpenProduct,
+      onToggleFavorite: onToggleFavorite,
+    );
+  }
+}
+
+/// The original HomeTab layout, unchanged, now parameterized by [products]
+/// instead of reading the mock catalog's top-level `products` list
+/// directly. Every reference to `products` below is this field.
+class _HomeTabBody extends StatelessWidget {
+  final List<Product> products;
+  final void Function(Product product, BuildContext context) onAddToCart;
+  final void Function(Product product, BuildContext context) onOpenProduct;
+  final void Function(Product product, BuildContext context) onToggleFavorite;
+
+  const _HomeTabBody({
+    required this.products,
     required this.onAddToCart,
     required this.onOpenProduct,
     required this.onToggleFavorite,

@@ -1,5 +1,22 @@
 import 'package:flutter/material.dart';
 
+/// Fallback icon for a product sourced from Supabase.
+///
+/// Supabase's `products` table has no IconData column - IconData is a
+/// Flutter-only type with no server-side representation (see
+/// supabase/migrations/002_product_catalog.sql). Until real product images
+/// replace icon rendering, a product loaded via [Product.fromSupabase] gets
+/// a per-category icon instead, matching the icons already shown in
+/// CategoriesTab (lib/presentation/screens/home/tabs/categories_tab.dart).
+const Map<String, IconData> _categoryFallbackIcons = {
+  'electronics': Icons.phone_android,
+  'clothing': Icons.checkroom,
+  'accessories': Icons.watch,
+  'homeGoods': Icons.home,
+  'sports': Icons.sports_soccer,
+  'cosmetics': Icons.face,
+};
+
 /// Product model for TOPBUY DEALS marketplace
 ///
 /// Represents a product with comprehensive information including:
@@ -54,6 +71,48 @@ class Product {
     this.features,
     this.badges = const [],
   });
+
+  /// Create a Product from a Supabase `products` row.
+  ///
+  /// Expects the shape produced by ProductRemoteDataSource's select:
+  /// `slug, name, subtitle, description, price, old_price, rating,
+  /// review_count, stock, brand, seller, specifications, features, badges,
+  /// categories(key), product_images(url, sort_order)`.
+  ///
+  /// [id] is set to the row's `slug`, not its UUID primary key, so it stays
+  /// compatible with existing wishlist/cart/recently-viewed persistence,
+  /// which already keys everything off the human-readable slug-style id
+  /// (e.g. "elec-001").
+  factory Product.fromSupabase(Map<String, dynamic> json) {
+    final categoryJson = json['categories'] as Map<String, dynamic>?;
+    final category = categoryJson?['key'] as String? ?? '';
+
+    final imagesJson = json['product_images'] as List<dynamic>? ?? const [];
+    final images = imagesJson
+        .map((row) => (row as Map<String, dynamic>)['url'] as String)
+        .toList();
+
+    return Product(
+      id: json['slug'] as String,
+      name: json['name'] as String,
+      price: (json['price'] as num).toDouble(),
+      oldPrice: (json['old_price'] as num).toDouble(),
+      category: category,
+      icon: _categoryFallbackIcons[category] ?? Icons.shopping_bag,
+      subtitle: json['subtitle'] as String?,
+      description: json['description'] as String?,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      reviewCount: json['review_count'] as int? ?? 0,
+      stock: json['stock'] as int? ?? 0,
+      images: images,
+      brand: json['brand'] as String?,
+      seller: json['seller'] as String?,
+      specifications:
+          (json['specifications'] as Map<String, dynamic>?)?.cast<String, String>(),
+      features: (json['features'] as List<dynamic>?)?.cast<String>(),
+      badges: (json['badges'] as List<dynamic>?)?.cast<String>() ?? const [],
+    );
+  }
 
   /// Calculates discount percentage based on old price and current price
   ///

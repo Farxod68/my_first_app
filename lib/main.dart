@@ -7,7 +7,9 @@ import 'core/services/persistence_service.dart';
 import 'core/services/supabase_service.dart';
 import 'core/config/supabase_config.dart';
 import 'data/data_sources/remote/auth_remote_data_source.dart';
+import 'data/data_sources/remote/product_remote_data_source.dart';
 import 'data/repositories/auth_repository_impl.dart';
+import 'data/repositories/product_repository_impl.dart';
 import 'presentation/providers/cart_provider.dart';
 import 'presentation/providers/wishlist_provider.dart';
 import 'presentation/providers/locale_provider.dart';
@@ -15,6 +17,7 @@ import 'presentation/providers/currency_provider.dart';
 import 'presentation/providers/recently_viewed_provider.dart';
 import 'presentation/providers/search_provider.dart';
 import 'presentation/providers/auth_provider.dart';
+import 'presentation/providers/product_provider.dart';
 import 'presentation/screens/home/home_page.dart';
 import 'l10n/app_localizations.dart';
 
@@ -89,6 +92,25 @@ void main() async {
             create: (_) => AuthProvider(
               AuthRepositoryImpl(
                 AuthRemoteDataSource(),
+              ),
+            ),
+          ),
+
+        // Product provider (conditional on Supabase) - same SAFETY CONTRACT
+        // as AuthProvider above: ProductRemoteDataSource() also eagerly
+        // resolves SupabaseService.client in its constructor initializer
+        // list, so this must stay gated behind `supabaseInitialized` too.
+        //
+        // Not yet consumed by any screen (Phase 29D) - HomeTab, CategoriesTab,
+        // SearchResultsPage, ProductDetailsPage, FavoritesTab, and
+        // ProductSearchDelegate all still read the local mock catalog
+        // (lib/data/data_sources/local/mock_products.dart). This registers
+        // the provider in the tree ahead of that later migration.
+        if (supabaseInitialized)
+          ChangeNotifierProvider(
+            create: (_) => ProductProvider(
+              ProductRepositoryImpl(
+                ProductRemoteDataSource(),
               ),
             ),
           ),

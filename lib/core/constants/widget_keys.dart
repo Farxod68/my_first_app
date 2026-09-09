@@ -170,6 +170,45 @@ class WidgetKeys {
   /// Home tab navigation destination (index 0)
   static const homeTab = Key('home_tab');
 
+  // ==========================================================================
+  // HomeTab - Product Catalog States (Phase 29E-1: ProductProvider migration)
+  // ==========================================================================
+
+  /// Shown while ProductProvider is loading and has no products yet
+  static const homeTabLoading = Key('home_tab_loading');
+
+  /// Shown when ProductProvider has an error and no products to fall back on
+  static const homeTabError = Key('home_tab_error');
+
+  /// Shown when ProductProvider finished loading but returned no products
+  static const homeTabEmpty = Key('home_tab_empty');
+
+  // ==========================================================================
+  // CategoriesTab - Product Catalog States (Phase 29E-2: ProductProvider migration)
+  // ==========================================================================
+
+  /// Shown while ProductProvider is loading and has no products yet
+  static const categoriesTabLoading = Key('categories_tab_loading');
+
+  /// Shown when ProductProvider has an error and no products to fall back on
+  static const categoriesTabError = Key('categories_tab_error');
+
+  /// Shown when ProductProvider finished loading but returned no products
+  static const categoriesTabEmpty = Key('categories_tab_empty');
+
+  // ==========================================================================
+  // SearchResultsPage - Product Catalog States (Phase 29E-3: ProductProvider migration)
+  // ==========================================================================
+
+  /// Shown while ProductProvider is loading and has no products yet
+  static const searchResultsPageLoading = Key('search_results_page_loading');
+
+  /// Shown when ProductProvider has an error and no products to fall back on
+  static const searchResultsPageError = Key('search_results_page_error');
+
+  /// Shown when ProductProvider finished loading but returned no products
+  static const searchResultsPageEmpty = Key('search_results_page_empty');
+
   /// Categories tab navigation destination (index 1)
   static const categoriesTab = Key('categories_tab');
 
@@ -241,6 +280,31 @@ class WidgetKeys {
 
   /// Product details related products section
   static const productDetailsRelatedProducts = Key('product_details_related_products');
+
+  // ProductDetailsPage - Related Products Catalog States (Phase 29E-4: ProductProvider migration)
+  // ==========================================================================
+
+  /// Shown in the related-products area while ProductProvider is loading and has no products yet
+  static const productDetailsPageLoading = Key('product_details_page_loading');
+
+  /// Shown in the related-products area when ProductProvider has an error and no products to fall back on
+  static const productDetailsPageError = Key('product_details_page_error');
+
+  /// Shown in the related-products area when ProductProvider finished loading but returned no products
+  static const productDetailsPageEmpty = Key('product_details_page_empty');
+
+  /// Shown in the related-products area when ProductProvider's catalog does not contain the currently viewed product
+  static const productDetailsPageNotFound = Key('product_details_page_not_found');
+
+  // ==========================================================================
+  // FavoritesTab - Product Catalog States (Phase 29E-5: ProductProvider migration)
+  // ==========================================================================
+
+  /// Shown while ProductProvider is loading and has no products yet
+  static const favoritesTabLoading = Key('favorites_tab_loading');
+
+  /// Shown when ProductProvider has an error and no products to fall back on
+  static const favoritesTabError = Key('favorites_tab_error');
 
   // HomePage Sections
   // ==========================================================================
