@@ -33,14 +33,14 @@ void main() {
     });
 
     testWidgets(
-        '4. Each product renders as a Card keyed by cartProductItem(id)',
+        '4. Each product renders as a Card keyed by cartProductItem(id, index)',
         (tester) async {
       final cart = TestData.createProductList(3);
 
       await pumpAppWithNavigation(tester, CartPage(cart: cart));
 
-      for (final product in cart) {
-        expect(find.byKey(WidgetKeys.cartProductItem(product.id)),
+      for (var i = 0; i < cart.length; i++) {
+        expect(find.byKey(WidgetKeys.cartProductItem(cart[i].id, i)),
             findsOneWidget);
       }
     });
@@ -55,7 +55,7 @@ void main() {
 
       expect(
         find.descendant(
-          of: find.byKey(WidgetKeys.cartProductItem('p1')),
+          of: find.byKey(WidgetKeys.cartProductItem('p1', 0)),
           matching: find.text('Wireless Mouse'),
         ),
         findsOneWidget,
@@ -72,7 +72,7 @@ void main() {
       final expectedPrice = formatPrice(99.99, 'USD', 'en');
       expect(
         find.descendant(
-          of: find.byKey(WidgetKeys.cartProductItem('p1')),
+          of: find.byKey(WidgetKeys.cartProductItem('p1', 0)),
           matching: find.text(expectedPrice),
         ),
         findsOneWidget,
@@ -86,9 +86,29 @@ void main() {
 
       await pumpAppWithNavigation(tester, CartPage(cart: [product]));
 
-      expect(find.byKey(WidgetKeys.cartProductItem('only_item')),
+      expect(find.byKey(WidgetKeys.cartProductItem('only_item', 0)),
           findsOneWidget);
       expect(find.byKey(WidgetKeys.cartEmptyState), findsNothing);
+    });
+
+    testWidgets(
+        '8. A cart with the same product twice renders both entries with unique keys and no duplicate-key error',
+        (tester) async {
+      final product = TestData.createTestProduct(id: 'elec-001');
+
+      await pumpAppWithNavigation(
+          tester, CartPage(cart: [product, product]));
+
+      // No FlutterError (e.g. duplicate GlobalKey/Key) was thrown during build/pump.
+      expect(tester.takeException(), isNull);
+
+      final firstKey = WidgetKeys.cartProductItem('elec-001', 0);
+      final secondKey = WidgetKeys.cartProductItem('elec-001', 1);
+
+      expect(firstKey, isNot(equals(secondKey)));
+      expect(find.byKey(firstKey), findsOneWidget);
+      expect(find.byKey(secondKey), findsOneWidget);
+      expect(find.byKey(WidgetKeys.cartProductList), findsOneWidget);
     });
   });
 }

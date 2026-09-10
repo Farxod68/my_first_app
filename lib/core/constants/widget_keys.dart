@@ -228,7 +228,12 @@ class WidgetKeys {
   static const cartProductList = Key('cart_product_list');
 
   /// Individual cart product item
-  static Key cartProductItem(String productId) => Key('cart_product_item_$productId');
+  ///
+  /// Includes [index] (the item's position in the cart list) so that two
+  /// cart entries for the same product (CartProvider allows duplicates)
+  /// still get distinct widget keys.
+  static Key cartProductItem(String productId, int index) =>
+      Key('cart_product_item_${productId}_$index');
 
   // CategoryPage
   // ==========================================================================

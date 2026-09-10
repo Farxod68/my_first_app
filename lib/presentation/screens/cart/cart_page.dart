@@ -54,16 +54,17 @@ class CartPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        for (final product in cart)
+                        for (final entry in cart.asMap().entries)
                           Card(
-                            key: WidgetKeys.cartProductItem(product.id),
+                            key: WidgetKeys.cartProductItem(
+                                entry.value.id, entry.key),
                             child: ListTile(
                               leading: CircleAvatar(
-                                child: Icon(product.icon),
+                                child: Icon(entry.value.icon),
                               ),
-                              title: Text(product.name),
+                              title: Text(entry.value.name),
                               subtitle: Text(
-                                formatPrice(product.price, currencyCode, locale),
+                                formatPrice(entry.value.price, currencyCode, locale),
                               ),
                             ),
                           ),
