@@ -148,8 +148,9 @@ class CartProvider with ChangeNotifier, PersistentProviderMixin {
   /// came from. Reconstructing IconData from a runtime int (as the old code
   /// did) defeats Flutter's release-mode icon tree-shaker, since it can no
   /// longer prove which icons are reachable. Every icon any [Product] can
-  /// carry (see mock_products.dart) is a literal here instead, so the
-  /// tree-shaker can see them all statically.
+  /// carry - from mock_products.dart, or from Product.fromSupabase's
+  /// per-category fallback icons (lib/data/models/product.dart) - is a
+  /// literal here instead, so the tree-shaker can see them all statically.
   ///
   /// Keys are the literal Material Icons code points (from the Flutter SDK's
   /// icons.dart), not `Icons.x.codePoint` - Dart doesn't allow accessing an
@@ -172,19 +173,23 @@ class CartProvider with ChangeNotifier, PersistentProviderMixin {
     0xe179: Icons.coffee_maker,
     0xe1dc: Icons.directions_run,
     0xe1e1: Icons.directions_walk,
+    0xe252: Icons.face,
     0xe28d: Icons.fitness_center,
     0xe2ff: Icons.headphones,
+    0xe318: Icons.home,
     0xe351: Icons.keyboard,
     0xe35e: Icons.kitchen,
     0xe367: Icons.laptop,
     0xe379: Icons.light,
     0xe3c1: Icons.luggage,
     0xe40b: Icons.mouse,
+    0xe4a3: Icons.phone_android,
     0xe56f: Icons.self_improvement,
     0xe5c6: Icons.smartphone,
     0xe5db: Icons.speaker,
     0xe5e5: Icons.sports_baseball,
     0xf06c3: Icons.sports_gymnastics,
+    0xe5f2: Icons.sports_soccer,
     0xe609: Icons.storage,
     0xe63e: Icons.tablet_android,
     0xe697: Icons.usb,

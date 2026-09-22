@@ -54,3 +54,14 @@ app.*.map.json
 
 # Supabase CLI local cache
 supabase/.temp/
+
+# Product image backfill tooling (Phase 32): local snapshots, generated
+# reports/SQL drafts, and locally-supplied source images are not committed.
+/tool/catalog_snapshot.json
+/tool/output/
+/tool/images/*
+!/tool/images/.gitkeep
+
+# Local Supabase --dart-define-from-file credentials (SUPABASE_URL,
+# SUPABASE_ANON_KEY). Never committed - see SUPABASE_SETUP.md.
+/dart_define.json

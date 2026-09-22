@@ -648,6 +648,7 @@ const List<Product> products = [
     rating: 4.7,
     reviewCount: 764,
     stock: 38,
+    images: ['assets/images/products/premium_brown_leather_backpack.png'],
     brand: 'BagCraft',
     seller: 'BagCraft Store',
     badges: ['Best Seller', 'Free Shipping'],

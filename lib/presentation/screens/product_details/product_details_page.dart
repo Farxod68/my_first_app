@@ -240,17 +240,29 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               child: widget.product.images.isNotEmpty
                   ? ClipRRect(
                       borderRadius: AppRadius.largeAll,
-                      child: Image.network(
-                        widget.product.images.first,
-                        width: double.infinity,
-                        height: double.infinity,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Icon(
-                          widget.product.icon,
-                          size: isDesktop ? 200 : 120,
-                          color: AppColors.primaryBlue,
-                        ),
-                      ),
+                      child: widget.product.images.first.startsWith('http')
+                          ? Image.network(
+                              widget.product.images.first,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => Icon(
+                                widget.product.icon,
+                                size: isDesktop ? 200 : 120,
+                                color: AppColors.primaryBlue,
+                              ),
+                            )
+                          : Image.asset(
+                              widget.product.images.first,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => Icon(
+                                widget.product.icon,
+                                size: isDesktop ? 200 : 120,
+                                color: AppColors.primaryBlue,
+                              ),
+                            ),
                     )
                   : Icon(
                       widget.product.icon,

@@ -890,6 +890,58 @@ void main() {
       });
     });
 
+    group('Supabase category fallback icon persistence (regression)', () {
+      // Regression coverage for the CartProvider._iconByCodePoint gap found
+      // during the ProductProvider architecture inspection:
+      // Product.fromSupabase (lib/data/models/product.dart) assigns one of
+      // these four icons as a per-category fallback for Supabase-sourced
+      // products that carry no per-product icon of their own. Before the
+      // fix, none of these four code points were present in
+      // _iconByCodePoint, so a Supabase-sourced product added to the cart
+      // would silently come back as Icons.shopping_bag after the app
+      // restarted and cart persistence reloaded.
+      setUp(() async {
+        provider = CartProvider(mockPersistenceService);
+        await Future.delayed(Duration.zero);
+        reset(mockPersistenceService);
+        when(() => mockPersistenceService.saveCart(any()))
+            .thenAnswer((_) async => true);
+      });
+
+      for (final entry in {
+        'electronics': Icons.phone_android,
+        'homeGoods': Icons.home,
+        'sports': Icons.sports_soccer,
+        'cosmetics': Icons.face,
+      }.entries) {
+        test(
+            '${entry.key} category fallback icon (${entry.value}) survives a cart persistence round-trip',
+            () async {
+          final product = TestData.createTestProduct(
+            id: '${entry.key}-fallback-icon-test',
+            category: entry.key,
+            icon: entry.value,
+          );
+
+          provider.addToCart(product);
+          await Future.delayed(Duration.zero);
+
+          final captured =
+              verify(() => mockPersistenceService.saveCart(captureAny())).captured.last;
+          final jsonStrings = captured as List<String>;
+
+          when(() => mockPersistenceService.loadCart()).thenReturn(jsonStrings);
+          final newProvider = CartProvider(mockPersistenceService);
+          await Future.delayed(Duration.zero);
+
+          expect(newProvider.cartItems[0].icon, equals(entry.value));
+          expect(newProvider.cartItems[0].icon, isNot(equals(Icons.shopping_bag)));
+
+          newProvider.dispose();
+        });
+      }
+    });
+
     group('Persistence', () {
       setUp(() async {
         provider = CartProvider(mockPersistenceService);
