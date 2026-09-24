@@ -5,6 +5,7 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/widget_keys.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/ui_helpers.dart';
+import '../../../domain/repositories/auth_repository.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/locale_provider.dart';
@@ -230,7 +231,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       } else {
         UIHelpers.showErrorMessage(
           context,
-          authProvider.error ?? l10n.deleteAccountFailed,
+          authProvider.errorCode == AuthRepository.accountHasOrdersCode
+              ? l10n.deleteAccountHasOrders
+              : authProvider.error ?? l10n.deleteAccountFailed,
         );
       }
     } catch (e) {

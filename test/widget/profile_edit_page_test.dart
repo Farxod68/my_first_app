@@ -577,6 +577,41 @@ void main() {
     });
 
     testWidgets(
+        '20b. An account with orders shows the dedicated localized message, '
+        'keeps the user signed in and the page open',
+        (tester) async {
+      final context = await pumpProfileEditPage(
+        tester,
+        user: TestData.createTestUser(),
+      );
+      context.stubDeleteAccountFailure(const AuthException(
+        'account_has_orders',
+        statusCode: '409',
+        code: 'ACCOUNT_HAS_ORDERS',
+      ));
+
+      await tester.ensureVisible(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(WidgetKeys.deleteAccountConfirmButton));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(
+            "Your account can't be deleted because it has existing orders."),
+        findsOneWidget,
+      );
+      // The raw backend message is never shown to the user.
+      expect(find.text('account_has_orders'), findsNothing);
+      expect(find.textContaining('Account deletion failed'), findsNothing);
+      expect(find.byType(ProfileEditPage), findsOneWidget);
+      expect(context.authProvider.isAuthenticated, isTrue);
+      expect(context.authProvider.errorCode, 'ACCOUNT_HAS_ORDERS');
+      verify(() => context.mockAuthRepository.deleteAccount()).called(1);
+    });
+
+    testWidgets(
         '21. While deleting, the Delete Account row shows a spinner and is disabled',
         (tester) async {
       final context = await pumpProfileEditPage(

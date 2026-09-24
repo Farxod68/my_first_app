@@ -1,8 +1,8 @@
 // TOPBUY DEALS - Account Deletion Edge Function
 //
-// NOT YET DEPLOYED. This file only exists in the repo for review. To make
-// account deletion actually work in the running app, the project owner
-// must deploy it:
+// Deployed to the linked Supabase project as the `delete-account` Edge
+// Function. Changes to this file take effect only after the project owner
+// redeploys it:
 //
 //   supabase functions deploy delete-account
 //
@@ -23,6 +23,14 @@
 //   via the ON DELETE CASCADE foreign key already defined in
 //   supabase/migrations/001_initial_auth_profiles.sql - no extra cleanup
 //   needed.
+//
+// ORDERS
+// - public.orders.user_id references auth.users ON DELETE RESTRICT
+//   (supabase/migrations/005_orders.sql): order retention on account
+//   deletion is intentionally unresolved. A caller who has at least one
+//   order therefore gets 409 { error: "account_has_orders",
+//   code: "ACCOUNT_HAS_ORDERS" } and nothing is deleted. The foreign key
+//   still blocks the delete if an order appears after this check.
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 Deno.serve(async (req) => {
@@ -63,6 +71,28 @@ Deno.serve(async (req) => {
     Deno.env.get('SUPABASE_URL')!,
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
   );
+
+  // Refuse deletion while the verified caller has any orders. user.id comes
+  // only from the verified session above, never from the request.
+  const { data: orders, error: ordersError } = await adminClient
+    .from('orders')
+    .select('id')
+    .eq('user_id', user.id)
+    .limit(1);
+
+  if (ordersError) {
+    return new Response(
+      JSON.stringify({ error: ordersError.message }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
+
+  if (orders.length > 0) {
+    return new Response(
+      JSON.stringify({ error: 'account_has_orders', code: 'ACCOUNT_HAS_ORDERS' }),
+      { status: 409, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
 
   const { error: deleteError } = await adminClient.auth.admin.deleteUser(user.id);
 

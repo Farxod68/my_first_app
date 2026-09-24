@@ -216,5 +216,6 @@
   "deleteAccountConfirmMessage": "Cette action supprimera définitivement votre compte, votre profil et toutes les données associées. Cette action est irréversible.",
   "deleteAccountConfirmButton": "Supprimer définitivement",
   "deleteAccountSuccess": "Votre compte a été définitivement supprimé",
-  "deleteAccountFailed": "Échec de la suppression du compte"
+  "deleteAccountFailed": "Échec de la suppression du compte",
+  "deleteAccountHasOrders": "Votre compte ne peut pas être supprimé car il comporte des commandes existantes."
 }

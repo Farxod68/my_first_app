@@ -703,4 +703,8 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get deleteAccountFailed => 'Hisobni o\'chirib bo\'lmadi';
+
+  @override
+  String get deleteAccountHasOrders =>
+      'Hisobingizni o\'chirib bo\'lmaydi, chunki unda mavjud buyurtmalar bor.';
 }

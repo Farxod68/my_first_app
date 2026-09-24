@@ -705,4 +705,8 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get deleteAccountFailed => 'No se pudo eliminar la cuenta';
+
+  @override
+  String get deleteAccountHasOrders =>
+      'No se puede eliminar tu cuenta porque tiene pedidos existentes.';
 }

@@ -22,6 +22,7 @@ class AuthProvider with ChangeNotifier {
   bool _isLoading = false;
   bool _isInitialized = false;
   String? _error;
+  String? _errorCode;
   StreamSubscription<UserEntity?>? _authStateSubscription;
 
   AuthProvider(this._authRepository) {
@@ -39,6 +40,11 @@ class AuthProvider with ChangeNotifier {
 
   /// Error message
   String? get error => _error;
+
+  /// Machine-readable code of the last error, when the backend provided one
+  /// (e.g. AuthRepository.accountHasOrdersCode). Lets the UI show a
+  /// localized message instead of [error].
+  String? get errorCode => _errorCode;
 
   /// Check if user is authenticated
   bool get isAuthenticated => _currentUser != null;
@@ -234,7 +240,7 @@ class AuthProvider with ChangeNotifier {
       _setLoading(false);
       return true;
     } on AuthException catch (e) {
-      _setError(e.message);
+      _setError(e.message, code: e.code);
       _setLoading(false);
       return false;
     } catch (e) {
@@ -251,14 +257,16 @@ class AuthProvider with ChangeNotifier {
   }
 
   /// Set error
-  void _setError(String error) {
+  void _setError(String error, {String? code}) {
     _error = error;
+    _errorCode = code;
     notifyListeners();
   }
 
   /// Clear error
   void _clearError() {
     _error = null;
+    _errorCode = null;
     notifyListeners();
   }
 

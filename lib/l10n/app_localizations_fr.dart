@@ -705,4 +705,8 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get deleteAccountFailed => 'Échec de la suppression du compte';
+
+  @override
+  String get deleteAccountHasOrders =>
+      'Votre compte ne peut pas être supprimé car il comporte des commandes existantes.';
 }

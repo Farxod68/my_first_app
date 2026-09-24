@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:my_first_app/presentation/providers/auth_provider.dart';
 import 'package:my_first_app/domain/entities/user_entity.dart';
+import 'package:my_first_app/domain/repositories/auth_repository.dart';
 import '../../../mocks/mock_auth_repository.dart';
 import '../../../helpers/test_data.dart';
 
@@ -923,6 +924,45 @@ void main() {
         expect(result, isFalse);
         expect(provider.currentUser, isNotNull);
         expect(provider.error, contains('Account deletion failed'));
+      });
+
+      test(
+          'account-has-orders failure returns false, keeps user, sets error '
+          'and exposes the ACCOUNT_HAS_ORDERS code', () async {
+        when(() => mockAuthRepository.deleteAccount()).thenThrow(
+          const AuthException(
+            'account_has_orders',
+            statusCode: '409',
+            code: AuthRepository.accountHasOrdersCode,
+          ),
+        );
+
+        final result = await provider.deleteAccount();
+
+        expect(result, isFalse);
+        expect(provider.currentUser, isNotNull);
+        expect(provider.isAuthenticated, isTrue);
+        expect(provider.isLoading, isFalse);
+        expect(provider.error, isNotNull);
+        expect(provider.errorCode, 'ACCOUNT_HAS_ORDERS');
+      });
+
+      test('errorCode is cleared by the next deletion attempt', () async {
+        when(() => mockAuthRepository.deleteAccount()).thenThrow(
+          const AuthException(
+            'account_has_orders',
+            code: AuthRepository.accountHasOrdersCode,
+          ),
+        );
+        await provider.deleteAccount();
+        expect(provider.errorCode, isNotNull);
+
+        when(() => mockAuthRepository.deleteAccount())
+            .thenThrow(AuthException('Session expired: please sign in again'));
+        await provider.deleteAccount();
+
+        expect(provider.errorCode, isNull);
+        expect(provider.error, 'Session expired: please sign in again');
       });
     });
 

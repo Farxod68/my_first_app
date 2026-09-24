@@ -1403,6 +1403,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to delete account'**
   String get deleteAccountFailed;
+
+  /// No description provided for @deleteAccountHasOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account can\'t be deleted because it has existing orders.'**
+  String get deleteAccountHasOrders;
 }
 
 class _AppLocalizationsDelegate

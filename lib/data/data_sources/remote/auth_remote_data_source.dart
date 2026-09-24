@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/services/supabase_service.dart';
+import '../../../domain/repositories/auth_repository.dart';
 import '../../models/user_model.dart';
 
 /// Authentication remote data source (Data Layer)
@@ -205,6 +206,18 @@ class AuthRemoteDataSource {
     } on FunctionsFetchException catch (e) {
       throw AuthException('Network error: ${e.details ?? 'could not reach the server'}');
     } on FunctionsHttpException catch (e) {
+      final details = e.details;
+      if (e.status == 409 &&
+          details is Map &&
+          details['code'] == AuthRepository.accountHasOrdersCode) {
+        // Nothing was deleted server-side, so the session is kept. The
+        // user-facing text is localized by the UI from [code].
+        throw const AuthException(
+          'account_has_orders',
+          statusCode: '409',
+          code: AuthRepository.accountHasOrdersCode,
+        );
+      }
       if (e.status == 401 || e.status == 403) {
         throw AuthException('Session expired: please sign in again');
       }

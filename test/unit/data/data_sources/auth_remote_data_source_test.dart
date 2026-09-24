@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:my_first_app/data/data_sources/remote/auth_remote_data_source.dart';
 import 'package:my_first_app/data/models/user_model.dart';
+import 'package:my_first_app/domain/repositories/auth_repository.dart';
 
 // Mock Supabase client and auth
 class MockSupabaseClient extends Mock implements SupabaseClient {}
@@ -1119,6 +1120,47 @@ void main() {
         await expectLater(
           () => dataSource.deleteAccount(),
           throwsA(isA<AuthException>()),
+        );
+
+        verifyNever(() => mockAuth.signOut());
+      });
+
+      test(
+          'maps a 409 ACCOUNT_HAS_ORDERS response to a dedicated AuthException '
+          'and does not sign out', () async {
+        when(() => mockFunctions.invoke('delete-account')).thenThrow(
+          const FunctionsHttpException(
+            status: 409,
+            details: {
+              'error': 'account_has_orders',
+              'code': 'ACCOUNT_HAS_ORDERS',
+            },
+          ),
+        );
+
+        await expectLater(
+          () => dataSource.deleteAccount(),
+          throwsA(isA<AuthException>()
+              .having((e) => e.code, 'code', AuthRepository.accountHasOrdersCode)
+              .having((e) => e.code, 'code literal', 'ACCOUNT_HAS_ORDERS')
+              .having((e) => e.statusCode, 'statusCode', '409')),
+        );
+
+        verifyNever(() => mockAuth.signOut());
+      });
+
+      test('a 409 without the ACCOUNT_HAS_ORDERS code keeps the generic failure',
+          () async {
+        when(() => mockFunctions.invoke('delete-account')).thenThrow(
+          const FunctionsHttpException(status: 409, details: 'conflict'),
+        );
+
+        await expectLater(
+          () => dataSource.deleteAccount(),
+          throwsA(isA<AuthException>()
+              .having((e) => e.code, 'code', isNull)
+              .having((e) => e.message, 'message',
+                  startsWith('Account deletion failed'))),
         );
 
         verifyNever(() => mockAuth.signOut());

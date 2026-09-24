@@ -733,5 +733,6 @@
   "deleteAccountConfirmMessage": "This will permanently delete your account, profile, and all associated data. This action cannot be undone.",
   "deleteAccountConfirmButton": "Delete Permanently",
   "deleteAccountSuccess": "Your account has been permanently deleted",
-  "deleteAccountFailed": "Failed to delete account"
+  "deleteAccountFailed": "Failed to delete account",
+  "deleteAccountHasOrders": "Your account can't be deleted because it has existing orders."
 }

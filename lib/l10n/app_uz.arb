@@ -726,5 +726,6 @@
   "deleteAccountConfirmMessage": "Bu hisobingizni, profilingizni va unga tegishli barcha ma'lumotlarni butunlay o'chirib tashlaydi. Bu amalni qaytarib bo'lmaydi.",
   "deleteAccountConfirmButton": "Butunlay o'chirish",
   "deleteAccountSuccess": "Hisobingiz butunlay o'chirildi",
-  "deleteAccountFailed": "Hisobni o'chirib bo'lmadi"
+  "deleteAccountFailed": "Hisobni o'chirib bo'lmadi",
+  "deleteAccountHasOrders": "Hisobingizni o'chirib bo'lmaydi, chunki unda mavjud buyurtmalar bor."
 }

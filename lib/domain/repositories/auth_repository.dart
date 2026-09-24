@@ -68,6 +68,12 @@ abstract class AuthRepository {
   /// Permanently delete the currently authenticated user's account
   ///
   /// Deletes the user's auth record and profile data, then clears the
-  /// local session. Throws AuthException if deletion fails.
+  /// local session. Throws AuthException if deletion fails. If the user has
+  /// existing orders, nothing is deleted, the session is kept, and the
+  /// AuthException's `code` is [accountHasOrdersCode].
   Future<void> deleteAccount();
+
+  /// AuthException code for an account that cannot be deleted because it
+  /// has existing orders (the delete-account Edge Function's 409 response).
+  static const accountHasOrdersCode = 'ACCOUNT_HAS_ORDERS';
 }
