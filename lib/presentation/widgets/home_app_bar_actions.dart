@@ -47,7 +47,7 @@ class HomeAppBarActions {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => CartPage(cart: cartProvider.cartItems),
+                    builder: (_) => const CartPage(),
                   ),
                 );
               },

@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/constants/widget_keys.dart';
-import '../../../data/models/product.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../presentation/providers/cart_provider.dart';
 import '../../../presentation/providers/currency_provider.dart';
 import '../../widgets/empty_state.dart';
 
@@ -15,17 +15,15 @@ import '../../widgets/empty_state.dart';
 /// - Empty state when cart is empty
 /// - Product name, price for each item
 /// - Responsive layout (centered on larger screens)
+///
+/// Reads items from [CartProvider] and rebuilds whenever the cart changes.
 class CartPage extends StatelessWidget {
-  final List<Product> cart;
-
-  const CartPage({
-    super.key,
-    required this.cart,
-  });
+  const CartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final cart = context.watch<CartProvider>().cartItems;
     final locale = Localizations.localeOf(context).languageCode;
     final currencyCode = context.watch<CurrencyProvider>().currentCurrency;
     final horizontalPadding = ScreenSize.getHorizontalPadding(context);

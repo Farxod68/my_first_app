@@ -264,8 +264,7 @@ class ProfileTab extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) =>
-                                CartPage(cart: cartProvider.cartItems),
+                            builder: (_) => const CartPage(),
                           ),
                         );
                       },
