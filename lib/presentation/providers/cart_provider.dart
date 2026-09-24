@@ -7,8 +7,9 @@ import 'base_persistent_provider.dart';
 /// Cart state management provider with persistence
 ///
 /// Manages shopping cart state including:
-/// - List of products in cart
+/// - List of products in cart (one entry per product, with a quantity)
 /// - Add to cart functionality
+/// - Quantity increase/decrease
 /// - Remove from cart functionality
 /// - Cart item count
 /// - Cart total calculation
@@ -18,45 +19,86 @@ import 'base_persistent_provider.dart';
 /// Persists cart data using PersistenceService
 class CartProvider with ChangeNotifier, PersistentProviderMixin {
   final PersistenceService _persistenceService;
+
+  /// Unique products in the order they were first added.
   final List<Product> _cartItems = [];
+
+  /// Quantity per product ID. Every product in [_cartItems] has an entry >= 1.
+  final Map<String, int> _quantities = {};
 
   CartProvider(this._persistenceService) {
     _loadCart();
   }
 
-  /// Get immutable list of cart items
+  /// Get immutable list of cart items (one entry per product)
   List<Product> get cartItems => List.unmodifiable(_cartItems);
 
-  /// Get total number of items in cart
-  int get itemCount => _cartItems.length;
+  /// Get total number of units in cart (sum of all quantities)
+  ///
+  /// Drives the cart badge, which counts every unit added.
+  int get itemCount =>
+      _quantities.values.fold(0, (sum, quantity) => sum + quantity);
 
   /// Check if a product is in the cart by ID
   bool isInCart(String productId) {
-    return _cartItems.any((item) => item.id == productId);
+    return _quantities.containsKey(productId);
   }
+
+  /// Quantity of a product in the cart, or 0 if it is not in the cart
+  int quantityOf(String productId) => _quantities[productId] ?? 0;
 
   /// Add a product to the cart
   ///
-  /// Currently allows duplicate products (no quantity management yet).
-  /// Future enhancement: Add quantity tracking and prevent duplicates.
+  /// A product already in the cart has its quantity increased by 1 instead of
+  /// getting a second entry.
   void addToCart(Product product) {
-    _cartItems.add(product);
+    _addUnits(product, 1);
     _saveCart();
     notifyListeners();
   }
 
-  /// Remove a product from cart by index
+  /// Increase the quantity of a product already in the cart by 1
+  ///
+  /// Does nothing if the product is not in the cart.
+  void increaseQuantity(String productId) {
+    final current = _quantities[productId];
+    if (current == null) return;
+    _quantities[productId] = current + 1;
+    _saveCart();
+    notifyListeners();
+  }
+
+  /// Decrease the quantity of a product in the cart by 1
+  ///
+  /// Decreasing from 1 removes the product. Does nothing if the product is
+  /// not in the cart.
+  void decreaseQuantity(String productId) {
+    final current = _quantities[productId];
+    if (current == null) return;
+    if (current <= 1) {
+      _cartItems.removeWhere((item) => item.id == productId);
+      _quantities.remove(productId);
+    } else {
+      _quantities[productId] = current - 1;
+    }
+    _saveCart();
+    notifyListeners();
+  }
+
+  /// Remove the cart entry at [index], whatever its quantity
   void removeAt(int index) {
     if (index >= 0 && index < _cartItems.length) {
-      _cartItems.removeAt(index);
+      final removed = _cartItems.removeAt(index);
+      _quantities.remove(removed.id);
       _saveCart();
       notifyListeners();
     }
   }
 
-  /// Remove first occurrence of a product from cart by ID
+  /// Remove a product's complete cart entry by ID, whatever its quantity
   void removeProduct(Product product) {
     _cartItems.removeWhere((item) => item.id == product.id);
+    _quantities.remove(product.id);
     _saveCart();
     notifyListeners();
   }
@@ -64,31 +106,48 @@ class CartProvider with ChangeNotifier, PersistentProviderMixin {
   /// Clear all items from cart
   void clearCart() {
     _cartItems.clear();
+    _quantities.clear();
     _saveCart();
     notifyListeners();
   }
 
   /// Get cart subtotal
   ///
-  /// Calculates total price of all items in cart (in USD base currency)
+  /// Sums unit price × quantity for every item (in USD base currency)
   double get subtotal {
-    return _cartItems.fold(0.0, (sum, item) => sum + item.price);
+    return _cartItems.fold(
+        0.0, (sum, item) => sum + item.price * quantityOf(item.id));
+  }
+
+  /// Adds [quantity] units of [product], merging with an existing entry
+  void _addUnits(Product product, int quantity) {
+    final current = _quantities[product.id];
+    if (current == null) {
+      _cartItems.add(product);
+      _quantities[product.id] = quantity;
+    } else {
+      _quantities[product.id] = current + quantity;
+    }
   }
 
   /// Load cart from persistence
   ///
   /// Called automatically during initialization.
   /// Handles corrupted data gracefully by starting with empty cart.
+  /// Legacy entries without a valid `quantity` load as quantity 1, and legacy
+  /// duplicate entries for the same product are merged by summing quantities.
   Future<void> _loadCart() async {
     try {
       final cartJson = _persistenceService.loadCart();
 
       _cartItems.clear();
+      _quantities.clear();
       for (final jsonString in cartJson) {
         try {
           final productData = json.decode(jsonString) as Map<String, dynamic>;
           final product = _productFromJson(productData);
-          _cartItems.add(product);
+          final quantity = productData['quantity'];
+          _addUnits(product, quantity is int && quantity > 0 ? quantity : 1);
         } catch (e) {
           // Skip corrupted product data
           debugPrint('Failed to load cart item: $e');
@@ -98,6 +157,7 @@ class CartProvider with ChangeNotifier, PersistentProviderMixin {
       debugPrint('Failed to load cart: $e');
       // Start with empty cart if load fails
       _cartItems.clear();
+      _quantities.clear();
     } finally {
       markAsLoaded();
     }
@@ -106,11 +166,15 @@ class CartProvider with ChangeNotifier, PersistentProviderMixin {
   /// Save cart to persistence
   ///
   /// Called automatically after cart modifications.
+  /// Each entry is the product JSON plus its `quantity`.
   /// Fails silently to avoid disrupting user experience.
   Future<void> _saveCart() async {
     try {
       final cartJson = _cartItems
-          .map((product) => json.encode(_productToJson(product)))
+          .map((product) => json.encode({
+                ..._productToJson(product),
+                'quantity': quantityOf(product.id),
+              }))
           .toList();
       await _persistenceService.saveCart(cartJson);
     } catch (e) {

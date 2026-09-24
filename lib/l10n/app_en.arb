@@ -418,6 +418,10 @@
   "@quantity": {
     "description": "Quantity label"
   },
+  "cartSubtotal": "Subtotal",
+  "@cartSubtotal": {
+    "description": "Label for the cart subtotal (sum of unit price × quantity)"
+  },
   "search": "Search",
   "@search": {
     "description": "Search label"

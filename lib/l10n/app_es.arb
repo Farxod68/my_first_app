@@ -91,6 +91,7 @@
   "color": "Color",
   "size": "Talla",
   "quantity": "Cantidad",
+  "cartSubtotal": "Subtotal",
   "search": "Buscar",
   "searchHint": "Buscar productos, marcas, ofertas...",
   "searchResults": "Resultados de Búsqueda",

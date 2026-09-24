@@ -303,6 +303,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get quantity => 'Cantidad';
 
   @override
+  String get cartSubtotal => 'Subtotal';
+
+  @override
   String get search => 'Buscar';
 
   @override

@@ -229,11 +229,28 @@ class WidgetKeys {
 
   /// Individual cart product item
   ///
-  /// Includes [index] (the item's position in the cart list) so that two
-  /// cart entries for the same product (CartProvider allows duplicates)
-  /// still get distinct widget keys.
+  /// Includes [index] (the item's position in the cart list) so keys stay
+  /// distinct per row. CartProvider now keeps one entry per product.
   static Key cartProductItem(String productId, int index) =>
       Key('cart_product_item_${productId}_$index');
+
+  /// Quantity text of a cart product row
+  static Key cartItemQuantity(String productId) =>
+      Key('cart_item_quantity_$productId');
+
+  /// Button that decreases a cart product's quantity (removes it at 1)
+  static Key cartItemDecreaseButton(String productId) =>
+      Key('cart_item_decrease_button_$productId');
+
+  /// Button that increases a cart product's quantity by 1
+  static Key cartItemIncreaseButton(String productId) =>
+      Key('cart_item_increase_button_$productId');
+
+  /// Cart subtotal row (label + amount)
+  static const cartSubtotal = Key('cart_subtotal');
+
+  /// Cart subtotal amount text, formatted in the selected currency
+  static const cartSubtotalValue = Key('cart_subtotal_value');
 
   // CategoryPage
   // ==========================================================================

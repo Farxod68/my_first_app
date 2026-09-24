@@ -257,6 +257,8 @@ void main() {
         final cartItems = TestData.createProductList(2);
         when(() => mockCartProvider.itemCount).thenReturn(2);
         when(() => mockCartProvider.cartItems).thenReturn(cartItems);
+        when(() => mockCartProvider.quantityOf(any())).thenReturn(1);
+        when(() => mockCartProvider.subtotal).thenReturn(0.0);
 
         await pump(tester);
 

@@ -301,6 +301,9 @@ class AppLocalizationsUz extends AppLocalizations {
   String get quantity => 'Miqdor';
 
   @override
+  String get cartSubtotal => 'Oraliq summa';
+
+  @override
   String get search => 'Qidirish';
 
   @override

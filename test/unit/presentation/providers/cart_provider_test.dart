@@ -174,9 +174,9 @@ void main() {
       });
 
       test('subtotal calculates correctly for multiple items', () {
-        final product1 = TestData.createTestProduct(price: 10.0);
-        final product2 = TestData.createTestProduct(price: 20.0);
-        final product3 = TestData.createTestProduct(price: 30.0);
+        final product1 = TestData.createTestProduct(id: 'p1', price: 10.0);
+        final product2 = TestData.createTestProduct(id: 'p2', price: 20.0);
+        final product3 = TestData.createTestProduct(id: 'p3', price: 30.0);
 
         provider.addToCart(product1);
         provider.addToCart(product2);
@@ -186,8 +186,8 @@ void main() {
       });
 
       test('subtotal updates after removing item', () {
-        final product1 = TestData.createTestProduct(price: 10.0);
-        final product2 = TestData.createTestProduct(price: 20.0);
+        final product1 = TestData.createTestProduct(id: 'p1', price: 10.0);
+        final product2 = TestData.createTestProduct(id: 'p2', price: 20.0);
 
         provider.addToCart(product1);
         provider.addToCart(product2);
@@ -265,14 +265,15 @@ void main() {
         expect(provider.itemCount, equals(1));
       });
 
-      test('allows duplicate products (no quantity management)', () {
+      test('adding the same product twice merges into one entry', () {
         final product = TestData.createTestProduct(id: 'product1');
         provider.addToCart(product);
         provider.addToCart(product);
 
         expect(provider.itemCount, equals(2));
+        expect(provider.cartItems.length, equals(1));
         expect(provider.cartItems[0].id, equals('product1'));
-        expect(provider.cartItems[1].id, equals('product1'));
+        expect(provider.quantityOf('product1'), equals(2));
       });
 
       test('adds multiple different products', () {
@@ -443,8 +444,8 @@ void main() {
       });
 
       test('updates subtotal after remove', () {
-        final product1 = TestData.createTestProduct(price: 10.0);
-        final product2 = TestData.createTestProduct(price: 20.0);
+        final product1 = TestData.createTestProduct(id: 'p1', price: 10.0);
+        final product2 = TestData.createTestProduct(id: 'p2', price: 20.0);
 
         provider.addToCart(product1);
         provider.addToCart(product2);
@@ -1040,6 +1041,311 @@ void main() {
       });
     });
 
+    group('Quantity management', () {
+      setUp(() async {
+        provider = CartProvider(mockPersistenceService);
+        await Future.delayed(Duration.zero);
+        reset(mockPersistenceService);
+        when(() => mockPersistenceService.saveCart(any()))
+            .thenAnswer((_) async => true);
+      });
+
+      List<Map<String, dynamic>> lastSavedEntries() {
+        final captured =
+            verify(() => mockPersistenceService.saveCart(captureAny()))
+                .captured
+                .last as List<String>;
+        return captured
+            .map((s) => json.decode(s) as Map<String, dynamic>)
+            .toList();
+      }
+
+      test('A. first add gives quantity 1 and exactly one entry', () {
+        final product = TestData.createTestProduct(id: 'p1');
+        provider.addToCart(product);
+
+        expect(provider.cartItems.length, equals(1));
+        expect(provider.quantityOf('p1'), equals(1));
+      });
+
+      test('B. adding the same product twice gives one entry, quantity 2', () {
+        final product = TestData.createTestProduct(id: 'p1');
+        provider.addToCart(product);
+        provider.addToCart(product);
+
+        expect(provider.cartItems.length, equals(1));
+        expect(provider.quantityOf('p1'), equals(2));
+      });
+
+      test('C. adding the same product 3 times gives one entry, quantity 3',
+          () {
+        final product = TestData.createTestProduct(id: 'p1');
+        provider.addToCart(product);
+        provider.addToCart(product);
+        provider.addToCart(product);
+
+        expect(provider.cartItems.length, equals(1));
+        expect(provider.quantityOf('p1'), equals(3));
+        expect(provider.itemCount, equals(3));
+      });
+
+      test('duplicate adds do not disturb other entries or their order', () {
+        final p1 = TestData.createTestProduct(id: 'p1');
+        final p2 = TestData.createTestProduct(id: 'p2');
+        provider.addToCart(p1);
+        provider.addToCart(p2);
+        provider.addToCart(p1);
+
+        expect(provider.cartItems.map((p) => p.id), equals(['p1', 'p2']));
+        expect(provider.quantityOf('p1'), equals(2));
+        expect(provider.quantityOf('p2'), equals(1));
+      });
+
+      test('quantityOf returns 0 for a product not in the cart', () {
+        expect(provider.quantityOf('missing'), equals(0));
+      });
+
+      test('D. increaseQuantity goes from 1 to 2', () {
+        provider.addToCart(TestData.createTestProduct(id: 'p1'));
+
+        provider.increaseQuantity('p1');
+
+        expect(provider.quantityOf('p1'), equals(2));
+        expect(provider.cartItems.length, equals(1));
+      });
+
+      test('increaseQuantity on a product not in the cart does nothing', () {
+        var notified = 0;
+        provider.addListener(() => notified++);
+
+        provider.increaseQuantity('missing');
+
+        expect(provider.cartItems, isEmpty);
+        expect(provider.quantityOf('missing'), equals(0));
+        expect(notified, equals(0));
+        verifyNever(() => mockPersistenceService.saveCart(any()));
+      });
+
+      test('E. decreaseQuantity goes from 2 to 1', () {
+        final product = TestData.createTestProduct(id: 'p1');
+        provider.addToCart(product);
+        provider.addToCart(product);
+
+        provider.decreaseQuantity('p1');
+
+        expect(provider.quantityOf('p1'), equals(1));
+        expect(provider.isInCart('p1'), isTrue);
+      });
+
+      test('F. decreaseQuantity at 1 removes the product', () {
+        provider.addToCart(TestData.createTestProduct(id: 'p1'));
+
+        provider.decreaseQuantity('p1');
+
+        expect(provider.isInCart('p1'), isFalse);
+        expect(provider.cartItems, isEmpty);
+        expect(provider.quantityOf('p1'), equals(0));
+        expect(provider.itemCount, equals(0));
+      });
+
+      test('decreaseQuantity on a product not in the cart does nothing', () {
+        var notified = 0;
+        provider.addListener(() => notified++);
+
+        provider.decreaseQuantity('missing');
+
+        expect(provider.cartItems, isEmpty);
+        expect(notified, equals(0));
+        verifyNever(() => mockPersistenceService.saveCart(any()));
+      });
+
+      test('increase and decrease notify listeners and save', () async {
+        provider.addToCart(TestData.createTestProduct(id: 'p1'));
+        var notified = 0;
+        provider.addListener(() => notified++);
+        reset(mockPersistenceService);
+        when(() => mockPersistenceService.saveCart(any()))
+            .thenAnswer((_) async => true);
+
+        provider.increaseQuantity('p1');
+        provider.decreaseQuantity('p1');
+        await Future.delayed(Duration.zero);
+
+        expect(notified, equals(2));
+        verify(() => mockPersistenceService.saveCart(any())).called(2);
+      });
+
+      test('G. removeProduct removes the complete entry whatever its quantity',
+          () {
+        final product = TestData.createTestProduct(id: 'p1');
+        provider.addToCart(product);
+        provider.addToCart(product);
+        provider.addToCart(product);
+
+        provider.removeProduct(product);
+
+        expect(provider.isInCart('p1'), isFalse);
+        expect(provider.quantityOf('p1'), equals(0));
+        expect(provider.itemCount, equals(0));
+      });
+
+      test('removeAt removes the complete entry whatever its quantity', () {
+        final product = TestData.createTestProduct(id: 'p1');
+        provider.addToCart(product);
+        provider.addToCart(product);
+
+        provider.removeAt(0);
+
+        expect(provider.cartItems, isEmpty);
+        expect(provider.quantityOf('p1'), equals(0));
+        expect(provider.itemCount, equals(0));
+      });
+
+      test('clearCart resets quantities', () {
+        final product = TestData.createTestProduct(id: 'p1');
+        provider.addToCart(product);
+        provider.addToCart(product);
+
+        provider.clearCart();
+        provider.addToCart(product);
+
+        expect(provider.quantityOf('p1'), equals(1));
+      });
+
+      test('H. subtotal equals sum of unit price × quantity', () {
+        final p1 = TestData.createTestProduct(id: 'p1', price: 10.0);
+        final p2 = TestData.createTestProduct(id: 'p2', price: 2.5);
+        provider.addToCart(p1);
+        provider.addToCart(p1);
+        provider.addToCart(p1);
+        provider.addToCart(p2);
+        provider.increaseQuantity('p2');
+
+        expect(provider.subtotal, closeTo(10.0 * 3 + 2.5 * 2, 0.0001));
+
+        provider.decreaseQuantity('p1');
+
+        expect(provider.subtotal, closeTo(10.0 * 2 + 2.5 * 2, 0.0001));
+      });
+
+      test('itemCount is the total number of units across entries', () {
+        final p1 = TestData.createTestProduct(id: 'p1');
+        final p2 = TestData.createTestProduct(id: 'p2');
+        provider.addToCart(p1);
+        provider.addToCart(p1);
+        provider.addToCart(p2);
+
+        expect(provider.cartItems.length, equals(2));
+        expect(provider.itemCount, equals(3));
+      });
+
+      test('I. quantity is saved with each entry', () async {
+        final p1 = TestData.createTestProduct(id: 'p1');
+        final p2 = TestData.createTestProduct(id: 'p2');
+        provider.addToCart(p1);
+        provider.addToCart(p1);
+        provider.addToCart(p2);
+        await Future.delayed(Duration.zero);
+
+        final entries = lastSavedEntries();
+        expect(entries.length, equals(2));
+        expect(entries[0]['id'], equals('p1'));
+        expect(entries[0]['quantity'], equals(2));
+        expect(entries[1]['id'], equals('p2'));
+        expect(entries[1]['quantity'], equals(1));
+      });
+
+      test('I. quantity changes are saved', () async {
+        provider.addToCart(TestData.createTestProduct(id: 'p1'));
+        provider.increaseQuantity('p1');
+        provider.increaseQuantity('p1');
+        await Future.delayed(Duration.zero);
+
+        expect(lastSavedEntries().single['quantity'], equals(3));
+      });
+
+      test('I. saved quantity is restored correctly (roundtrip)', () async {
+        final p1 = TestData.createTestProduct(id: 'p1', price: 10.0);
+        final p2 = TestData.createTestProduct(id: 'p2', price: 20.0);
+        provider.addToCart(p1);
+        provider.addToCart(p1);
+        provider.addToCart(p1);
+        provider.addToCart(p2);
+        await Future.delayed(Duration.zero);
+
+        final saved =
+            verify(() => mockPersistenceService.saveCart(captureAny()))
+                .captured
+                .last as List<String>;
+        when(() => mockPersistenceService.loadCart()).thenReturn(saved);
+
+        final restored = CartProvider(mockPersistenceService);
+        await Future.delayed(Duration.zero);
+
+        expect(restored.cartItems.map((p) => p.id), equals(['p1', 'p2']));
+        expect(restored.quantityOf('p1'), equals(3));
+        expect(restored.quantityOf('p2'), equals(1));
+        expect(restored.itemCount, equals(4));
+        expect(restored.subtotal, closeTo(50.0, 0.0001));
+        restored.dispose();
+      });
+
+      test('J. legacy entry without quantity loads as quantity 1', () async {
+        final legacy = TestData.createTestProduct(id: 'legacy1');
+        final legacyJson = _productToJson(legacy);
+        expect(legacyJson.containsKey('quantity'), isFalse);
+        when(() => mockPersistenceService.loadCart())
+            .thenReturn([json.encode(legacyJson)]);
+
+        final restored = CartProvider(mockPersistenceService);
+        await Future.delayed(Duration.zero);
+
+        expect(restored.cartItems.length, equals(1));
+        expect(restored.cartItems[0].id, equals('legacy1'));
+        expect(restored.quantityOf('legacy1'), equals(1));
+        restored.dispose();
+      });
+
+      test('J. legacy duplicate entries merge into one entry by summing',
+          () async {
+        final p1 = TestData.createTestProduct(id: 'p1');
+        final p2 = TestData.createTestProduct(id: 'p2');
+        when(() => mockPersistenceService.loadCart()).thenReturn([
+          json.encode(_productToJson(p1)),
+          json.encode(_productToJson(p2)),
+          json.encode(_productToJson(p1)),
+        ]);
+
+        final restored = CartProvider(mockPersistenceService);
+        await Future.delayed(Duration.zero);
+
+        expect(restored.cartItems.map((p) => p.id), equals(['p1', 'p2']));
+        expect(restored.quantityOf('p1'), equals(2));
+        expect(restored.quantityOf('p2'), equals(1));
+        expect(restored.itemCount, equals(3));
+        restored.dispose();
+      });
+
+      test('invalid saved quantity falls back to 1 without dropping the item',
+          () async {
+        final products = TestData.createProductList(3);
+        when(() => mockPersistenceService.loadCart()).thenReturn([
+          json.encode({..._productToJson(products[0]), 'quantity': 0}),
+          json.encode({..._productToJson(products[1]), 'quantity': -4}),
+          json.encode({..._productToJson(products[2]), 'quantity': 'two'}),
+        ]);
+
+        final restored = CartProvider(mockPersistenceService);
+        await Future.delayed(Duration.zero);
+
+        expect(restored.cartItems.length, equals(3));
+        for (final product in products) {
+          expect(restored.quantityOf(product.id), equals(1));
+        }
+        restored.dispose();
+      });
+    });
+
     group('Edge Cases', () {
       setUp(() async {
         provider = CartProvider(mockPersistenceService);
@@ -1081,8 +1387,8 @@ void main() {
       });
 
       test('subtotal precision with decimal prices', () {
-        final product1 = TestData.createTestProduct(price: 10.99);
-        final product2 = TestData.createTestProduct(price: 20.99);
+        final product1 = TestData.createTestProduct(id: 'p1', price: 10.99);
+        final product2 = TestData.createTestProduct(id: 'p2', price: 20.99);
 
         provider.addToCart(product1);
         provider.addToCart(product2);

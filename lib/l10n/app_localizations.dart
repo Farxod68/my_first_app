@@ -648,6 +648,12 @@ abstract class AppLocalizations {
   /// **'Quantity'**
   String get quantity;
 
+  /// Label for the cart subtotal (sum of unit price × quantity)
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get cartSubtotal;
+
   /// Search label
   ///
   /// In en, this message translates to:

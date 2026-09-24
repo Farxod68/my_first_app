@@ -418,6 +418,10 @@
   "@quantity": {
     "description": "Quantity label"
   },
+  "cartSubtotal": "Oraliq summa",
+  "@cartSubtotal": {
+    "description": "Label for the cart subtotal (sum of unit price × quantity)"
+  },
   "search": "Qidirish",
   "@search": {
     "description": "Search label"

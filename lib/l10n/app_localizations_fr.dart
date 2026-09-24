@@ -303,6 +303,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quantity => 'Quantité';
 
   @override
+  String get cartSubtotal => 'Sous-total';
+
+  @override
   String get search => 'Rechercher';
 
   @override
