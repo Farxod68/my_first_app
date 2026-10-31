@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 /// Supabase configuration for TOPBUY DEALS
 ///
 /// SECURITY NOTICE:
@@ -54,6 +56,22 @@ class SupabaseConfig {
         supabaseAnonKey.isNotEmpty;
   }
 
+  /// Hosts that may use plain HTTP in debug builds (local Supabase stack).
+  /// 10.0.2.2 is the Android emulator's alias for the host machine.
+  static const Set<String> _localDevHosts = {'localhost', '127.0.0.1', '10.0.2.2'};
+
+  /// Whether [url] may be used as the Supabase URL.
+  ///
+  /// HTTPS is mandatory, except plain HTTP to a loopback host in debug
+  /// builds. The host is compared after parsing, so look-alikes such as
+  /// http://127.0.0.1.evil.com are rejected.
+  static bool isAllowedUrl(String url, {bool isDebug = kDebugMode}) {
+    final uri = Uri.tryParse(url);
+    if (uri == null || !uri.hasAuthority || uri.host.isEmpty) return false;
+    if (uri.scheme == 'https') return true;
+    return isDebug && uri.scheme == 'http' && _localDevHosts.contains(uri.host);
+  }
+
   /// Validate configuration
   ///
   /// Throws an exception if configuration is invalid
@@ -66,8 +84,11 @@ class SupabaseConfig {
       );
     }
 
-    if (!supabaseUrl.startsWith('https://')) {
-      throw Exception('SUPABASE_URL must start with https://');
+    if (!isAllowedUrl(supabaseUrl)) {
+      throw Exception(
+        'SUPABASE_URL must use https:// '
+        '(http:// is allowed only for localhost in debug builds)',
+      );
     }
 
     if (supabaseUrl.contains('YOUR_')) {
