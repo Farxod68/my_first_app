@@ -5,11 +5,17 @@ import 'package:my_first_app/core/constants/widget_keys.dart';
 import 'package:my_first_app/core/utils/formatters.dart';
 import 'package:my_first_app/data/models/product.dart';
 import 'package:my_first_app/presentation/providers/cart_provider.dart';
+import 'package:my_first_app/presentation/providers/auth_provider.dart';
+import 'package:my_first_app/presentation/providers/checkout_provider.dart';
 import 'package:my_first_app/presentation/providers/currency_provider.dart';
+import 'package:my_first_app/presentation/screens/auth/login_page.dart';
 import 'package:my_first_app/presentation/screens/cart/cart_page.dart';
+import 'package:my_first_app/presentation/screens/checkout/checkout_page.dart';
 import 'package:provider/provider.dart';
 import '../helpers/test_data.dart';
 import '../helpers/widget_test_helpers.dart';
+import '../mocks/mock_auth_provider.dart';
+import '../mocks/mock_order_repository.dart';
 import '../mocks/mock_persistence_service.dart';
 
 void main() {
@@ -480,6 +486,106 @@ void main() {
           findsOneWidget,
         );
         expect(subtotalText(tester), equals(formatPrice(10.0, 'USD', 'es')));
+      });
+    });
+
+    group('Checkout Integration', () {
+      late MockOrderRepository mockOrderRepo;
+      late CheckoutProvider checkoutProvider;
+      late MockAuthProvider mockAuth;
+
+      setUp(() {
+        mockOrderRepo = MockOrderRepository();
+        checkoutProvider = CheckoutProvider(mockOrderRepo);
+        mockAuth = MockAuthProvider();
+      });
+
+      tearDown(() {
+        checkoutProvider.dispose();
+      });
+
+      testWidgets(
+          '27. Checkout button is not rendered when CheckoutProvider is null',
+          (tester) async {
+        final product = TestData.createTestProduct(id: 'p1', price: 10.0);
+        cartProvider.addToCart(product);
+
+        await pumpAppWithNavigation(
+          tester,
+          const CartPage(),
+          providers: [
+            ChangeNotifierProvider<CartProvider>.value(value: cartProvider),
+          ],
+        );
+
+        expect(find.byKey(WidgetKeys.cartCheckoutButton), findsNothing);
+      });
+
+      testWidgets(
+          '28. Checkout button is rendered when CheckoutProvider is present and cart has items',
+          (tester) async {
+        final product = TestData.createTestProduct(id: 'p1', price: 10.0);
+        cartProvider.addToCart(product);
+
+        await pumpAppWithNavigation(
+          tester,
+          const CartPage(),
+          providers: [
+            ChangeNotifierProvider<CartProvider>.value(value: cartProvider),
+            ChangeNotifierProvider<CheckoutProvider>.value(value: checkoutProvider),
+            ChangeNotifierProvider<AuthProvider?>.value(value: mockAuth),
+          ],
+        );
+
+        expect(find.byKey(WidgetKeys.cartCheckoutButton), findsOneWidget);
+        expect(find.text('Proceed to Checkout'), findsOneWidget);
+      });
+
+      testWidgets(
+          '29. Tapping checkout when unauthenticated navigates to LoginPage',
+          (tester) async {
+        final product = TestData.createTestProduct(id: 'p1', price: 10.0);
+        cartProvider.addToCart(product);
+        when(() => mockAuth.isAuthenticated).thenReturn(false);
+
+        await pumpAppWithNavigation(
+          tester,
+          const CartPage(),
+          providers: [
+            ChangeNotifierProvider<CartProvider>.value(value: cartProvider),
+            ChangeNotifierProvider<CheckoutProvider>.value(value: checkoutProvider),
+            ChangeNotifierProvider<AuthProvider?>.value(value: mockAuth),
+          ],
+        );
+
+        await tester.tap(find.byKey(WidgetKeys.cartCheckoutButton));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(LoginPage), findsOneWidget);
+      });
+
+      testWidgets(
+          '30. Tapping checkout when authenticated navigates to CheckoutPage',
+          (tester) async {
+        final product = TestData.createTestProduct(id: 'p1', price: 10.0);
+        cartProvider.addToCart(product);
+        when(() => mockAuth.isAuthenticated).thenReturn(true);
+        when(() => mockAuth.currentUser).thenReturn(null);
+
+        await pumpAppWithNavigation(
+          tester,
+          const CartPage(),
+          providers: [
+            ChangeNotifierProvider<CartProvider>.value(value: cartProvider),
+            ChangeNotifierProvider<CheckoutProvider>.value(value: checkoutProvider),
+            ChangeNotifierProvider<AuthProvider?>.value(value: mockAuth),
+          ],
+        );
+
+        await tester.tap(find.byKey(WidgetKeys.cartCheckoutButton));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(CheckoutPage), findsOneWidget);
       });
     });
   });

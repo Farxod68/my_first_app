@@ -7,8 +7,10 @@ import 'core/services/persistence_service.dart';
 import 'core/services/supabase_service.dart';
 import 'core/config/supabase_config.dart';
 import 'data/data_sources/remote/auth_remote_data_source.dart';
+import 'data/data_sources/remote/order_remote_data_source.dart';
 import 'data/data_sources/remote/product_remote_data_source.dart';
 import 'data/repositories/auth_repository_impl.dart';
+import 'data/repositories/order_repository_impl.dart';
 import 'data/repositories/product_repository_impl.dart';
 import 'presentation/providers/cart_provider.dart';
 import 'presentation/providers/wishlist_provider.dart';
@@ -17,7 +19,9 @@ import 'presentation/providers/currency_provider.dart';
 import 'presentation/providers/recently_viewed_provider.dart';
 import 'presentation/providers/search_provider.dart';
 import 'presentation/providers/auth_provider.dart';
+import 'presentation/providers/checkout_provider.dart';
 import 'presentation/providers/product_provider.dart';
+import 'presentation/screens/auth/reset_password_page.dart';
 import 'presentation/screens/home/home_page.dart';
 import 'l10n/app_localizations.dart';
 
@@ -114,6 +118,19 @@ void main() async {
               ),
             ),
           ),
+
+        // Checkout provider (conditional on Supabase) - same SAFETY CONTRACT
+        // as AuthProvider above: OrderRemoteDataSource() eagerly resolves
+        // SupabaseService.client. CartPage reads it with a NULLABLE lookup
+        // and only links to CheckoutPage when it is registered.
+        if (supabaseInitialized)
+          ChangeNotifierProvider(
+            create: (_) => CheckoutProvider(
+              OrderRepositoryImpl(
+                OrderRemoteDataSource(),
+              ),
+            ),
+          ),
       ],
       child: const TopBuyDealsApp(),
     ),
@@ -153,6 +170,22 @@ class _TopBuyDealsAppState extends State<TopBuyDealsApp> {
           ],
           supportedLocales: LocaleProvider.supportedLocales,
           theme: AppTheme.lightTheme,
+          // While a password-recovery link is being handled, the new-password
+          // form replaces the app. Nullable lookup: AuthProvider only exists
+          // when Supabase is configured.
+          builder: (context, child) {
+            final recovering =
+                context.watch<AuthProvider?>()?.passwordRecoveryPending ??
+                    false;
+            if (!recovering) return child ?? const SizedBox.shrink();
+            // Own Navigator: this builder sits above the app's Navigator, and
+            // text fields need an Overlay ancestor.
+            return Navigator(
+              onGenerateRoute: (_) => MaterialPageRoute<void>(
+                builder: (_) => const ResetPasswordPage(),
+              ),
+            );
+          },
           home: const HomePage(),
         );
       },
