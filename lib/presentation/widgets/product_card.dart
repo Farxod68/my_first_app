@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_elevation.dart';
 import '../../core/theme/app_radius.dart';
@@ -37,16 +38,26 @@ class ProductCard extends StatelessWidget {
     required this.locale,
   });
 
+  Widget _fallbackIcon() => Icon(
+    product.icon,
+    size: 64,
+    color: AppColors.primaryBlue.withValues(alpha: 0.6),
+  );
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final currencyCode = context.watch<CurrencyProvider>().currentCurrency;
 
     return Card(
-      elevation: 3,
+      elevation: 2,
+      clipBehavior: Clip.antiAlias,
+      color: Colors.white,
+      surfaceTintColor: Colors.transparent,
       shadowColor: Colors.black.withValues(alpha: 0.1),
       shape: RoundedRectangleBorder(
         borderRadius: AppRadius.largeAll,
+        side: BorderSide(color: Colors.grey.shade200),
       ),
       child: InkWell(
         key: WidgetKeys.productCard(product.id),
@@ -57,20 +68,15 @@ class ProductCard extends StatelessWidget {
           children: [
             // Product image/icon section
             Expanded(
-              flex: 5,
               child: Stack(
                 children: [
                   // Gradient background
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          AppColors.primaryBlue.withValues(alpha: 0.05),
-                          AppColors.accentGreen.withValues(alpha: 0.05),
-                        ],
+                      color: Colors.white,
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey.shade100),
                       ),
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(AppRadius.large),
@@ -78,34 +84,38 @@ class ProductCard extends StatelessWidget {
                     ),
                     child: Center(
                       child: product.images.isNotEmpty
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(AppRadius.large),
-                              ),
+                          ? Padding(
+                              padding: const EdgeInsets.all(AppSpacing.sm),
                               child: product.images.first.startsWith('http')
                                   ? Image.network(
                                       product.images.first,
-                                      key: WidgetKeys.productCardIcon(product.id),
+                                      key: WidgetKeys.productCardIcon(
+                                        product.id,
+                                      ),
                                       width: double.infinity,
                                       height: double.infinity,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => Icon(
-                                        product.icon,
-                                        size: 80,
-                                        color: AppColors.primaryBlue,
-                                      ),
+                                      fit: BoxFit.contain,
+                                      alignment: Alignment.center,
+                                      errorBuilder: (
+                                        context,
+                                        error,
+                                        stackTrace,
+                                      ) => _fallbackIcon(),
                                     )
                                   : Image.asset(
                                       product.images.first,
-                                      key: WidgetKeys.productCardIcon(product.id),
+                                      key: WidgetKeys.productCardIcon(
+                                        product.id,
+                                      ),
                                       width: double.infinity,
                                       height: double.infinity,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => Icon(
-                                        product.icon,
-                                        size: 80,
-                                        color: AppColors.primaryBlue,
-                                      ),
+                                      fit: BoxFit.contain,
+                                      alignment: Alignment.center,
+                                      errorBuilder: (
+                                        context,
+                                        error,
+                                        stackTrace,
+                                      ) => _fallbackIcon(),
                                     ),
                             )
                           : Icon(
@@ -128,7 +138,9 @@ class ProductCard extends StatelessWidget {
                           // Discount badge
                           if (product.discount > 0)
                             Container(
-                              key: WidgetKeys.productCardDiscountBadge(product.id),
+                              key: WidgetKeys.productCardDiscountBadge(
+                                product.id,
+                              ),
                               padding: const EdgeInsets.symmetric(
                                 horizontal: AppSpacing.sm,
                                 vertical: AppSpacing.xs,
@@ -155,7 +167,8 @@ class ProductCard extends StatelessWidget {
                             ),
                           // Deal badges (show first badge only to avoid clutter)
                           if (product.badges.isNotEmpty) ...[
-                            if (product.discount > 0) const SizedBox(height: AppSpacing.xs),
+                            if (product.discount > 0)
+                              const SizedBox(height: AppSpacing.xs),
                             Container(
                               key: WidgetKeys.productCardDealBadge(product.id),
                               padding: const EdgeInsets.symmetric(
@@ -163,7 +176,9 @@ class ProductCard extends StatelessWidget {
                                 vertical: 3,
                               ),
                               decoration: BoxDecoration(
-                                color: DealBadgeHelper.color(product.badges.first),
+                                color: DealBadgeHelper.color(
+                                  product.badges.first,
+                                ),
                                 borderRadius: BorderRadius.circular(6),
                                 boxShadow: [
                                   BoxShadow(
@@ -174,7 +189,10 @@ class ProductCard extends StatelessWidget {
                                 ],
                               ),
                               child: Text(
-                                DealBadgeHelper.label(product.badges.first, l10n),
+                                DealBadgeHelper.label(
+                                  product.badges.first,
+                                  l10n,
+                                ),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -213,99 +231,96 @@ class ProductCard extends StatelessWidget {
             ),
 
             // Product information section
-            Expanded(
-              flex: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Product name
-                    Text(
-                      key: WidgetKeys.productCardName(product.id),
-                      product.name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                    ),
-                    const SizedBox(height: 3),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Product name
+                  Text(
+                    key: WidgetKeys.productCardName(product.id),
+                    product.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleSmall
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 3),
 
-                    // Category and Rating in one line to save space
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            key: WidgetKeys.productCardCategory(product.id),
-                            getLocalizedCategory(product.category, l10n),
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey.shade600,
-                                  fontSize: 11,
-                                ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (product.hasRating) ...[
-                          const SizedBox(width: AppSpacing.xs),
-                          Icon(
-                            key: WidgetKeys.productCardRating(product.id),
-                            Icons.star,
-                            size: 12,
-                            color: Colors.amber.shade700,
-                          ),
-                          const SizedBox(width: 1),
-                          Text(
-                            product.rating.toStringAsFixed(1),
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 10,
-                                ),
-                          ),
-                        ],
-                      ],
-                    ),
-
-                    const Spacer(),
-
-                    // Pricing
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Current price
-                        Text(
-                          key: WidgetKeys.productCardPrice(product.id),
-                          formatPrice(product.price, currencyCode, locale),
-                          style: Theme.of(context)
-                              .textTheme.titleMedium
+                  // Category and Rating in one line to save space
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          key: WidgetKeys.productCardCategory(product.id),
+                          getLocalizedCategory(product.category, l10n),
+                          style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
-                                color: AppColors.primaryBlue,
-                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade700,
+                                fontSize: 12,
                               ),
                           maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-
-                        // Old price (strikethrough)
-                        if (product.discount > 0)
-                          Text(
-                            key: WidgetKeys.productCardOldPrice(product.id),
-                            formatPrice(product.oldPrice, currencyCode, locale),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                  color: Colors.grey.shade500,
-                                  decoration: TextDecoration.lineThrough,
-                                  fontSize: 11,
-                                ),
-                            maxLines: 1,
-                          ),
+                      ),
+                      if (product.hasRating) ...[
+                        const SizedBox(width: AppSpacing.xs),
+                        Icon(
+                          key: WidgetKeys.productCardRating(product.id),
+                          Icons.star,
+                          size: 14,
+                          color: Colors.amber.shade700,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          product.rating.toStringAsFixed(1),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                        ),
                       ],
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 6),
+                  // Pricing
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Current price
+                      Text(
+                        key: WidgetKeys.productCardPrice(product.id),
+                        formatPrice(product.price, currencyCode, locale),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: AppColors.primaryBlue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                      // Old price (strikethrough)
+                      if (product.discount > 0)
+                        Text(
+                          key: WidgetKeys.productCardOldPrice(product.id),
+                          formatPrice(product.oldPrice, currencyCode, locale),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Colors.grey.shade600,
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 12,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],

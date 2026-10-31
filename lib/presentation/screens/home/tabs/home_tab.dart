@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/responsive.dart';
@@ -123,95 +124,105 @@ class _HomeTabBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       children: [
         // Hero Banner Section
-        Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: horizontalPadding,
-            vertical: AppSpacing.lg,
-          ),
-          height: isWideScreen ? 220 : 180,
-          constraints: BoxConstraints(
-            maxWidth: ScreenSize.isDesktop(context) ? 1200 : double.infinity,
-          ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                AppColors.primaryBlue,
-                const Color(0xFF0099FF),
-              ],
+        Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: ScreenSize.isDesktop(context) ? 1400 : double.infinity,
             ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primaryBlue.withValues(alpha: 0.3),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
+            child: Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: horizontalPadding,
+                vertical: AppSpacing.lg,
               ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                right: -20,
-                top: -20,
-                child: Container(
-                  width: 140,
-                  height: 140,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.1),
-                  ),
+              height: isWideScreen ? 220 : 180,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [AppColors.primaryBlue, const Color(0xFF0099FF)],
                 ),
-              ),
-              Positioned(
-                right: 20,
-                bottom: -30,
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primaryBlue.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
                   ),
-                ),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.all(isWideScreen ? AppSpacing.xxxl : AppSpacing.xxl),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      l10n.todaysPromotion,
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: Colors.white.withValues(alpha: 0.95),
-                            letterSpacing: 1.2,
-                          ),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      l10n.findBestPrices,
-                      style: (isWideScreen
-                              ? Theme.of(context).textTheme.headlineLarge
-                              : Theme.of(context).textTheme.headlineMedium)
-                          ?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        height: 1.3,
+              child: Stack(
+                children: [
+                  Positioned(
+                    right: -20,
+                    top: -20,
+                    child: Container(
+                      width: 140,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.1),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Positioned(
+                    right: 20,
+                    bottom: -30,
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.08),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(
+                      isWideScreen ? AppSpacing.xxxl : AppSpacing.xxl,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          l10n.todaysPromotion,
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                color: Colors.white.withValues(alpha: 0.95),
+                                letterSpacing: 1.2,
+                              ),
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          l10n.findBestPrices,
+                          style:
+                              (isWideScreen
+                                      ? Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge
+                                      : Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium)
+                                  ?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.3,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
 
         // Recently Viewed Section (using HorizontalProductSection)
         Consumer<RecentlyViewedProvider>(
           builder: (context, recentlyViewedProvider, child) {
-            final recentlyViewed = recentlyViewedProvider.getRecentlyViewedProducts(products);
+            final recentlyViewed = recentlyViewedProvider
+                .getRecentlyViewedProducts(products);
             return HorizontalProductSection(
               sectionId: 'recently_viewed',
               title: l10n.recentlyViewedTitle,
@@ -226,15 +237,25 @@ class _HomeTabBody extends StatelessWidget {
         // Popular Categories Section
         PopularCategoriesSection(
           categories: [
-            {'key': 'electronics', 'name': l10n.electronics, 'icon': Icons.phone_android},
+            {
+              'key': 'electronics',
+              'name': l10n.electronics,
+              'icon': Icons.phone_android,
+            },
             {'key': 'clothing', 'name': l10n.clothing, 'icon': Icons.checkroom},
-            {'key': 'accessories', 'name': l10n.accessories, 'icon': Icons.watch},
+            {
+              'key': 'accessories',
+              'name': l10n.accessories,
+              'icon': Icons.watch,
+            },
             {'key': 'homeGoods', 'name': l10n.homeGoods, 'icon': Icons.home},
             {'key': 'sports', 'name': l10n.sports, 'icon': Icons.sports_soccer},
             {'key': 'cosmetics', 'name': l10n.cosmetics, 'icon': Icons.face},
           ],
           onCategoryTap: (categoryKey, categoryName) => () {
-            final filtered = products.where((p) => p.category == categoryKey).toList();
+            final filtered = products
+                .where((p) => p.category == categoryKey)
+                .toList();
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -285,16 +306,19 @@ class _HomeTabBody extends StatelessWidget {
 
         // Popular Products Section
         Padding(
-          padding:
-              EdgeInsets.fromLTRB(horizontalPadding, 0, horizontalPadding, AppSpacing.md),
+          padding: EdgeInsets.fromLTRB(
+            horizontalPadding,
+            0,
+            horizontalPadding,
+            AppSpacing.md,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 l10n.popularProducts,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(context).textTheme.headlineSmall
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -303,9 +327,8 @@ class _HomeTabBody extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           child: Text(
             l10n.mostLovedItems,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey.shade600,
-                ),
+            style: Theme.of(context).textTheme.bodyMedium
+                ?.copyWith(color: Colors.grey.shade600),
           ),
         ),
         const SizedBox(height: AppSpacing.lg),
@@ -324,21 +347,23 @@ class _HomeTabBody extends StatelessWidget {
                   crossAxisCount: gridColumns,
                   crossAxisSpacing: AppSpacing.lg,
                   mainAxisSpacing: AppSpacing.lg,
-                  childAspectRatio: ScreenSize.isMobile(context) ? 0.60 : 0.65,
+                  childAspectRatio: ScreenSize.isMobile(context) ? 0.60 : 0.80,
                 ),
                 itemBuilder: (context, index) {
                   final product = products[index];
 
                   return Consumer<WishlistProvider>(
                     builder: (context, wishlistProvider, child) {
-                      final isFavorite =
-                          wishlistProvider.isFavorite(product.id);
+                      final isFavorite = wishlistProvider.isFavorite(
+                        product.id,
+                      );
 
                       return ProductCard(
                         product: product,
                         isFavorite: isFavorite,
                         onTap: () => onOpenProduct(product, context),
-                        onFavoriteToggle: () => onToggleFavorite(product, context),
+                        onFavoriteToggle: () =>
+                            onToggleFavorite(product, context),
                         locale: locale,
                       );
                     },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../core/constants/widget_keys.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radius.dart';
@@ -50,17 +51,13 @@ import '../../../presentation/widgets/favoritable_product_card.dart';
 class ProductDetailsPage extends StatefulWidget {
   final Product product;
 
-  const ProductDetailsPage({
-    super.key,
-    required this.product,
-  });
+  const ProductDetailsPage({super.key, required this.product});
 
   @override
   State<ProductDetailsPage> createState() => _ProductDetailsPageState();
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
-
   @override
   void initState() {
     super.initState();
@@ -148,12 +145,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ? _buildDesktopLayout(l10n, currencyCode, locale)
           : _buildMobileTabletLayout(l10n, currencyCode, locale, isWideScreen),
       // Sticky bottom bar for mobile/tablet with purchase actions
-      bottomNavigationBar: !isDesktop ? _buildStickyBottomBar(l10n, currencyCode, locale) : null,
+      bottomNavigationBar: !isDesktop
+          ? _buildStickyBottomBar(l10n, currencyCode, locale)
+          : null,
     );
   }
 
   /// Desktop layout with side-by-side image gallery and product info
-  Widget _buildDesktopLayout(AppLocalizations l10n, String currencyCode, String locale) {
+  Widget _buildDesktopLayout(
+    AppLocalizations l10n,
+    String currencyCode,
+    String locale,
+  ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -187,7 +190,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   /// Mobile/Tablet layout with scrollable content
-  Widget _buildMobileTabletLayout(AppLocalizations l10n, String currencyCode, String locale, bool isWideScreen) {
+  Widget _buildMobileTabletLayout(
+    AppLocalizations l10n,
+    String currencyCode,
+    String locale,
+    bool isWideScreen,
+  ) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +205,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
           // Product information
           Padding(
-            padding: EdgeInsets.all(isWideScreen ? AppSpacing.xxl : AppSpacing.lg),
+            padding: EdgeInsets.all(
+              isWideScreen ? AppSpacing.xxl : AppSpacing.lg,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -216,9 +226,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   /// Image gallery with product visualization
   Widget _buildImageGallery(bool isDesktop) {
     return Container(
-      constraints: BoxConstraints(
-        maxWidth: isDesktop ? 600 : double.infinity,
-      ),
+      constraints: BoxConstraints(maxWidth: isDesktop ? 600 : double.infinity),
       child: Column(
         children: [
           // Main image
@@ -245,23 +253,27 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               widget.product.images.first,
                               width: double.infinity,
                               height: double.infinity,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => Icon(
-                                widget.product.icon,
-                                size: isDesktop ? 200 : 120,
-                                color: AppColors.primaryBlue,
-                              ),
+                              fit: BoxFit.contain,
+                              alignment: Alignment.center,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(
+                                    widget.product.icon,
+                                    size: isDesktop ? 200 : 120,
+                                    color: AppColors.primaryBlue,
+                                  ),
                             )
                           : Image.asset(
                               widget.product.images.first,
                               width: double.infinity,
                               height: double.infinity,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => Icon(
-                                widget.product.icon,
-                                size: isDesktop ? 200 : 120,
-                                color: AppColors.primaryBlue,
-                              ),
+                              fit: BoxFit.contain,
+                              alignment: Alignment.center,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(
+                                    widget.product.icon,
+                                    size: isDesktop ? 200 : 120,
+                                    color: AppColors.primaryBlue,
+                                  ),
                             ),
                     )
                   : Icon(
@@ -278,7 +290,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   /// Product header with title, brand, rating, price
-  Widget _buildProductHeader(AppLocalizations l10n, String currencyCode, String locale) {
+  Widget _buildProductHeader(
+    AppLocalizations l10n,
+    String currencyCode,
+    String locale,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -310,10 +326,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           const SizedBox(height: AppSpacing.sm),
           Text(
             widget.product.subtitle!,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey.shade700,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
           ),
         ],
 
@@ -328,7 +341,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   return Icon(
                     index < widget.product.rating.floor()
                         ? Icons.star
-                        : (index < widget.product.rating ? Icons.star_half : Icons.star_border),
+                        : (index < widget.product.rating
+                              ? Icons.star_half
+                              : Icons.star_border),
                     color: Colors.amber.shade700,
                     size: 20,
                   );
@@ -346,10 +361,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 const SizedBox(width: AppSpacing.sm),
                 Text(
                   l10n.reviewsCount(widget.product.reviewCount),
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                 ),
               ],
             ],
@@ -452,7 +464,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget _buildStockStatus(AppLocalizations l10n) {
     if (widget.product.isOutOfStock) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
         decoration: BoxDecoration(
           color: Colors.red.shade50,
           borderRadius: BorderRadius.circular(8),
@@ -475,7 +490,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       );
     } else if (widget.product.isLowStock) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
         decoration: BoxDecoration(
           color: Colors.orange.shade50,
           borderRadius: BorderRadius.circular(8),
@@ -498,7 +516,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       );
     } else {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
         decoration: BoxDecoration(
           color: Colors.green.shade50,
           borderRadius: BorderRadius.circular(8),
@@ -519,10 +540,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             const SizedBox(width: AppSpacing.xs),
             Text(
               '• ${l10n.unitsInStock(widget.product.stock)}',
-              style: TextStyle(
-                color: Colors.green.shade600,
-                fontSize: 13,
-              ),
+              style: TextStyle(color: Colors.green.shade600, fontSize: 13),
             ),
           ],
         ),
@@ -548,9 +566,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: AppRadius.smallAll,
-              ),
+              shape: RoundedRectangleBorder(borderRadius: AppRadius.smallAll),
             ),
           ),
         ),
@@ -567,12 +583,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: AppRadius.smallAll,
-              ),
+              shape: RoundedRectangleBorder(borderRadius: AppRadius.smallAll),
               side: BorderSide(
                 width: 2,
-                color: isOutOfStock ? Colors.grey : Theme.of(context).colorScheme.primary,
+                color: isOutOfStock
+                    ? Colors.grey
+                    : Theme.of(context).colorScheme.primary,
               ),
             ),
           ),
@@ -584,7 +600,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Wrap(
             alignment: WrapAlignment.center,
             children: [
-              Icon(Icons.local_shipping, size: 18, color: Colors.green.shade700),
+              Icon(
+                Icons.local_shipping,
+                size: 18,
+                color: Colors.green.shade700,
+              ),
               const SizedBox(width: 6),
               Text(
                 l10n.freeShipping,
@@ -601,7 +621,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   /// Sticky bottom bar for mobile/tablet
-  Widget _buildStickyBottomBar(AppLocalizations l10n, String currencyCode, String locale) {
+  Widget _buildStickyBottomBar(
+    AppLocalizations l10n,
+    String currencyCode,
+    String locale,
+  ) {
     final isOutOfStock = widget.product.isOutOfStock;
 
     return Container(
@@ -635,7 +659,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   ),
                   if (widget.product.discount > 0)
                     Text(
-                      formatPrice(widget.product.oldPrice, currencyCode, locale),
+                      formatPrice(
+                        widget.product.oldPrice,
+                        currencyCode,
+                        locale,
+                      ),
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey.shade500,
@@ -661,7 +689,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   ),
                   child: Text(
                     l10n.addToCartFull,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -693,34 +724,38 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         ],
 
         // Key Features
-        if (widget.product.features != null && widget.product.features!.isNotEmpty) ...[
+        if (widget.product.features != null &&
+            widget.product.features!.isNotEmpty) ...[
           _buildSectionTitle(l10n.keyFeatures),
           const SizedBox(height: AppSpacing.md),
-          ...widget.product.features!.map((feature) => Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.check_circle,
-                      size: 20,
-                      color: Colors.green.shade600,
+          ...widget.product.features!.map(
+            (feature) => Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.check_circle,
+                    size: 20,
+                    color: Colors.green.shade600,
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Text(
+                      feature,
+                      style: const TextStyle(fontSize: 15, height: 1.5),
                     ),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: Text(
-                        feature,
-                        style: const TextStyle(fontSize: 15, height: 1.5),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
           const SizedBox(height: AppSpacing.xxl),
         ],
 
         // Specifications
-        if (widget.product.specifications != null && widget.product.specifications!.isNotEmpty) ...[
+        if (widget.product.specifications != null &&
+            widget.product.specifications!.isNotEmpty) ...[
           _buildSectionTitle(l10n.specifications),
           const SizedBox(height: AppSpacing.md),
           _buildSpecificationsTable(),
@@ -776,10 +811,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
+      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 
@@ -856,7 +888,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             const SizedBox(height: AppSpacing.sm),
             Wrap(
               children: [
-                Icon(Icons.check_circle, size: 18, color: Colors.green.shade600),
+                Icon(
+                  Icons.check_circle,
+                  size: 18,
+                  color: Colors.green.shade600,
+                ),
                 const SizedBox(width: AppSpacing.md),
                 Text(
                   l10n.freeShipping,
@@ -895,7 +931,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           child: CircularProgressIndicator(),
         ),
       );
-    } else if (productProvider.error != null && productProvider.products.isEmpty) {
+    } else if (productProvider.error != null &&
+        productProvider.products.isEmpty) {
       // Safe error state: no crash, related products section is simply
       // absent for this load.
       return const SizedBox.shrink(key: WidgetKeys.productDetailsPageError);
@@ -903,7 +940,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       // Catalog finished loading but is empty - distinct from "requested
       // product not found" below.
       return const SizedBox.shrink(key: WidgetKeys.productDetailsPageEmpty);
-    } else if (!productProvider.products.any((p) => p.id == widget.product.id)) {
+    } else if (!productProvider.products.any(
+      (p) => p.id == widget.product.id,
+    )) {
       // Catalog loaded with products, but the currently viewed product isn't
       // among them - never substitute a different product's related items.
       return const SizedBox.shrink(key: WidgetKeys.productDetailsPageNotFound);
@@ -913,7 +952,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
     // Get products from same category, excluding current product
     final relatedProducts = catalog
-        .where((p) => p.category == widget.product.category && p.id != widget.product.id)
+        .where(
+          (p) =>
+              p.category == widget.product.category &&
+              p.id != widget.product.id,
+        )
         .take(4)
         .toList();
 

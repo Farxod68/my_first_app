@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/responsive.dart';
 import '../../../core/utils/formatters.dart';
@@ -203,63 +204,83 @@ class _SearchHeader extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildFilterChips(BuildContext context, SearchProvider searchProvider) {
+  List<Widget> _buildFilterChips(
+    BuildContext context,
+    SearchProvider searchProvider,
+  ) {
     final l10n = AppLocalizations.of(context)!;
     final chips = <Widget>[];
     final filters = searchProvider.filters;
 
     if (filters.category != null) {
-      chips.add(_FilterChip(
-        label: getLocalizedCategory(filters.category!, l10n),
-        onRemove: () => searchProvider.setCategoryFilter(null),
-      ));
+      chips.add(
+        _FilterChip(
+          label: getLocalizedCategory(filters.category!, l10n),
+          onRemove: () => searchProvider.setCategoryFilter(null),
+        ),
+      );
     }
 
     if (filters.brand != null) {
-      chips.add(_FilterChip(
-        label: filters.brand!,
-        onRemove: () => searchProvider.setBrandFilter(null),
-      ));
+      chips.add(
+        _FilterChip(
+          label: filters.brand!,
+          onRemove: () => searchProvider.setBrandFilter(null),
+        ),
+      );
     }
 
     if (filters.minRating != null) {
-      chips.add(_FilterChip(
-        label: l10n.starsAndUp(filters.minRating!.toInt()),
-        onRemove: () => searchProvider.setRatingFilter(null),
-      ));
+      chips.add(
+        _FilterChip(
+          label: l10n.starsAndUp(filters.minRating!.toInt()),
+          onRemove: () => searchProvider.setRatingFilter(null),
+        ),
+      );
     }
 
     if (filters.minDiscount != null) {
-      chips.add(_FilterChip(
-        label: l10n.discountAndUp(filters.minDiscount!),
-        onRemove: () => searchProvider.setDiscountFilter(null),
-      ));
+      chips.add(
+        _FilterChip(
+          label: l10n.discountAndUp(filters.minDiscount!),
+          onRemove: () => searchProvider.setDiscountFilter(null),
+        ),
+      );
     }
 
     if (filters.inStockOnly == true) {
-      chips.add(_FilterChip(
-        label: l10n.inStockOnly,
-        onRemove: () => searchProvider.setInStockOnlyFilter(null),
-      ));
+      chips.add(
+        _FilterChip(
+          label: l10n.inStockOnly,
+          onRemove: () => searchProvider.setInStockOnlyFilter(null),
+        ),
+      );
     }
 
     if (filters.dealsOnly == true) {
-      chips.add(_FilterChip(
-        label: l10n.dealsOnly,
-        onRemove: () => searchProvider.setDealsOnlyFilter(null),
-      ));
+      chips.add(
+        _FilterChip(
+          label: l10n.dealsOnly,
+          onRemove: () => searchProvider.setDealsOnlyFilter(null),
+        ),
+      );
     }
 
     // Clear all button
     if (chips.isNotEmpty) {
-      chips.add(TextButton.icon(
-        onPressed: () => searchProvider.clearFilters(),
-        icon: const Icon(Icons.clear_all, size: 18),
-        label: Text(l10n.clearFilters),
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      chips.add(
+        TextButton.icon(
+          onPressed: () => searchProvider.clearFilters(),
+          icon: const Icon(Icons.clear_all, size: 18),
+          label: Text(l10n.clearFilters),
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.sm,
+            ),
+          ),
         ),
-      ));
+      );
     }
 
     return chips;
@@ -301,7 +322,7 @@ class _ResultsGrid extends StatelessWidget {
         crossAxisCount: gridColumns,
         crossAxisSpacing: AppSpacing.lg,
         mainAxisSpacing: AppSpacing.lg,
-        childAspectRatio: ScreenSize.isMobile(context) ? 0.60 : 0.65,
+        childAspectRatio: ScreenSize.isMobile(context) ? 0.60 : 0.80,
       ),
       itemBuilder: (context, index) {
         final product = results[index];
@@ -334,11 +355,7 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.search_off,
-              size: 80,
-              color: Colors.grey.shade300,
-            ),
+            Icon(Icons.search_off, size: 80, color: Colors.grey.shade300),
             const SizedBox(height: AppSpacing.lg),
             Text(
               searchProvider.hasSearch
@@ -378,18 +395,42 @@ class _SortButton extends StatelessWidget {
       icon: const Icon(Icons.sort),
       onSelected: (sort) => searchProvider.setSortBy(sort),
       itemBuilder: (context) => [
-        _buildSortItem(ProductSort.relevance, l10n.relevance, searchProvider.sortBy),
-        _buildSortItem(ProductSort.priceLowToHigh, l10n.priceLowToHigh, searchProvider.sortBy),
-        _buildSortItem(ProductSort.priceHighToLow, l10n.priceHighToLow, searchProvider.sortBy),
+        _buildSortItem(
+          ProductSort.relevance,
+          l10n.relevance,
+          searchProvider.sortBy,
+        ),
+        _buildSortItem(
+          ProductSort.priceLowToHigh,
+          l10n.priceLowToHigh,
+          searchProvider.sortBy,
+        ),
+        _buildSortItem(
+          ProductSort.priceHighToLow,
+          l10n.priceHighToLow,
+          searchProvider.sortBy,
+        ),
         _buildSortItem(ProductSort.rating, l10n.rating, searchProvider.sortBy),
         _buildSortItem(ProductSort.newest, l10n.newest, searchProvider.sortBy),
-        _buildSortItem(ProductSort.discount, l10n.discount, searchProvider.sortBy),
-        _buildSortItem(ProductSort.popularity, l10n.popularity, searchProvider.sortBy),
+        _buildSortItem(
+          ProductSort.discount,
+          l10n.discount,
+          searchProvider.sortBy,
+        ),
+        _buildSortItem(
+          ProductSort.popularity,
+          l10n.popularity,
+          searchProvider.sortBy,
+        ),
       ],
     );
   }
 
-  PopupMenuItem<ProductSort> _buildSortItem(ProductSort value, String label, ProductSort current) {
+  PopupMenuItem<ProductSort> _buildSortItem(
+    ProductSort value,
+    String label,
+    ProductSort current,
+  ) {
     return PopupMenuItem(
       value: value,
       child: Row(
@@ -425,13 +466,18 @@ class _FilterSheet extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.lg),
                   decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey.shade200),
+                    ),
                   ),
                   child: Row(
                     children: [
                       Text(
                         l10n.filters,
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const Spacer(),
                       if (searchProvider.hasFilters)
@@ -481,13 +527,16 @@ class _FilterSheet extends StatelessWidget {
                           children: [
                             SwitchListTile(
                               title: Text(l10n.inStockOnly),
-                              value: searchProvider.filters.inStockOnly ?? false,
-                              onChanged: (value) => searchProvider.setInStockOnlyFilter(value ? true : null),
+                              value:
+                                  searchProvider.filters.inStockOnly ?? false,
+                              onChanged: (value) => searchProvider
+                                  .setInStockOnlyFilter(value ? true : null),
                             ),
                             SwitchListTile(
                               title: Text(l10n.dealsOnly),
                               value: searchProvider.filters.dealsOnly ?? false,
-                              onChanged: (value) => searchProvider.setDealsOnlyFilter(value ? true : null),
+                              onChanged: (value) => searchProvider
+                                  .setDealsOnlyFilter(value ? true : null),
                             ),
                           ],
                         ),
@@ -507,7 +556,10 @@ class _FilterSheet extends StatelessWidget {
                         onPressed: () => Navigator.pop(context),
                         child: Text(
                           l10n.applyFilters,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
