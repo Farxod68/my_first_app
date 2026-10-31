@@ -106,6 +106,8 @@ Future<ProfileEditTestContext> _createContext({UserEntity? user}) async {
       .thenAnswer((_) async => user);
   when(() => mockAuthRepository.authStateChanges)
       .thenAnswer((_) => Stream.value(user));
+  when(() => mockAuthRepository.passwordRecoveryEvents)
+      .thenAnswer((_) => const Stream<void>.empty());
   when(() => mockPersistenceService.loadLocale()).thenReturn(null);
   when(() => mockPersistenceService.getString(any())).thenReturn(null);
   when(() => mockPersistenceService.saveLocale(any()))

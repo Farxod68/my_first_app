@@ -47,7 +47,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   Future<void> _handleResetPassword() async {
-    if (!_formKey.currentState!.validate()) {
+    if (_isLoading || !_formKey.currentState!.validate()) {
       return;
     }
 
@@ -188,7 +188,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     // Success state - Resend button
                     OutlinedButton.icon(
                       key: WidgetKeys.forgotPasswordResendButton,
-                      onPressed: _resendCooldown > 0 ? null : _handleResetPassword,
+                      onPressed: (_resendCooldown > 0 || _isLoading)
+                          ? null
+                          : _handleResetPassword,
                       icon: const Icon(Icons.refresh),
                       label: Text(
                         _resendCooldown > 0

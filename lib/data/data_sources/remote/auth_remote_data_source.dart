@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/services/supabase_service.dart';
 import '../../../domain/repositories/auth_repository.dart';
@@ -51,6 +52,12 @@ class AuthRemoteDataSource {
         throw AuthException('Sign up failed: No user returned');
       }
 
+      // Email confirmation enabled: no session yet, so the profile row is
+      // not readable (RLS). The user finishes sign-up from the email link.
+      if (response.session == null) {
+        throw const EmailConfirmationRequiredException();
+      }
+
       // Wait briefly for profile to be created by trigger
       await Future.delayed(const Duration(milliseconds: 500));
 
@@ -62,6 +69,8 @@ class AuthRemoteDataSource {
           .single();
 
       return UserModel.fromJson(profile);
+    } on EmailConfirmationRequiredException {
+      rethrow;
     } on AuthException catch (e) {
       throw AuthException(e.message);
     } catch (e) {
@@ -111,9 +120,34 @@ class AuthRemoteDataSource {
   /// Send password reset email
   Future<void> resetPassword(String email) async {
     try {
-      await _supabase.auth.resetPasswordForEmail(email);
+      await _supabase.auth.resetPasswordForEmail(
+        email,
+        redirectTo: _webRedirectUrl,
+      );
     } catch (e) {
       throw AuthException('Password reset failed: $e');
+    }
+  }
+
+  /// Where Supabase email links (confirmation, recovery) send the browser.
+  ///
+  /// On web this is the app's own origin, which must be listed under
+  /// Authentication > URL Configuration > Redirect URLs. Null elsewhere.
+  String? get _webRedirectUrl => kIsWeb ? Uri.base.origin : null;
+
+  /// Emits when the user opens a password-recovery link
+  Stream<void> get passwordRecoveryEvents => _supabase.auth.onAuthStateChange
+      .where((state) => state.event == AuthChangeEvent.passwordRecovery)
+      .map((_) {});
+
+  /// Set a new password for the current (recovery) session
+  Future<void> updatePassword(String newPassword) async {
+    try {
+      await _supabase.auth.updateUser(UserAttributes(password: newPassword));
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
+    } catch (e) {
+      throw AuthException('Password update failed: $e');
     }
   }
 

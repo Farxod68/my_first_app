@@ -13,10 +13,14 @@ void main() {
     late MockAuthRepository mockAuthRepository;
     late AuthProvider provider;
     late StreamController<UserEntity?> authStateController;
+    late StreamController<void> recoveryController;
 
     setUp(() {
       mockAuthRepository = MockAuthRepository();
       authStateController = StreamController<UserEntity?>.broadcast();
+      recoveryController = StreamController<void>.broadcast();
+      when(() => mockAuthRepository.passwordRecoveryEvents)
+          .thenAnswer((_) => recoveryController.stream);
 
       // Default: no current user
       when(() => mockAuthRepository.getCurrentUser())
@@ -30,6 +34,7 @@ void main() {
 
     tearDown(() {
       authStateController.close();
+      recoveryController.close();
       try {
         provider.dispose();
       } catch (_) {
@@ -258,6 +263,80 @@ void main() {
         expect(prefs, isNotNull);
         expect(prefs!['languageCode'], equals('en'));
         expect(prefs['currencyCode'], equals('USD'));
+      });
+    });
+
+    group('email confirmation and password recovery', () {
+      setUp(() async {
+        provider = AuthProvider(mockAuthRepository);
+        await Future.delayed(Duration.zero);
+      });
+
+      test('sign up needing confirmation succeeds without a user', () async {
+        when(() => mockAuthRepository.signUpWithEmail(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+              fullName: any(named: 'fullName'),
+            )).thenThrow(const EmailConfirmationRequiredException());
+
+        final result = await provider.signUp(
+          email: 'test@example.com',
+          password: 'password123',
+          fullName: 'Test User',
+        );
+
+        expect(result, isTrue);
+        expect(provider.awaitingEmailConfirmation, isTrue);
+        expect(provider.currentUser, isNull);
+        expect(provider.error, isNull);
+
+        provider.clearEmailConfirmationNotice();
+        expect(provider.awaitingEmailConfirmation, isFalse);
+      });
+
+      test('recovery event sets passwordRecoveryPending', () async {
+        expect(provider.passwordRecoveryPending, isFalse);
+
+        recoveryController.add(null);
+        await Future.delayed(Duration.zero);
+
+        expect(provider.passwordRecoveryPending, isTrue);
+      });
+
+      test('updatePassword success clears the pending flag', () async {
+        recoveryController.add(null);
+        await Future.delayed(Duration.zero);
+        when(() => mockAuthRepository.updatePassword(any()))
+            .thenAnswer((_) async {});
+
+        final result = await provider.updatePassword('new-secret-1');
+
+        expect(result, isTrue);
+        expect(provider.passwordRecoveryPending, isFalse);
+        verify(() => mockAuthRepository.updatePassword('new-secret-1'))
+            .called(1);
+      });
+
+      test('updatePassword failure keeps pending and sets error', () async {
+        recoveryController.add(null);
+        await Future.delayed(Duration.zero);
+        when(() => mockAuthRepository.updatePassword(any()))
+            .thenThrow(AuthException('Link expired'));
+
+        final result = await provider.updatePassword('new-secret-1');
+
+        expect(result, isFalse);
+        expect(provider.passwordRecoveryPending, isTrue);
+        expect(provider.error, 'Link expired');
+      });
+
+      test('cancelPasswordRecovery clears the pending flag', () async {
+        recoveryController.add(null);
+        await Future.delayed(Duration.zero);
+
+        provider.cancelPasswordRecovery();
+
+        expect(provider.passwordRecoveryPending, isFalse);
       });
     });
 

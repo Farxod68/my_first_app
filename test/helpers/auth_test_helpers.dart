@@ -34,6 +34,8 @@ Future<AuthTestContext> pumpAuthPage(
       .thenAnswer((_) async => null);
   when(() => mockAuthRepository.authStateChanges)
       .thenAnswer((_) => Stream.value(null));
+  when(() => mockAuthRepository.passwordRecoveryEvents)
+      .thenAnswer((_) => const Stream<void>.empty());
 
   // Default stubs for PersistenceService
   when(() => mockPersistenceService.loadLocale()).thenReturn(null);

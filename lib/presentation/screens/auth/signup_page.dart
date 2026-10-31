@@ -74,7 +74,15 @@ class _SignUpPageState extends State<SignUpPage> {
 
     setState(() => _isLoading = false);
 
-    if (success) {
+    if (success && authProvider.awaitingEmailConfirmation) {
+      // No session yet: the account is active once the emailed link is opened
+      authProvider.clearEmailConfirmationNotice();
+      Navigator.pop(context);
+      UIHelpers.showInfoMessage(
+        context,
+        AppLocalizations.of(context)!.signUpConfirmEmail,
+      );
+    } else if (success) {
       // Sync preferences from user profile to local providers
       AuthHelpers.syncPreferencesFromProfile(context, logPrefix: 'SIGNUP');
 

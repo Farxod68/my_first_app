@@ -252,6 +252,9 @@ class WidgetKeys {
   /// Cart subtotal amount text, formatted in the selected currency
   static const cartSubtotalValue = Key('cart_subtotal_value');
 
+  /// Button to proceed to checkout from cart
+  static const cartCheckoutButton = Key('cart_checkout_button');
+
   // CategoryPage
   // ==========================================================================
 
@@ -361,4 +364,43 @@ class WidgetKeys {
 
   /// Confirm button inside the delete-account confirmation dialog
   static const deleteAccountConfirmButton = Key('delete_account_confirm_button');
+
+  // ==========================================================================
+  // CHECKOUT FLOW - Checkout Page & Confirmation
+  // ==========================================================================
+
+  /// Checkout page root scaffold / container
+  static const checkoutPage = Key('checkout_page');
+
+  /// Checkout form fields
+  static const checkoutFullNameField = Key('checkout_full_name_field');
+  static const checkoutPhoneField = Key('checkout_phone_field');
+  static const checkoutAddressField = Key('checkout_address_field');
+  static const checkoutCityField = Key('checkout_city_field');
+  static const checkoutCountryField = Key('checkout_country_field');
+
+  /// Order summary section and subtotal in checkout
+  static const checkoutOrderSummary = Key('checkout_order_summary');
+  static const checkoutSubtotalValue = Key('checkout_subtotal_value');
+
+  /// Checkout action buttons & loading indicator
+  static const checkoutPlaceOrderButton = Key('checkout_place_order_button');
+  static const checkoutLoadingIndicator = Key('checkout_loading_indicator');
+  static const checkoutResetButton = Key('checkout_reset_button');
+
+  /// Failure and unknown-outcome message containers
+  static const checkoutErrorMessage = Key('checkout_error_message');
+  static const checkoutUnknownOutcomeMessage = Key('checkout_unknown_outcome_message');
+
+  /// Order confirmation view shown after successful order placement
+  static const checkoutConfirmationView = Key('checkout_confirmation_view');
+  static const checkoutOrderIdValue = Key('checkout_order_id_value');
+  static const checkoutUsdTotalValue = Key('checkout_usd_total_value');
+  static const checkoutContinueShoppingButton = Key('checkout_continue_shopping_button');
+
+  /// Set-new-password page (password recovery link)
+  static const resetPasswordNewField = Key('reset_password_new_field');
+  static const resetPasswordConfirmField = Key('reset_password_confirm_field');
+  static const resetPasswordSubmitButton = Key('reset_password_submit_button');
+  static const resetPasswordCancelButton = Key('reset_password_cancel_button');
 }

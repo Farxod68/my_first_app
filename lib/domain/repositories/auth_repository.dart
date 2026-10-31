@@ -1,5 +1,14 @@
 import '../entities/user_entity.dart';
 
+/// Thrown by sign-up when the account was created but the user must
+/// confirm their email address before a session is issued.
+class EmailConfirmationRequiredException implements Exception {
+  const EmailConfirmationRequiredException();
+
+  @override
+  String toString() => 'EmailConfirmationRequiredException';
+}
+
 /// Authentication repository interface (Domain Layer)
 ///
 /// Defines the contract for authentication operations.
@@ -43,6 +52,15 @@ abstract class AuthRepository {
   ///
   /// Sends a password reset link to the user's email.
   Future<void> resetPassword(String email);
+
+  /// Emits whenever the user arrives via a password-recovery email link.
+  ///
+  /// By then a temporary recovery session exists; the UI should ask for a
+  /// new password and call [updatePassword].
+  Stream<void> get passwordRecoveryEvents;
+
+  /// Set a new password for the currently signed-in (recovery) session.
+  Future<void> updatePassword(String newPassword);
 
   /// Update user profile
   ///

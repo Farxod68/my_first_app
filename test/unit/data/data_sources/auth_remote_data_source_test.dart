@@ -414,6 +414,30 @@ void main() {
         );
       });
 
+      test('throws EmailConfirmationRequiredException when no session is issued',
+          () async {
+        final mockUser = MockUser();
+        when(() => mockUser.id).thenReturn(testUserId);
+
+        final mockAuthResponse = MockAuthResponse();
+        when(() => mockAuthResponse.user).thenReturn(mockUser);
+        when(() => mockAuthResponse.session).thenReturn(null);
+
+        when(() => mockAuth.signUp(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+              data: any(named: 'data'),
+            )).thenAnswer((_) async => mockAuthResponse);
+
+        await expectLater(
+          dataSource.signUp(email: testEmail, password: testPassword),
+          throwsA(isA<EmailConfirmationRequiredException>()),
+        );
+
+        // The profile is not readable without a session, so it is never queried
+        verifyNever(() => mockSupabase.from(any()));
+      });
+
       test('returns UserModel after successful signup and profile fetch', () async {
         // Setup auth response
         final mockUser = MockUser();
@@ -421,6 +445,7 @@ void main() {
 
         final mockAuthResponse = MockAuthResponse();
         when(() => mockAuthResponse.user).thenReturn(mockUser);
+        when(() => mockAuthResponse.session).thenReturn(MockSession());
 
         when(() => mockAuth.signUp(
               email: any(named: 'email'),
@@ -727,6 +752,50 @@ void main() {
 
         verify(() => mockAuth.resetPasswordForEmail('test+tag@example.com'))
             .called(1);
+      });
+    });
+
+    group('updatePassword', () {
+      setUpAll(() => registerFallbackValue(UserAttributes()));
+
+      test('updates the password of the current session', () async {
+        when(() => mockAuth.updateUser(any()))
+            .thenAnswer((_) async => UserResponse.fromJson({'id': testUserId}));
+
+        await dataSource.updatePassword('new-secret-1');
+
+        final captured =
+            verify(() => mockAuth.updateUser(captureAny())).captured.single
+                as UserAttributes;
+        expect(captured.password, 'new-secret-1');
+      });
+
+      test('wraps generic failures in AuthException', () async {
+        when(() => mockAuth.updateUser(any())).thenThrow(Exception('boom'));
+
+        await expectLater(
+          dataSource.updatePassword('new-secret-1'),
+          throwsA(isA<AuthException>()),
+        );
+      });
+    });
+
+    group('passwordRecoveryEvents', () {
+      test('emits only for passwordRecovery auth events', () async {
+        final controller = StreamController<AuthState>();
+        when(() => mockAuth.onAuthStateChange)
+            .thenAnswer((_) => controller.stream);
+
+        var count = 0;
+        final sub = dataSource.passwordRecoveryEvents.listen((_) => count++);
+
+        controller.add(AuthState(AuthChangeEvent.signedIn, null));
+        controller.add(AuthState(AuthChangeEvent.passwordRecovery, null));
+        await Future<void>.delayed(Duration.zero);
+
+        expect(count, 1);
+        await sub.cancel();
+        await controller.close();
       });
     });
 
@@ -1277,6 +1346,7 @@ void main() {
 
         final mockAuthResponse = MockAuthResponse();
         when(() => mockAuthResponse.user).thenReturn(mockUser);
+        when(() => mockAuthResponse.session).thenReturn(MockSession());
 
         when(() => mockAuth.signUp(
               email: any(named: 'email'),

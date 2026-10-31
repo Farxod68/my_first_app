@@ -24,6 +24,9 @@ class AuthProvider with ChangeNotifier {
   String? _error;
   String? _errorCode;
   StreamSubscription<UserEntity?>? _authStateSubscription;
+  StreamSubscription<void>? _passwordRecoverySubscription;
+  bool _passwordRecoveryPending = false;
+  bool _awaitingEmailConfirmation = false;
 
   AuthProvider(this._authRepository) {
     _initialize();
@@ -45,6 +48,14 @@ class AuthProvider with ChangeNotifier {
   /// (e.g. AuthRepository.accountHasOrdersCode). Lets the UI show a
   /// localized message instead of [error].
   String? get errorCode => _errorCode;
+
+  /// True after the user opened a password-recovery email link and still
+  /// has to choose a new password
+  bool get passwordRecoveryPending => _passwordRecoveryPending;
+
+  /// True when the last sign-up succeeded but needs email confirmation
+  /// before the user can sign in
+  bool get awaitingEmailConfirmation => _awaitingEmailConfirmation;
 
   /// Check if user is authenticated
   bool get isAuthenticated => _currentUser != null;
@@ -86,6 +97,18 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       debugPrint('Auth initialization error: $e');
       _error = e.toString();
+    }
+
+    // Separate from the block above so a failure here never marks auth
+    // initialization itself as failed.
+    try {
+      _passwordRecoverySubscription =
+          _authRepository.passwordRecoveryEvents.listen((_) {
+        _passwordRecoveryPending = true;
+        notifyListeners();
+      });
+    } catch (e) {
+      debugPrint('Password recovery listener error: $e');
     } finally {
       _isInitialized = true;
       notifyListeners();
@@ -123,6 +146,11 @@ class AuthProvider with ChangeNotifier {
       );
 
       _currentUser = user;
+      _awaitingEmailConfirmation = false;
+      _setLoading(false);
+      return true;
+    } on EmailConfirmationRequiredException {
+      _awaitingEmailConfirmation = true;
       _setLoading(false);
       return true;
     } on AuthException catch (e) {
@@ -270,8 +298,43 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Set a new password after the user opened a recovery link
+  ///
+  /// Returns true on success and clears [passwordRecoveryPending].
+  Future<bool> updatePassword(String newPassword) async {
+    _setLoading(true);
+    _clearError();
+
+    try {
+      await _authRepository.updatePassword(newPassword);
+      _passwordRecoveryPending = false;
+      _setLoading(false);
+      return true;
+    } on AuthException catch (e) {
+      _setError(e.message, code: e.code);
+      _setLoading(false);
+      return false;
+    } catch (e) {
+      _setError('Password update failed: ${e.toString()}');
+      _setLoading(false);
+      return false;
+    }
+  }
+
+  /// Dismiss the recovery prompt without changing the password
+  void cancelPasswordRecovery() {
+    _passwordRecoveryPending = false;
+    notifyListeners();
+  }
+
+  /// Acknowledge the "check your email" notice after sign-up
+  void clearEmailConfirmationNotice() {
+    _awaitingEmailConfirmation = false;
+  }
+
   @override
   void dispose() {
+    _passwordRecoverySubscription?.cancel();
     _authStateSubscription?.cancel();
     super.dispose();
   }

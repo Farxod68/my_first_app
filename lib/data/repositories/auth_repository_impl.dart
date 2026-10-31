@@ -89,6 +89,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Stream<void> get passwordRecoveryEvents =>
+      _remoteDataSource.passwordRecoveryEvents;
+
+  @override
+  Future<void> updatePassword(String newPassword) async {
+    await _remoteDataSource.updatePassword(newPassword);
+  }
+
+  @override
   Future<bool> isAuthenticated() async {
     return await _remoteDataSource.isAuthenticated();
   }

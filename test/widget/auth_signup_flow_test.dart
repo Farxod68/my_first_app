@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_first_app/core/constants/widget_keys.dart';
+import 'package:my_first_app/domain/repositories/auth_repository.dart';
 import 'package:my_first_app/presentation/screens/auth/signup_page.dart';
 import 'package:my_first_app/presentation/screens/auth/login_page.dart';
 import '../helpers/auth_test_helpers.dart';
@@ -64,6 +65,55 @@ void main() {
             password: 'password123',
             fullName: 'New User',
           )).called(1);
+    });
+
+    testWidgets('signup needing email confirmation shows check-your-email notice',
+        (tester) async {
+      // SignUpPage is pushed over a base page, as in the app, so the notice
+      // has a Scaffold to appear on after the page pops itself.
+      final context = await pumpAuthPage(
+        tester,
+        Builder(
+          builder: (context) => Scaffold(
+            body: TextButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute<void>(builder: (_) => const SignUpPage()),
+              ),
+              child: const Text('open sign up'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open sign up'));
+      await tester.pumpAndSettle();
+
+      when(() => context.mockAuthRepository.signUpWithEmail(
+            email: 'newuser@example.com',
+            password: 'password123',
+            fullName: 'New User',
+          )).thenThrow(const EmailConfirmationRequiredException());
+
+      await tester.enterText(
+          find.byKey(WidgetKeys.signupNameField), 'New User');
+      await tester.enterText(
+          find.byKey(WidgetKeys.signupEmailField), 'newuser@example.com');
+      await tester.enterText(
+          find.byKey(WidgetKeys.signupPasswordField), 'password123');
+      await tester.enterText(
+          find.byKey(WidgetKeys.signupConfirmPasswordField), 'password123');
+      await tester.pumpAndSettle();
+
+      await tester.ensureVisible(find.byKey(WidgetKeys.signupButton));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(WidgetKeys.signupButton));
+      await tester.pumpAndSettle();
+
+      expect(context.authProvider.isAuthenticated, isFalse);
+      expect(context.authProvider.awaitingEmailConfirmation, isFalse,
+          reason: 'notice is acknowledged once shown');
+      expect(find.textContaining('Check your email'), findsOneWidget);
     });
 
     testWidgets('empty name field shows validation error', (tester) async {
