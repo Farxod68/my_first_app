@@ -535,6 +535,26 @@ class AppLocalizationsUz extends AppLocalizations {
   String get signUpSuccess => 'Hisob muvaffaqiyatli yaratildi!';
 
   @override
+  String get signUpConfirmEmail =>
+      'Hisob yaratildi! Elektron pochtangizni tekshiring, tasdiqlash havolasini bosing va keyin tizimga kiring.';
+
+  @override
+  String get resetPasswordTitle => 'Yangi parol o\'rnating';
+
+  @override
+  String get newPassword => 'Yangi parol';
+
+  @override
+  String get resetPasswordSubmit => 'Parolni yangilash';
+
+  @override
+  String get resetPasswordSuccess => 'Parol muvaffaqiyatli yangilandi!';
+
+  @override
+  String get resetPasswordFailed =>
+      'Parolni yangilab bo\'lmadi. Havola muddati tugagan bo\'lishi mumkin - yangisini so\'rang.';
+
+  @override
   String get signUpError =>
       'Ro\'yxatdan o\'tish xatosi. Qayta urinib ko\'ring.';
 
@@ -707,4 +727,117 @@ class AppLocalizationsUz extends AppLocalizations {
   @override
   String get deleteAccountHasOrders =>
       'Hisobingizni o\'chirib bo\'lmaydi, chunki unda mavjud buyurtmalar bor.';
+
+  @override
+  String get checkout => 'Buyurtmani rasmiylashtirish';
+
+  @override
+  String get proceedToCheckout => 'Buyurtma berish';
+
+  @override
+  String get shippingDetails => 'Yetkazib berish ma\'lumotlari';
+
+  @override
+  String get fullNameRequired => 'To\'liq ismni kiritish majburiy';
+
+  @override
+  String get phone => 'Telefon raqami';
+
+  @override
+  String get phoneRequired => 'Telefon raqamini kiritish majburiy';
+
+  @override
+  String get streetAddress => 'Ko\'cha manzili';
+
+  @override
+  String get streetAddressHint => 'Ko\'cha manzilingizni kiriting';
+
+  @override
+  String get streetAddressRequired => 'Ko\'cha manzilini kiritish majburiy';
+
+  @override
+  String get city => 'Shahar';
+
+  @override
+  String get cityHint => 'Shahringizni kiriting';
+
+  @override
+  String get cityRequired => 'Shaharni kiritish majburiy';
+
+  @override
+  String get country => 'Mamlakat';
+
+  @override
+  String get countryHint => 'Mamlakatingizni kiriting';
+
+  @override
+  String get countryRequired => 'Mamlakatni kiritish majburiy';
+
+  @override
+  String get orderSummary => 'Buyurtma xulosasi';
+
+  @override
+  String get placeOrder => 'Buyurtma berish';
+
+  @override
+  String get orderConfirmation => 'Buyurtma tasdiqlandi';
+
+  @override
+  String get orderPlacedSuccess => 'Buyurtma muvaffaqiyatli qabul qilindi!';
+
+  @override
+  String get orderSuccessMessage =>
+      'Xaridingiz uchun rahmat! Buyurtmangiz muvaffaqiyatli rasmiylashtirildi.';
+
+  @override
+  String get orderId => 'Buyurtma raqami';
+
+  @override
+  String get subtotalUsd => 'Jami (USD)';
+
+  @override
+  String get checkoutResetButton => 'Qayta urinish';
+
+  @override
+  String get checkoutErrorNotAuthenticated =>
+      'Buyurtma berish uchun tizimga kirishingiz kerak.';
+
+  @override
+  String get checkoutErrorEmptyCart => 'Savatchangiz bo\'sh.';
+
+  @override
+  String get checkoutErrorInvalidQuantity =>
+      'Bir yoki bir nechta mahsulot miqdori noto\'g\'ri.';
+
+  @override
+  String get checkoutErrorDuplicateItem =>
+      'Buyurtmada takroriy mahsulotlar topildi.';
+
+  @override
+  String get checkoutErrorInvalidShipping =>
+      'Iltimos, to\'g\'ri yetkazib berish ma\'lumotlarini kiriting.';
+
+  @override
+  String get checkoutErrorInvalidCurrency =>
+      'Tanlangan valyuta qo\'llab-quvvatlanmaydi.';
+
+  @override
+  String get checkoutErrorProductUnavailable =>
+      'Savatchangizdagi bir yoki bir nechta mahsulot endi mavjud emas.';
+
+  @override
+  String get checkoutErrorInsufficientStock =>
+      'Bir yoki bir nechta mahsulot omborda yetarli emas.';
+
+  @override
+  String get checkoutErrorInvalidResponse =>
+      'Serverdan noto\'g\'ri javob olindi. Iltimos, buyurtmalar tarixini tekshiring.';
+
+  @override
+  String get checkoutErrorOutcomeUnknown =>
+      'Buyurtmangiz bajarilganligini tekshirib bo\'lmadi. Qayta urinishdan oldin buyurtmalar tarixi yoki internetni tekshiring.';
+
+  @override
+  String get checkoutErrorUnknown =>
+      'Buyurtma berishda kutilmagan xatolik yuz berdi. Iltimos, qaytadan urinib ko\'ring.';
 }

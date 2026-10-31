@@ -534,6 +534,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUpSuccess => 'Account created successfully!';
 
   @override
+  String get signUpConfirmEmail =>
+      'Account created! Check your email and click the confirmation link, then sign in.';
+
+  @override
+  String get resetPasswordTitle => 'Set a new password';
+
+  @override
+  String get newPassword => 'New password';
+
+  @override
+  String get resetPasswordSubmit => 'Update password';
+
+  @override
+  String get resetPasswordSuccess => 'Password updated successfully!';
+
+  @override
+  String get resetPasswordFailed =>
+      'Could not update the password. The link may have expired - request a new one.';
+
+  @override
   String get signUpError => 'Sign up failed. Please try again.';
 
   @override
@@ -704,4 +724,117 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteAccountHasOrders =>
       'Your account can\'t be deleted because it has existing orders.';
+
+  @override
+  String get checkout => 'Checkout';
+
+  @override
+  String get proceedToCheckout => 'Proceed to Checkout';
+
+  @override
+  String get shippingDetails => 'Shipping Details';
+
+  @override
+  String get fullNameRequired => 'Full name is required';
+
+  @override
+  String get phone => 'Phone Number';
+
+  @override
+  String get phoneRequired => 'Phone number is required';
+
+  @override
+  String get streetAddress => 'Street Address';
+
+  @override
+  String get streetAddressHint => 'Enter your street address';
+
+  @override
+  String get streetAddressRequired => 'Street address is required';
+
+  @override
+  String get city => 'City';
+
+  @override
+  String get cityHint => 'Enter your city';
+
+  @override
+  String get cityRequired => 'City is required';
+
+  @override
+  String get country => 'Country';
+
+  @override
+  String get countryHint => 'Enter your country';
+
+  @override
+  String get countryRequired => 'Country is required';
+
+  @override
+  String get orderSummary => 'Order Summary';
+
+  @override
+  String get placeOrder => 'Place Order';
+
+  @override
+  String get orderConfirmation => 'Order Confirmation';
+
+  @override
+  String get orderPlacedSuccess => 'Order Placed Successfully!';
+
+  @override
+  String get orderSuccessMessage =>
+      'Thank you for your order! Your order has been placed successfully.';
+
+  @override
+  String get orderId => 'Order ID';
+
+  @override
+  String get subtotalUsd => 'Total (USD)';
+
+  @override
+  String get checkoutResetButton => 'Try Again';
+
+  @override
+  String get checkoutErrorNotAuthenticated =>
+      'You must be signed in to place an order.';
+
+  @override
+  String get checkoutErrorEmptyCart => 'Your cart is empty.';
+
+  @override
+  String get checkoutErrorInvalidQuantity =>
+      'One or more items have an invalid quantity.';
+
+  @override
+  String get checkoutErrorDuplicateItem =>
+      'Duplicate items found in the order.';
+
+  @override
+  String get checkoutErrorInvalidShipping =>
+      'Please provide valid shipping details.';
+
+  @override
+  String get checkoutErrorInvalidCurrency =>
+      'The selected currency is not supported.';
+
+  @override
+  String get checkoutErrorProductUnavailable =>
+      'One or more products in your cart are no longer available.';
+
+  @override
+  String get checkoutErrorInsufficientStock =>
+      'One or more items exceed available stock.';
+
+  @override
+  String get checkoutErrorInvalidResponse =>
+      'Received an invalid response from the server. Please check your order history.';
+
+  @override
+  String get checkoutErrorOutcomeUnknown =>
+      'We could not verify if your order was completed. Please check your order history or connection before trying again.';
+
+  @override
+  String get checkoutErrorUnknown =>
+      'An unexpected error occurred while placing your order. Please try again.';
 }

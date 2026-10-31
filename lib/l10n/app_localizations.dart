@@ -8,6 +8,7 @@ import 'package:intl/intl.dart' as intl;
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_ru.dart';
 import 'app_localizations_uz.dart';
 
 // ignore_for_file: type=lint
@@ -99,6 +100,7 @@ abstract class AppLocalizations {
     Locale('en'),
     Locale('es'),
     Locale('fr'),
+    Locale('ru'),
     Locale('uz'),
   ];
 
@@ -1086,6 +1088,42 @@ abstract class AppLocalizations {
   /// **'Account created successfully!'**
   String get signUpSuccess;
 
+  /// No description provided for @signUpConfirmEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created! Check your email and click the confirmation link, then sign in.'**
+  String get signUpConfirmEmail;
+
+  /// No description provided for @resetPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a new password'**
+  String get resetPasswordTitle;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPassword;
+
+  /// No description provided for @resetPasswordSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Update password'**
+  String get resetPasswordSubmit;
+
+  /// No description provided for @resetPasswordSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated successfully!'**
+  String get resetPasswordSuccess;
+
+  /// No description provided for @resetPasswordFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update the password. The link may have expired - request a new one.'**
+  String get resetPasswordFailed;
+
   /// No description provided for @signUpError.
   ///
   /// In en, this message translates to:
@@ -1409,6 +1447,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your account can\'t be deleted because it has existing orders.'**
   String get deleteAccountHasOrders;
+
+  /// Checkout page title
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkout;
+
+  /// Button to proceed to checkout from cart
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed to Checkout'**
+  String get proceedToCheckout;
+
+  /// Shipping details section title
+  ///
+  /// In en, this message translates to:
+  /// **'Shipping Details'**
+  String get shippingDetails;
+
+  /// Validation error when full name is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Full name is required'**
+  String get fullNameRequired;
+
+  /// Phone number label
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phone;
+
+  /// Validation error when phone number is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required'**
+  String get phoneRequired;
+
+  /// Street address input label
+  ///
+  /// In en, this message translates to:
+  /// **'Street Address'**
+  String get streetAddress;
+
+  /// Street address input hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your street address'**
+  String get streetAddressHint;
+
+  /// Validation error when street address is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Street address is required'**
+  String get streetAddressRequired;
+
+  /// City input label
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get city;
+
+  /// City input hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your city'**
+  String get cityHint;
+
+  /// Validation error when city is empty
+  ///
+  /// In en, this message translates to:
+  /// **'City is required'**
+  String get cityRequired;
+
+  /// Country input label
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get country;
+
+  /// Country input hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your country'**
+  String get countryHint;
+
+  /// Validation error when country is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Country is required'**
+  String get countryRequired;
+
+  /// Order summary section title
+  ///
+  /// In en, this message translates to:
+  /// **'Order Summary'**
+  String get orderSummary;
+
+  /// Place order button label
+  ///
+  /// In en, this message translates to:
+  /// **'Place Order'**
+  String get placeOrder;
+
+  /// Order confirmation page title
+  ///
+  /// In en, this message translates to:
+  /// **'Order Confirmation'**
+  String get orderConfirmation;
+
+  /// Order placed success headline
+  ///
+  /// In en, this message translates to:
+  /// **'Order Placed Successfully!'**
+  String get orderPlacedSuccess;
+
+  /// Order placed confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your order! Your order has been placed successfully.'**
+  String get orderSuccessMessage;
+
+  /// Order ID label
+  ///
+  /// In en, this message translates to:
+  /// **'Order ID'**
+  String get orderId;
+
+  /// Total amount in USD on confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Total (USD)'**
+  String get subtotalUsd;
+
+  /// Reset button label when checkout outcome is unknown
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get checkoutResetButton;
+
+  /// Error when user is not signed in during checkout
+  ///
+  /// In en, this message translates to:
+  /// **'You must be signed in to place an order.'**
+  String get checkoutErrorNotAuthenticated;
+
+  /// Error when attempting checkout with empty cart
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty.'**
+  String get checkoutErrorEmptyCart;
+
+  /// Error when item quantity is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'One or more items have an invalid quantity.'**
+  String get checkoutErrorInvalidQuantity;
+
+  /// Error when duplicate items are in order
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate items found in the order.'**
+  String get checkoutErrorDuplicateItem;
+
+  /// Error when shipping details are invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide valid shipping details.'**
+  String get checkoutErrorInvalidShipping;
+
+  /// Error when selected currency is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'The selected currency is not supported.'**
+  String get checkoutErrorInvalidCurrency;
+
+  /// Error when product is unavailable
+  ///
+  /// In en, this message translates to:
+  /// **'One or more products in your cart are no longer available.'**
+  String get checkoutErrorProductUnavailable;
+
+  /// Error when stock is insufficient
+  ///
+  /// In en, this message translates to:
+  /// **'One or more items exceed available stock.'**
+  String get checkoutErrorInsufficientStock;
+
+  /// Error when server returns an invalid response shape
+  ///
+  /// In en, this message translates to:
+  /// **'Received an invalid response from the server. Please check your order history.'**
+  String get checkoutErrorInvalidResponse;
+
+  /// Warning when order outcome is unknown
+  ///
+  /// In en, this message translates to:
+  /// **'We could not verify if your order was completed. Please check your order history or connection before trying again.'**
+  String get checkoutErrorOutcomeUnknown;
+
+  /// Generic unexpected error during checkout
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred while placing your order. Please try again.'**
+  String get checkoutErrorUnknown;
 }
 
 class _AppLocalizationsDelegate
@@ -1422,7 +1664,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'es', 'fr', 'uz'].contains(locale.languageCode);
+      <String>['en', 'es', 'fr', 'ru', 'uz'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1437,6 +1679,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEs();
     case 'fr':
       return AppLocalizationsFr();
+    case 'ru':
+      return AppLocalizationsRu();
     case 'uz':
       return AppLocalizationsUz();
   }

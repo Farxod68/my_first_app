@@ -674,6 +674,12 @@
   "createAccount": "Create Account",
   "signUpSubtitle": "Join TOPBUY DEALS today",
   "signUpSuccess": "Account created successfully!",
+  "signUpConfirmEmail": "Account created! Check your email and click the confirmation link, then sign in.",
+  "resetPasswordTitle": "Set a new password",
+  "newPassword": "New password",
+  "resetPasswordSubmit": "Update password",
+  "resetPasswordSuccess": "Password updated successfully!",
+  "resetPasswordFailed": "Could not update the password. The link may have expired - request a new one.",
   "signUpError": "Sign up failed. Please try again.",
   "forgotPassword": "Forgot Password?",
   "resetPassword": "Reset Password",
@@ -734,5 +740,141 @@
   "deleteAccountConfirmButton": "Delete Permanently",
   "deleteAccountSuccess": "Your account has been permanently deleted",
   "deleteAccountFailed": "Failed to delete account",
-  "deleteAccountHasOrders": "Your account can't be deleted because it has existing orders."
+  "deleteAccountHasOrders": "Your account can't be deleted because it has existing orders.",
+  "checkout": "Checkout",
+  "@checkout": {
+    "description": "Checkout page title"
+  },
+  "proceedToCheckout": "Proceed to Checkout",
+  "@proceedToCheckout": {
+    "description": "Button to proceed to checkout from cart"
+  },
+  "shippingDetails": "Shipping Details",
+  "@shippingDetails": {
+    "description": "Shipping details section title"
+  },
+  "fullNameRequired": "Full name is required",
+  "@fullNameRequired": {
+    "description": "Validation error when full name is empty"
+  },
+  "phone": "Phone Number",
+  "@phone": {
+    "description": "Phone number label"
+  },
+  "phoneRequired": "Phone number is required",
+  "@phoneRequired": {
+    "description": "Validation error when phone number is empty"
+  },
+  "streetAddress": "Street Address",
+  "@streetAddress": {
+    "description": "Street address input label"
+  },
+  "streetAddressHint": "Enter your street address",
+  "@streetAddressHint": {
+    "description": "Street address input hint"
+  },
+  "streetAddressRequired": "Street address is required",
+  "@streetAddressRequired": {
+    "description": "Validation error when street address is empty"
+  },
+  "city": "City",
+  "@city": {
+    "description": "City input label"
+  },
+  "cityHint": "Enter your city",
+  "@cityHint": {
+    "description": "City input hint"
+  },
+  "cityRequired": "City is required",
+  "@cityRequired": {
+    "description": "Validation error when city is empty"
+  },
+  "country": "Country",
+  "@country": {
+    "description": "Country input label"
+  },
+  "countryHint": "Enter your country",
+  "@countryHint": {
+    "description": "Country input hint"
+  },
+  "countryRequired": "Country is required",
+  "@countryRequired": {
+    "description": "Validation error when country is empty"
+  },
+  "orderSummary": "Order Summary",
+  "@orderSummary": {
+    "description": "Order summary section title"
+  },
+  "placeOrder": "Place Order",
+  "@placeOrder": {
+    "description": "Place order button label"
+  },
+  "orderConfirmation": "Order Confirmation",
+  "@orderConfirmation": {
+    "description": "Order confirmation page title"
+  },
+  "orderPlacedSuccess": "Order Placed Successfully!",
+  "@orderPlacedSuccess": {
+    "description": "Order placed success headline"
+  },
+  "orderSuccessMessage": "Thank you for your order! Your order has been placed successfully.",
+  "@orderSuccessMessage": {
+    "description": "Order placed confirmation message"
+  },
+  "orderId": "Order ID",
+  "@orderId": {
+    "description": "Order ID label"
+  },
+  "subtotalUsd": "Total (USD)",
+  "@subtotalUsd": {
+    "description": "Total amount in USD on confirmation"
+  },
+  "checkoutResetButton": "Try Again",
+  "@checkoutResetButton": {
+    "description": "Reset button label when checkout outcome is unknown"
+  },
+  "checkoutErrorNotAuthenticated": "You must be signed in to place an order.",
+  "@checkoutErrorNotAuthenticated": {
+    "description": "Error when user is not signed in during checkout"
+  },
+  "checkoutErrorEmptyCart": "Your cart is empty.",
+  "@checkoutErrorEmptyCart": {
+    "description": "Error when attempting checkout with empty cart"
+  },
+  "checkoutErrorInvalidQuantity": "One or more items have an invalid quantity.",
+  "@checkoutErrorInvalidQuantity": {
+    "description": "Error when item quantity is invalid"
+  },
+  "checkoutErrorDuplicateItem": "Duplicate items found in the order.",
+  "@checkoutErrorDuplicateItem": {
+    "description": "Error when duplicate items are in order"
+  },
+  "checkoutErrorInvalidShipping": "Please provide valid shipping details.",
+  "@checkoutErrorInvalidShipping": {
+    "description": "Error when shipping details are invalid"
+  },
+  "checkoutErrorInvalidCurrency": "The selected currency is not supported.",
+  "@checkoutErrorInvalidCurrency": {
+    "description": "Error when selected currency is invalid"
+  },
+  "checkoutErrorProductUnavailable": "One or more products in your cart are no longer available.",
+  "@checkoutErrorProductUnavailable": {
+    "description": "Error when product is unavailable"
+  },
+  "checkoutErrorInsufficientStock": "One or more items exceed available stock.",
+  "@checkoutErrorInsufficientStock": {
+    "description": "Error when stock is insufficient"
+  },
+  "checkoutErrorInvalidResponse": "Received an invalid response from the server. Please check your order history.",
+  "@checkoutErrorInvalidResponse": {
+    "description": "Error when server returns an invalid response shape"
+  },
+  "checkoutErrorOutcomeUnknown": "We could not verify if your order was completed. Please check your order history or connection before trying again.",
+  "@checkoutErrorOutcomeUnknown": {
+    "description": "Warning when order outcome is unknown"
+  },
+  "checkoutErrorUnknown": "An unexpected error occurred while placing your order. Please try again.",
+  "@checkoutErrorUnknown": {
+    "description": "Generic unexpected error during checkout"
+  }
 }
