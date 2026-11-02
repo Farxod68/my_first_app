@@ -34,6 +34,10 @@ class FakeProductQueryBuilder implements SupabaseQueryBuilder {
 /// queries (fetchProducts/fetchProductsByCategory), with .maybeSingle() for
 /// the single-product query (fetchProductById).
 class FakeProductFilterBuilder implements PostgrestFilterBuilder<List<Map<String, dynamic>>> {
+  /// Every `.eq(column, value)` issued through any fake builder, as
+  /// "column=value", so tests can assert which filters a fetch applied.
+  static final List<String> eqCalls = [];
+
   final List<Map<String, dynamic>>? listData;
   final Map<String, dynamic>? singleData;
 
@@ -41,6 +45,7 @@ class FakeProductFilterBuilder implements PostgrestFilterBuilder<List<Map<String
 
   @override
   PostgrestFilterBuilder<List<Map<String, dynamic>>> eq(String column, Object? value) {
+    eqCalls.add('$column=$value');
     return this; // Chainable
   }
 
@@ -188,6 +193,7 @@ void main() {
     late ProductRemoteDataSource dataSource;
 
     setUp(() {
+      FakeProductFilterBuilder.eqCalls.clear();
       mockSupabase = MockSupabaseClient();
       dataSource = ProductRemoteDataSource(mockSupabase);
     });
@@ -323,6 +329,82 @@ void main() {
             contains('electronics'),
           )),
         );
+      });
+    });
+    group('locale-aware fetches (product_translations)', () {
+      const translationRu = {
+        'locale': 'ru',
+        'name': 'Умные часы Ultra',
+        'description': 'Описание на русском',
+      };
+
+      Map<String, dynamic> rowWithRu() =>
+          {..._row(), 'product_translations': [translationRu]};
+
+      test('fetchProducts(locale) filters embedded translations and applies them',
+          () async {
+        when(() => mockSupabase.from('products'))
+            .thenAnswer((_) => FakeProductQueryBuilder(listData: [rowWithRu()]));
+
+        final result = await dataSource.fetchProducts(locale: 'ru');
+
+        expect(FakeProductFilterBuilder.eqCalls,
+            contains('product_translations.locale=ru'));
+        expect(FakeProductFilterBuilder.eqCalls, contains('is_active=true'));
+        expect(result.single.name, 'Умные часы Ultra');
+        expect(result.single.description, 'Описание на русском');
+        // Untranslated fields fall back to the English columns.
+        expect(result.single.subtitle, 'Fitness & Health Tracking');
+        expect(result.single.id, 'elec-001');
+        expect(result.single.price, 199.99);
+      });
+
+      test('fetchProducts without locale adds no translation filter and stays English',
+          () async {
+        when(() => mockSupabase.from('products'))
+            .thenAnswer((_) => FakeProductQueryBuilder(listData: [rowWithRu()]));
+
+        final result = await dataSource.fetchProducts();
+
+        expect(FakeProductFilterBuilder.eqCalls,
+            isNot(contains(startsWith('product_translations.locale'))));
+        expect(result.single.name, 'Smart Watch Ultra');
+      });
+
+      test('fetchProducts(locale) with no translation rows returns English', () async {
+        when(() => mockSupabase.from('products'))
+            .thenAnswer((_) => FakeProductQueryBuilder(listData: [
+                  {..._row(), 'product_translations': <dynamic>[]},
+                ]));
+
+        final result = await dataSource.fetchProducts(locale: 'uz');
+
+        expect(result.single.name, 'Smart Watch Ultra');
+      });
+
+      test('fetchProductById(locale) applies the translation', () async {
+        when(() => mockSupabase.from('products'))
+            .thenAnswer((_) => FakeProductQueryBuilder(singleData: rowWithRu()));
+
+        final result =
+            await dataSource.fetchProductById('elec-001', locale: 'ru');
+
+        expect(FakeProductFilterBuilder.eqCalls,
+            contains('product_translations.locale=ru'));
+        expect(result!.name, 'Умные часы Ultra');
+      });
+
+      test('fetchProductsByCategory(locale) applies the translation and keeps '
+          'the category filter', () async {
+        when(() => mockSupabase.from('products'))
+            .thenAnswer((_) => FakeProductQueryBuilder(listData: [rowWithRu()]));
+
+        final result = await dataSource.fetchProductsByCategory('electronics',
+            locale: 'ru');
+
+        expect(FakeProductFilterBuilder.eqCalls,
+            containsAll(['categories.key=electronics', 'product_translations.locale=ru']));
+        expect(result.single.name, 'Умные часы Ultra');
       });
     });
   });

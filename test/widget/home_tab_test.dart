@@ -87,7 +87,7 @@ void main() {
         (tester) async {
       final mockRepo = MockProductRepository();
       final completer = Completer<List<Product>>();
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) => completer.future);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) => completer.future);
 
       final productProvider = ProductProvider(mockRepo);
       addTearDown(() => completer.complete(const []));
@@ -108,7 +108,7 @@ void main() {
         TestData.createTestProduct(id: 'elec-001', name: 'Smart Watch Ultra'),
         TestData.createTestProduct(id: 'cloth-001', name: 'Running Shoes Pro'),
       ];
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => testProducts);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => testProducts);
 
       final productProvider = ProductProvider(mockRepo);
 
@@ -125,7 +125,7 @@ void main() {
     testWidgets('shows the empty state when ProductProvider loads no products',
         (tester) async {
       final mockRepo = MockProductRepository();
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => const <Product>[]);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => const <Product>[]);
 
       final productProvider = ProductProvider(mockRepo);
 
@@ -141,7 +141,7 @@ void main() {
     testWidgets('shows the error state when ProductProvider fails to load',
         (tester) async {
       final mockRepo = MockProductRepository();
-      when(() => mockRepo.fetchProducts()).thenThrow(Exception('Network error'));
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenThrow(Exception('Network error'));
 
       final productProvider = ProductProvider(mockRepo);
 

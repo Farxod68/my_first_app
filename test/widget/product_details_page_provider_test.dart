@@ -131,7 +131,7 @@ void main() {
         (tester) async {
       final mockRepo = MockProductRepository();
       final completer = Completer<List<Product>>();
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) => completer.future);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) => completer.future);
 
       final productProvider = ProductProvider(mockRepo);
       addTearDown(() => completer.complete(const []));
@@ -153,7 +153,7 @@ void main() {
         'shows a safe error state in the related-products area when ProductProvider fails to load, without crashing',
         (tester) async {
       final mockRepo = MockProductRepository();
-      when(() => mockRepo.fetchProducts()).thenThrow(Exception('Network error'));
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenThrow(Exception('Network error'));
 
       final productProvider = ProductProvider(mockRepo);
       final product = TestData.createTestProduct(id: 'p1', name: 'Error Product');
@@ -172,7 +172,7 @@ void main() {
         'shows the empty-catalog state in the related-products area when ProductProvider loads no products',
         (tester) async {
       final mockRepo = MockProductRepository();
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => const <Product>[]);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => const <Product>[]);
 
       final productProvider = ProductProvider(mockRepo);
       final product = TestData.createTestProduct(id: 'p1', name: 'Empty Catalog Product');
@@ -195,7 +195,7 @@ void main() {
         TestData.createTestProduct(id: 'elec-001', name: 'Provider Watch', category: 'electronics'),
         TestData.createTestProduct(id: 'elec-002', name: 'Provider Earbuds', category: 'electronics'),
       ];
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => providerProducts);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => providerProducts);
 
       final productProvider = ProductProvider(mockRepo);
       // Viewed product's id ('unknown-999') is not in the provider's catalog.
@@ -229,7 +229,7 @@ void main() {
         TestData.createTestProduct(id: 'elec-002', name: 'Related Electronics', category: 'electronics'),
         TestData.createTestProduct(id: 'cloth-001', name: 'Unrelated Clothing', category: 'clothing'),
       ];
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => providerProducts);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => providerProducts);
 
       final productProvider = ProductProvider(mockRepo);
       final product = providerProducts.first; // elec-001
@@ -257,7 +257,7 @@ void main() {
       final providerProducts = [
         TestData.createTestProduct(id: 'p1', name: 'Cart Product', stock: 10),
       ];
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => providerProducts);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => providerProducts);
 
       final productProvider = ProductProvider(mockRepo);
       final mockCartProvider = MockCartProvider();
@@ -285,7 +285,7 @@ void main() {
       final providerProducts = [
         TestData.createTestProduct(id: 'p1', name: 'Wishlist Product'),
       ];
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => providerProducts);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => providerProducts);
 
       final productProvider = ProductProvider(mockRepo);
       final mockWishlistProvider = MockWishlistProvider();
@@ -318,7 +318,7 @@ void main() {
         TestData.createTestProduct(id: 'elec-001', name: 'Viewed Electronics', category: 'electronics'),
         TestData.createTestProduct(id: 'elec-002', name: 'Related Electronics', category: 'electronics'),
       ];
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => providerProducts);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => providerProducts);
 
       final productProvider = ProductProvider(mockRepo);
       final product = providerProducts.first;

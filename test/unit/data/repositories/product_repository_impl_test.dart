@@ -28,16 +28,16 @@ void main() {
 
     group('fetchProducts', () {
       test('returns products from the data source unchanged', () async {
-        when(() => mockDataSource.fetchProducts()).thenAnswer((_) async => testProducts);
+        when(() => mockDataSource.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => testProducts);
 
         final result = await repository.fetchProducts();
 
         expect(result, same(testProducts));
-        verify(() => mockDataSource.fetchProducts()).called(1);
+        verify(() => mockDataSource.fetchProducts(locale: any(named: 'locale'))).called(1);
       });
 
       test('returns an empty list when the data source returns none', () async {
-        when(() => mockDataSource.fetchProducts()).thenAnswer((_) async => const <Product>[]);
+        when(() => mockDataSource.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => const <Product>[]);
 
         final result = await repository.fetchProducts();
 
@@ -45,7 +45,7 @@ void main() {
       });
 
       test('propagates exception from data source', () async {
-        when(() => mockDataSource.fetchProducts()).thenThrow(Exception('Network error'));
+        when(() => mockDataSource.fetchProducts(locale: any(named: 'locale'))).thenThrow(Exception('Network error'));
 
         expect(
           () => repository.fetchProducts(),
@@ -54,28 +54,28 @@ void main() {
       });
 
       test('can be called multiple times', () async {
-        when(() => mockDataSource.fetchProducts()).thenAnswer((_) async => testProducts);
+        when(() => mockDataSource.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => testProducts);
 
         await repository.fetchProducts();
         await repository.fetchProducts();
 
-        verify(() => mockDataSource.fetchProducts()).called(2);
+        verify(() => mockDataSource.fetchProducts(locale: any(named: 'locale'))).called(2);
       });
     });
 
     group('fetchProductById', () {
       test('returns the product from the data source', () async {
-        when(() => mockDataSource.fetchProductById('elec-001'))
+        when(() => mockDataSource.fetchProductById('elec-001', locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts.first);
 
         final result = await repository.fetchProductById('elec-001');
 
         expect(result, same(testProducts.first));
-        verify(() => mockDataSource.fetchProductById('elec-001')).called(1);
+        verify(() => mockDataSource.fetchProductById('elec-001', locale: any(named: 'locale'))).called(1);
       });
 
       test('returns null when the data source returns null', () async {
-        when(() => mockDataSource.fetchProductById(any())).thenAnswer((_) async => null);
+        when(() => mockDataSource.fetchProductById(any(), locale: any(named: 'locale'))).thenAnswer((_) async => null);
 
         final result = await repository.fetchProductById('does-not-exist');
 
@@ -83,7 +83,7 @@ void main() {
       });
 
       test('propagates exception from data source', () async {
-        when(() => mockDataSource.fetchProductById(any())).thenThrow(Exception('Not found'));
+        when(() => mockDataSource.fetchProductById(any(), locale: any(named: 'locale'))).thenThrow(Exception('Not found'));
 
         expect(
           () => repository.fetchProductById('elec-001'),
@@ -94,17 +94,17 @@ void main() {
 
     group('fetchProductsByCategory', () {
       test('returns products from the data source for the given category', () async {
-        when(() => mockDataSource.fetchProductsByCategory('electronics'))
+        when(() => mockDataSource.fetchProductsByCategory('electronics', locale: any(named: 'locale')))
             .thenAnswer((_) async => [testProducts.first]);
 
         final result = await repository.fetchProductsByCategory('electronics');
 
         expect(result, [testProducts.first]);
-        verify(() => mockDataSource.fetchProductsByCategory('electronics')).called(1);
+        verify(() => mockDataSource.fetchProductsByCategory('electronics', locale: any(named: 'locale'))).called(1);
       });
 
       test('returns an empty list for a category with no products', () async {
-        when(() => mockDataSource.fetchProductsByCategory(any()))
+        when(() => mockDataSource.fetchProductsByCategory(any(), locale: any(named: 'locale')))
             .thenAnswer((_) async => const <Product>[]);
 
         final result = await repository.fetchProductsByCategory('cosmetics');
@@ -113,7 +113,7 @@ void main() {
       });
 
       test('propagates exception from data source', () async {
-        when(() => mockDataSource.fetchProductsByCategory(any()))
+        when(() => mockDataSource.fetchProductsByCategory(any(), locale: any(named: 'locale')))
             .thenThrow(Exception('Category query failed'));
 
         expect(

@@ -125,7 +125,7 @@ void main() {
         (tester) async {
       final mockRepo = MockProductRepository();
       final completer = Completer<List<Product>>();
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) => completer.future);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) => completer.future);
 
       final productProvider = ProductProvider(mockRepo);
       addTearDown(() => completer.complete(const []));
@@ -151,7 +151,7 @@ void main() {
         'shows a safe error state when ProductProvider fails to load, without crashing or showing the favorites-empty state',
         (tester) async {
       final mockRepo = MockProductRepository();
-      when(() => mockRepo.fetchProducts()).thenThrow(Exception('Network error'));
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenThrow(Exception('Network error'));
 
       final productProvider = ProductProvider(mockRepo);
 
@@ -183,7 +183,7 @@ void main() {
           category: 'electronics',
         ),
       ];
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => providerProducts);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => providerProducts);
 
       final productProvider = ProductProvider(mockRepo);
 

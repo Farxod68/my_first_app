@@ -22,19 +22,19 @@ void main() {
 
     group('Initialization / loading -> loaded', () {
       test('constructor triggers a load from the repository', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts);
 
         provider = ProductProvider(mockProductRepository);
 
         await Future.delayed(Duration.zero);
 
-        verify(() => mockProductRepository.fetchProducts()).called(1);
+        verify(() => mockProductRepository.fetchProducts(locale: any(named: 'locale'))).called(1);
       });
 
       test('isLoading is true synchronously after construction, before the load resolves', () async {
         final completer = Completer<List<Product>>();
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) => completer.future);
 
         provider = ProductProvider(mockProductRepository);
@@ -48,7 +48,7 @@ void main() {
       });
 
       test('loaded state exposes the fetched products and clears loading', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts);
 
         provider = ProductProvider(mockProductRepository);
@@ -60,7 +60,7 @@ void main() {
       });
 
       test('products getter returns an unmodifiable list', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts);
 
         provider = ProductProvider(mockProductRepository);
@@ -70,7 +70,7 @@ void main() {
       });
 
       test('notifies listeners on load start and on load completion', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts);
 
         provider = ProductProvider(mockProductRepository);
@@ -86,7 +86,7 @@ void main() {
 
     group('Error state', () {
       test('failed load sets error, clears loading, and leaves products empty', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenThrow(Exception('Network error'));
 
         provider = ProductProvider(mockProductRepository);
@@ -99,14 +99,14 @@ void main() {
       });
 
       test('a prior error is cleared once refresh succeeds', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenThrow(Exception('Network error'));
 
         provider = ProductProvider(mockProductRepository);
         await Future.delayed(Duration.zero);
         expect(provider.error, isNotNull);
 
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts);
 
         await provider.refresh();
@@ -118,7 +118,7 @@ void main() {
 
     group('refresh', () {
       test('calls fetchProducts again', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts);
 
         provider = ProductProvider(mockProductRepository);
@@ -126,18 +126,18 @@ void main() {
 
         await provider.refresh();
 
-        verify(() => mockProductRepository.fetchProducts()).called(2);
+        verify(() => mockProductRepository.fetchProducts(locale: any(named: 'locale'))).called(2);
       });
 
       test('replaces the product list with the newly fetched one', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => [testProducts.first]);
 
         provider = ProductProvider(mockProductRepository);
         await Future.delayed(Duration.zero);
         expect(provider.products, [testProducts.first]);
 
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts);
 
         await provider.refresh();
@@ -146,14 +146,14 @@ void main() {
       });
 
       test('sets isLoading true while refreshing, then false when done', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts);
 
         provider = ProductProvider(mockProductRepository);
         await Future.delayed(Duration.zero);
 
         final completer = Completer<List<Product>>();
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) => completer.future);
 
         final future = provider.refresh();
@@ -166,14 +166,14 @@ void main() {
       });
 
       test('a failed refresh clears previously loaded products and sets error', () async {
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => testProducts);
 
         provider = ProductProvider(mockProductRepository);
         await Future.delayed(Duration.zero);
         expect(provider.products, isNotEmpty);
 
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenThrow(Exception('Server error'));
 
         await provider.refresh();
@@ -188,7 +188,7 @@ void main() {
         // Compile-time guarantee: the constructor's only parameter is a
         // ProductRepository, so this provider cannot import or hold a
         // SupabaseClient reference without changing its public API.
-        when(() => mockProductRepository.fetchProducts())
+        when(() => mockProductRepository.fetchProducts(locale: any(named: 'locale')))
             .thenAnswer((_) async => const <Product>[]);
 
         provider = ProductProvider(mockProductRepository);

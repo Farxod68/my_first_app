@@ -102,7 +102,7 @@ void main() {
       final providerProducts = [
         TestData.createTestProduct(id: 'provider-only-1', name: 'Provider Exclusive Product'),
       ];
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => providerProducts);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => providerProducts);
       final productProvider = ProductProvider(mockRepo);
 
       await pumpSearchDelegate(tester, productProvider: productProvider);
@@ -123,7 +123,7 @@ void main() {
         (tester) async {
       final mockRepo = MockProductRepository();
       final completer = Completer<List<Product>>();
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) => completer.future);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) => completer.future);
       final productProvider = ProductProvider(mockRepo);
       addTearDown(() => completer.complete(const []));
 
@@ -141,7 +141,7 @@ void main() {
         'does not crash when ProductProvider has failed to load (empty catalog passed through safely)',
         (tester) async {
       final mockRepo = MockProductRepository();
-      when(() => mockRepo.fetchProducts()).thenThrow(Exception('Network error'));
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenThrow(Exception('Network error'));
       final productProvider = ProductProvider(mockRepo);
 
       await pumpSearchDelegate(tester, productProvider: productProvider);
@@ -159,7 +159,7 @@ void main() {
         'existing search-result navigation remains intact when ProductProvider is registered',
         (tester) async {
       final mockRepo = MockProductRepository();
-      when(() => mockRepo.fetchProducts()).thenAnswer((_) async => const <Product>[]);
+      when(() => mockRepo.fetchProducts(locale: any(named: 'locale'))).thenAnswer((_) async => const <Product>[]);
       final productProvider = ProductProvider(mockRepo);
 
       await pumpSearchDelegate(tester, productProvider: productProvider);

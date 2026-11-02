@@ -11,6 +11,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/checkout_provider.dart';
 import '../../providers/currency_provider.dart';
+import '../../providers/product_provider.dart';
 import '../../widgets/button_loading_indicator.dart';
 
 /// Checkout page allowing customers to review items, enter shipping details,
@@ -110,6 +111,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     final l10n = AppLocalizations.of(context)!;
     final checkoutProvider = context.watch<CheckoutProvider>();
     final cartProvider = context.watch<CartProvider>();
+    final catalog = context.watch<ProductProvider?>();
     final currencyCode = context.watch<CurrencyProvider>().currentCurrency;
     final locale = Localizations.localeOf(context).languageCode;
     final horizontalPadding = ScreenSize.getHorizontalPadding(context);
@@ -184,7 +186,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            '${item.name} × ${cartProvider.quantityOf(item.id)}',
+                                            '${catalog?.localize(item).name ?? item.name} × '
+                                            '${cartProvider.quantityOf(item.id)}',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium,

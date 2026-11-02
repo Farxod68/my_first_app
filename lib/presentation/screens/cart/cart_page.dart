@@ -9,6 +9,7 @@ import '../../../presentation/providers/cart_provider.dart';
 import '../../../presentation/providers/currency_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/checkout_provider.dart';
+import '../../providers/product_provider.dart';
 import '../auth/login_page.dart';
 import '../checkout/checkout_page.dart';
 import '../../widgets/empty_state.dart';
@@ -48,6 +49,9 @@ class CartPage extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final cartProvider = context.watch<CartProvider>();
     final cart = cartProvider.cartItems;
+    // Cart items persist the text they were added with; show it in the
+    // current language when the catalog has the product (null: no Supabase).
+    final catalog = context.watch<ProductProvider?>();
     final locale = Localizations.localeOf(context).languageCode;
     final currencyCode = context.watch<CurrencyProvider>().currentCurrency;
     final hasCheckoutProvider = context.watch<CheckoutProvider?>() != null;
@@ -85,7 +89,9 @@ class CartPage extends StatelessWidget {
                               leading: CircleAvatar(
                                 child: Icon(entry.value.icon),
                               ),
-                              title: Text(entry.value.name),
+                              title: Text(
+                                  catalog?.localize(entry.value).name ??
+                                      entry.value.name),
                               subtitle: Text(
                                 formatPrice(entry.value.price, currencyCode, locale),
                               ),

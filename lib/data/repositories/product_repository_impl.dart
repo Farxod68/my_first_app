@@ -15,17 +15,19 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<List<Product>> fetchProducts() {
-    return _remoteDataSource.fetchProducts();
+  Future<List<Product>> fetchProducts({String? locale}) {
+    return _remoteDataSource.fetchProducts(locale: locale);
   }
 
   @override
-  Future<Product?> fetchProductById(String id) {
-    return _remoteDataSource.fetchProductById(id);
+  Future<Product?> fetchProductById(String id, {String? locale}) {
+    return _remoteDataSource.fetchProductById(id, locale: locale);
   }
 
   @override
-  Future<List<Product>> fetchProductsByCategory(String categoryKey) {
-    return _remoteDataSource.fetchProductsByCategory(categoryKey);
+  Future<List<Product>> fetchProductsByCategory(String categoryKey,
+      {String? locale}) {
+    return _remoteDataSource.fetchProductsByCategory(categoryKey,
+        locale: locale);
   }
 }

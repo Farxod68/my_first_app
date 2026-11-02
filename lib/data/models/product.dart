@@ -83,7 +83,15 @@ class Product {
   /// compatible with existing wishlist/cart/recently-viewed persistence,
   /// which already keys everything off the human-readable slug-style id
   /// (e.g. "elec-001").
-  factory Product.fromSupabase(Map<String, dynamic> json) {
+  ///
+  /// [locale] selects a row of the embedded `product_translations` (migration
+  /// 008). The `products` columns are the English fallback: each translated
+  /// field (name, subtitle, description, features, specifications) falls back
+  /// to them individually when the row is missing or the field is null/blank.
+  /// With a null [locale] translations are ignored.
+  factory Product.fromSupabase(Map<String, dynamic> json, {String? locale}) {
+    final translation = _translationFor(json, locale);
+
     final categoryJson = json['categories'] as Map<String, dynamic>?;
     final category = categoryJson?['key'] as String? ?? '';
 
@@ -94,24 +102,71 @@ class Product {
 
     return Product(
       id: json['slug'] as String,
-      name: json['name'] as String,
+      name: _text(translation?['name']) ?? json['name'] as String,
       price: (json['price'] as num).toDouble(),
       oldPrice: (json['old_price'] as num).toDouble(),
       category: category,
       icon: _categoryFallbackIcons[category] ?? Icons.shopping_bag,
-      subtitle: json['subtitle'] as String?,
-      description: json['description'] as String?,
+      subtitle: _text(translation?['subtitle']) ?? json['subtitle'] as String?,
+      description:
+          _text(translation?['description']) ?? json['description'] as String?,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       reviewCount: json['review_count'] as int? ?? 0,
       stock: json['stock'] as int? ?? 0,
       images: images,
       brand: json['brand'] as String?,
       seller: json['seller'] as String?,
-      specifications:
-          (json['specifications'] as Map<String, dynamic>?)?.cast<String, String>(),
-      features: (json['features'] as List<dynamic>?)?.cast<String>(),
+      specifications: _translatedSpecifications(translation?['specifications']) ??
+          (json['specifications'] as Map<String, dynamic>?)
+              ?.cast<String, String>(),
+      features: _translatedFeatures(translation?['features']) ??
+          (json['features'] as List<dynamic>?)?.cast<String>(),
       badges: (json['badges'] as List<dynamic>?)?.cast<String>() ?? const [],
     );
+  }
+
+  /// The embedded `product_translations` row for [locale], or null.
+  static Map<String, dynamic>? _translationFor(
+      Map<String, dynamic> json, String? locale) {
+    if (locale == null) return null;
+    final rows = json['product_translations'];
+    if (rows is! List) return null;
+    for (final row in rows) {
+      if (row is Map && row['locale'] == locale) {
+        return row.cast<String, dynamic>();
+      }
+    }
+    return null;
+  }
+
+  /// A translated string, or null (use the fallback) when null/blank.
+  static String? _text(Object? value) {
+    if (value is! String || value.trim().isEmpty) return null;
+    return value;
+  }
+
+  /// Translated feature bullets, or null (use the fallback) when the field
+  /// is absent or yields no non-blank entries.
+  static List<String>? _translatedFeatures(Object? value) {
+    if (value is! List) return null;
+    final features = value
+        .whereType<String>()
+        .where((feature) => feature.trim().isNotEmpty)
+        .toList();
+    return features.isEmpty ? null : features;
+  }
+
+  /// Translated specifications, or null (use the fallback) when the field is
+  /// absent or empty. Whole-map fallback: keys and values are translated
+  /// together, so mixing them with the English map would pair mismatched
+  /// labels. Non-string JSON values are stringified.
+  static Map<String, String>? _translatedSpecifications(Object? value) {
+    if (value is! Map || value.isEmpty) return null;
+    final specs = {
+      for (final entry in value.entries)
+        if (entry.value != null) entry.key.toString(): entry.value.toString(),
+    };
+    return specs.isEmpty ? null : specs;
   }
 
   /// Calculates discount percentage based on old price and current price

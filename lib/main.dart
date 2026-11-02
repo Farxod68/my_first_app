@@ -105,18 +105,22 @@ void main() async {
         // resolves SupabaseService.client in its constructor initializer
         // list, so this must stay gated behind `supabaseInitialized` too.
         //
-        // Not yet consumed by any screen (Phase 29D) - HomeTab, CategoriesTab,
-        // SearchResultsPage, ProductDetailsPage, FavoritesTab, and
-        // ProductSearchDelegate all still read the local mock catalog
-        // (lib/data/data_sources/local/mock_products.dart). This registers
-        // the provider in the tree ahead of that later migration.
+        // The catalog is loaded in the app's current language: the provider
+        // tracks LocaleProvider (registered above) and reloads product
+        // translations (migration 008) whenever the language changes. The
+        // same ProductProvider instance is kept across locale changes.
         if (supabaseInitialized)
-          ChangeNotifierProvider(
-            create: (_) => ProductProvider(
+          ChangeNotifierProxyProvider<LocaleProvider, ProductProvider>(
+            create: (context) => ProductProvider(
               ProductRepositoryImpl(
                 ProductRemoteDataSource(),
               ),
+              initialLocale: context.read<LocaleProvider>().languageCode,
             ),
+            update: (context, localeProvider, previous) {
+              previous!.setLocale(localeProvider.languageCode);
+              return previous;
+            },
           ),
 
         // Checkout provider (conditional on Supabase) - same SAFETY CONTRACT

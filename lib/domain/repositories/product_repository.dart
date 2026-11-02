@@ -18,14 +18,17 @@ import '../../data/models/product.dart';
 /// ProductEntity here would duplicate that model rather than mirror it.
 abstract class ProductRepository {
   /// Fetch all active products.
-  Future<List<Product>> fetchProducts();
+  ///
+  /// [locale] (e.g. "ru") applies that language's product translations
+  /// over the English fields, per field; null returns the English catalog.
+  Future<List<Product>> fetchProducts({String? locale});
 
   /// Fetch a single active product by its slug-style id (e.g. "elec-001").
   ///
   /// Returns null if no active product with that id exists.
-  Future<Product?> fetchProductById(String id);
+  Future<Product?> fetchProductById(String id, {String? locale});
 
   /// Fetch all active products in the given category (a CategoryKeys value,
   /// e.g. "electronics").
-  Future<List<Product>> fetchProductsByCategory(String categoryKey);
+  Future<List<Product>> fetchProductsByCategory(String categoryKey, {String? locale});
 }
