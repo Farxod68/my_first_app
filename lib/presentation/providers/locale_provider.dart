@@ -10,11 +10,12 @@ import 'base_persistent_provider.dart';
 /// - Supported locales list
 /// - Automatic persistence to local storage
 ///
-/// Supports 4 languages:
+/// Supports 5 languages:
 /// - English (en) → USD currency
 /// - Spanish (es) → EUR currency
 /// - French (fr) → EUR currency
 /// - Uzbek (uz) → UZS currency
+/// - Russian (ru) → USD currency (fallback; no ruble)
 ///
 /// Uses ChangeNotifier for state management with Provider pattern
 /// Persists locale preference using PersistenceService
@@ -32,6 +33,7 @@ class LocaleProvider with ChangeNotifier, PersistentProviderMixin {
     Locale('es'), // Spanish
     Locale('fr'), // French
     Locale('uz'), // Uzbek
+    Locale('ru'), // Russian
   ];
 
   /// Get current locale

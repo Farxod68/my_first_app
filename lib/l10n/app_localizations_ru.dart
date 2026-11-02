@@ -13,72 +13,73 @@ class AppLocalizationsRu extends AppLocalizations {
   String get appTitle => 'TopBuy Deals';
 
   @override
-  String get todaysPromotion => 'TODAY\'S DEAL 🔥';
+  String get todaysPromotion => 'ПРЕДЛОЖЕНИЕ ДНЯ 🔥';
 
   @override
-  String get findBestPrices => 'Find the best deals\nat amazing prices!';
+  String get findBestPrices =>
+      'Находите лучшие предложения\nпо потрясающим ценам!';
 
   @override
-  String get popularProducts => 'Popular Products';
+  String get popularProducts => 'Популярные товары';
 
   @override
   String addedToCart(String productName) {
-    return '$productName added to cart';
+    return 'Добавлено в корзину: $productName';
   }
 
   @override
-  String get homePage => 'Home';
+  String get homePage => 'Главная';
 
   @override
-  String get categories => 'Categories';
+  String get categories => 'Категории';
 
   @override
-  String get favorites => 'Favorites';
+  String get favorites => 'Избранное';
 
   @override
-  String get profile => 'Profile';
+  String get profile => 'Профиль';
 
   @override
-  String get electronics => 'Electronics';
+  String get electronics => 'Электроника';
 
   @override
-  String get clothing => 'Clothing';
+  String get clothing => 'Одежда';
 
   @override
-  String get accessories => 'Accessories';
+  String get accessories => 'Аксессуары';
 
   @override
-  String get homeGoods => 'Home & Living';
+  String get homeGoods => 'Дом и быт';
 
   @override
-  String get sports => 'Sports & Outdoors';
+  String get sports => 'Спорт и отдых';
 
   @override
-  String get cosmetics => 'Beauty & Personal Care';
+  String get cosmetics => 'Красота и уход';
 
   @override
-  String get noFavoriteProducts => 'No favorite products yet ❤️';
+  String get noFavoriteProducts => 'В избранном пока нет товаров ❤️';
 
   @override
-  String get profileSection => 'My Profile';
+  String get profileSection => 'Мой профиль';
 
   @override
-  String get noCategoryProducts => 'No products available in this category';
+  String get noCategoryProducts => 'В этой категории пока нет товаров';
 
   @override
-  String get addToCart => 'Add to Cart';
+  String get addToCart => 'В корзину';
 
   @override
-  String get product => 'Product Details';
+  String get product => 'О товаре';
 
   @override
   String get currency => '\$';
 
   @override
-  String get discount => 'Save';
+  String get discount => 'Скидка';
 
   @override
-  String get addToCartFull => 'Add to Cart';
+  String get addToCartFull => 'Добавить в корзину';
 
   @override
   String get cart => 'Корзина';
@@ -98,440 +99,440 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String discountValue(int percent) {
-    return 'Save $percent%';
+    return 'Скидка $percent%';
   }
 
   @override
-  String get language => 'Language';
+  String get language => 'Язык';
 
   @override
-  String get searchProducts => 'Search products...';
+  String get searchProducts => 'Поиск товаров...';
 
   @override
-  String get noResultsFound => 'No results found';
+  String get noResultsFound => 'Ничего не найдено';
 
   @override
-  String get recentSearches => 'Recent Searches';
+  String get recentSearches => 'Недавние запросы';
 
   @override
-  String get popularSearches => 'Popular Searches';
+  String get popularSearches => 'Популярные запросы';
 
   @override
-  String get filter => 'Filter';
+  String get filter => 'Фильтр';
 
   @override
-  String get sortBy => 'Sort by';
+  String get sortBy => 'Сортировка';
 
   @override
-  String get priceRange => 'Price Range';
+  String get priceRange => 'Диапазон цен';
 
   @override
-  String get rating => 'Rating';
+  String get rating => 'Рейтинг';
 
   @override
-  String get availability => 'Availability';
+  String get availability => 'Наличие';
 
   @override
-  String get brand => 'Brand';
+  String get brand => 'Бренд';
 
   @override
-  String get apply => 'Apply';
+  String get apply => 'Применить';
 
   @override
-  String get clear => 'Clear';
+  String get clear => 'Сбросить';
 
   @override
-  String get relevance => 'Relevance';
+  String get relevance => 'По релевантности';
 
   @override
-  String get priceLowToHigh => 'Price: Low to High';
+  String get priceLowToHigh => 'Цена: по возрастанию';
 
   @override
-  String get priceHighToLow => 'Price: High to Low';
+  String get priceHighToLow => 'Цена: по убыванию';
 
   @override
-  String get newest => 'Newest';
+  String get newest => 'Новинки';
 
   @override
-  String get popularity => 'Popularity';
+  String get popularity => 'По популярности';
 
   @override
-  String get todaysDeals => 'Today\'s Deals';
+  String get todaysDeals => 'Предложения дня';
 
   @override
-  String get flashDeals => 'Flash Deals';
+  String get flashDeals => 'Молниеносные скидки';
 
   @override
-  String get priceDrops => 'Price Drops';
+  String get priceDrops => 'Снижение цен';
 
   @override
-  String get limitedTime => 'Limited Time';
+  String get limitedTime => 'Ограниченное время';
 
   @override
-  String get dealEndsIn => 'Deal ends in';
+  String get dealEndsIn => 'Акция закончится через';
 
   @override
-  String get reviews => 'Reviews';
+  String get reviews => 'Отзывы';
 
   @override
-  String get inStock => 'In Stock';
+  String get inStock => 'В наличии';
 
   @override
-  String get lowStock => 'Low Stock';
+  String get lowStock => 'Заканчивается';
 
   @override
-  String get outOfStock => 'Out of Stock';
+  String get outOfStock => 'Нет в наличии';
 
   @override
-  String get freeShipping => 'Free Shipping';
+  String get freeShipping => 'Бесплатная доставка';
 
   @override
-  String get specifications => 'Specifications';
+  String get specifications => 'Характеристики';
 
   @override
-  String get features => 'Features';
+  String get features => 'Особенности';
 
   @override
-  String get recentlyViewed => 'Recently Viewed';
+  String get recentlyViewed => 'Недавно просмотренные';
 
   @override
   String get continueShopping => 'Продолжить покупки';
 
   @override
-  String get bestSeller => 'Best Seller';
+  String get bestSeller => 'Бестселлер';
 
   @override
-  String get trending => 'Trending';
+  String get trending => 'В тренде';
 
   @override
-  String get newArrival => 'New Arrival';
+  String get newArrival => 'Новинка';
 
   @override
-  String get flashSale => 'Flash Sale';
+  String get flashSale => 'Молниеносная распродажа';
 
   @override
-  String get priceDrop => 'Price Drop';
+  String get priceDrop => 'Цена снижена';
 
   @override
   String reviewsCount(int count) {
-    return '$count reviews';
+    return 'Отзывов: $count';
   }
 
   @override
-  String get productDetails => 'Product Details';
+  String get productDetails => 'Информация о товаре';
 
   @override
-  String get description => 'Description';
+  String get description => 'Описание';
 
   @override
-  String get keyFeatures => 'Key Features';
+  String get keyFeatures => 'Ключевые особенности';
 
   @override
-  String get shippingInfo => 'Shipping Information';
+  String get shippingInfo => 'Информация о доставке';
 
   @override
-  String get estimatedDelivery => 'Estimated Delivery';
+  String get estimatedDelivery => 'Ориентировочная доставка';
 
   @override
-  String get soldBy => 'Sold by';
+  String get soldBy => 'Продавец';
 
   @override
-  String get addedToWishlist => 'Added to wishlist';
+  String get addedToWishlist => 'Добавлено в избранное';
 
   @override
-  String get removedFromWishlist => 'Removed from wishlist';
+  String get removedFromWishlist => 'Удалено из избранного';
 
   @override
-  String get buyNow => 'Buy Now';
+  String get buyNow => 'Купить сейчас';
 
   @override
-  String get share => 'Share';
+  String get share => 'Поделиться';
 
   @override
-  String get relatedProducts => 'Related Products';
+  String get relatedProducts => 'Похожие товары';
 
   @override
-  String get similarDeals => 'Similar Deals';
+  String get similarDeals => 'Похожие предложения';
 
   @override
-  String get youMayAlsoLike => 'You May Also Like';
+  String get youMayAlsoLike => 'Вам также может понравиться';
 
   @override
-  String get customerReviews => 'Customer Reviews';
+  String get customerReviews => 'Отзывы покупателей';
 
   @override
-  String get ratingDistribution => 'Rating Distribution';
+  String get ratingDistribution => 'Распределение оценок';
 
   @override
-  String get writeReview => 'Write a Review';
+  String get writeReview => 'Написать отзыв';
 
   @override
-  String get productInfo => 'Product Information';
+  String get productInfo => 'Сведения о товаре';
 
   @override
-  String get sku => 'SKU';
+  String get sku => 'Артикул';
 
   @override
   String deliveryIn(String days) {
-    return 'Delivery in $days days';
+    return 'Доставка через $days дн.';
   }
 
   @override
   String unitsInStock(int count) {
-    return '$count units in stock';
+    return 'В наличии: $count шт.';
   }
 
   @override
   String onlyLeft(int count) {
-    return 'Only $count left!';
+    return 'Осталось всего $count!';
   }
 
   @override
   String selectVariant(String variant) {
-    return 'Select $variant';
+    return 'Выберите: $variant';
   }
 
   @override
-  String get color => 'Color';
+  String get color => 'Цвет';
 
   @override
-  String get size => 'Size';
+  String get size => 'Размер';
 
   @override
-  String get quantity => 'Quantity';
+  String get quantity => 'Количество';
 
   @override
   String get cartSubtotal => 'Подытог';
 
   @override
-  String get search => 'Search';
+  String get search => 'Поиск';
 
   @override
-  String get searchHint => 'Search for products, brands, deals...';
+  String get searchHint => 'Поиск товаров, брендов, предложений...';
 
   @override
-  String get searchResults => 'Search Results';
+  String get searchResults => 'Результаты поиска';
 
   @override
   String resultsFor(String query) {
-    return 'Results for \"$query\"';
+    return 'Результаты по запросу «$query»';
   }
 
   @override
-  String get noResults => 'No products found';
+  String get noResults => 'Товары не найдены';
 
   @override
   String noResultsFor(String query) {
-    return 'No results for \"$query\"';
+    return 'Нет результатов по запросу «$query»';
   }
 
   @override
-  String get tryDifferentSearch => 'Try searching with different keywords';
+  String get tryDifferentSearch => 'Попробуйте изменить поисковый запрос';
 
   @override
-  String get filters => 'Filters';
+  String get filters => 'Фильтры';
 
   @override
-  String get applyFilters => 'Apply Filters';
+  String get applyFilters => 'Применить фильтры';
 
   @override
-  String get clearFilters => 'Clear All';
+  String get clearFilters => 'Сбросить все';
 
   @override
-  String get filterBy => 'Filter by';
+  String get filterBy => 'Фильтровать по';
 
   @override
-  String get category => 'Category';
+  String get category => 'Категория';
 
   @override
-  String get allCategories => 'All Categories';
+  String get allCategories => 'Все категории';
 
   @override
-  String get priceMin => 'Min Price';
+  String get priceMin => 'Мин. цена';
 
   @override
-  String get priceMax => 'Max Price';
+  String get priceMax => 'Макс. цена';
 
   @override
-  String get minRating => 'Minimum Rating';
+  String get minRating => 'Минимальный рейтинг';
 
   @override
   String starsAndUp(int stars) {
-    return '$stars stars & up';
+    return 'Оценка $stars и выше';
   }
 
   @override
-  String get minDiscount => 'Minimum Discount';
+  String get minDiscount => 'Минимальная скидка';
 
   @override
   String discountAndUp(int discount) {
-    return '$discount% & up';
+    return '$discount% и выше';
   }
 
   @override
-  String get inStockOnly => 'In Stock Only';
+  String get inStockOnly => 'Только в наличии';
 
   @override
-  String get dealsOnly => 'Deals Only';
+  String get dealsOnly => 'Только со скидкой';
 
   @override
-  String get sort => 'Sort';
+  String get sort => 'Сортировка';
 
   @override
-  String get sortByLabel => 'Sort by:';
+  String get sortByLabel => 'Сортировать:';
 
   @override
   String productCount(int count) {
-    return '$count products';
+    return 'Товаров: $count';
   }
 
   @override
   String activeFilters(int count) {
-    return '$count active';
+    return 'Активно: $count';
   }
 
   @override
-  String get recentSearchesLabel => 'Recent Searches';
+  String get recentSearchesLabel => 'Недавние запросы';
 
   @override
-  String get clearSearchHistory => 'Clear History';
+  String get clearSearchHistory => 'Очистить историю';
 
   @override
-  String get suggestions => 'Suggestions';
+  String get suggestions => 'Подсказки';
 
   @override
-  String get todaysDealsTitle => 'Today\'s Deals';
+  String get todaysDealsTitle => 'Предложения дня';
 
   @override
-  String get biggestDiscountsTitle => 'Biggest Discounts';
+  String get biggestDiscountsTitle => 'Максимальные скидки';
 
   @override
-  String get flashDealsTitle => 'Flash Deals';
+  String get flashDealsTitle => 'Молниеносные скидки';
 
   @override
-  String get trendingDealsTitle => 'Trending Deals';
+  String get trendingDealsTitle => 'Популярные предложения';
 
   @override
-  String get priceDropsTitle => 'Price Drops';
+  String get priceDropsTitle => 'Снижение цен';
 
   @override
-  String get recentlyViewedTitle => 'Recently Viewed';
+  String get recentlyViewedTitle => 'Недавно просмотренные';
 
   @override
-  String get recommendedTitle => 'Recommended For You';
+  String get recommendedTitle => 'Рекомендуем вам';
 
   @override
-  String get bestSellersTitle => 'Best Sellers';
+  String get bestSellersTitle => 'Бестселлеры';
 
   @override
-  String get viewAll => 'View All';
+  String get viewAll => 'Смотреть все';
 
   @override
-  String get seeMore => 'See More';
+  String get seeMore => 'Показать ещё';
 
   @override
-  String get save => 'Save';
+  String get save => 'Экономия';
 
   @override
   String savingsAmount(String amount) {
-    return 'Save $amount';
+    return 'Экономия $amount';
   }
 
   @override
-  String get upTo => 'Up to';
+  String get upTo => 'До';
 
   @override
-  String get off => 'OFF';
+  String get off => 'СКИДКА';
 
   @override
-  String get dealOfTheDay => 'Deal of the Day';
+  String get dealOfTheDay => 'Предложение дня';
 
   @override
-  String get limitedQuantity => 'Limited Quantity';
+  String get limitedQuantity => 'Ограниченное количество';
 
   @override
-  String get hurry => 'Hurry!';
+  String get hurry => 'Спешите!';
 
   @override
-  String get almostGone => 'Almost Gone!';
+  String get almostGone => 'Почти разобрали!';
 
   @override
-  String get login => 'Login';
+  String get login => 'Войти';
 
   @override
-  String get signUp => 'Sign Up';
+  String get signUp => 'Регистрация';
 
   @override
-  String get logout => 'Logout';
+  String get logout => 'Выйти';
 
   @override
-  String get email => 'Email';
+  String get email => 'Электронная почта';
 
   @override
-  String get password => 'Password';
+  String get password => 'Пароль';
 
   @override
   String get fullName => 'Полное имя';
 
   @override
-  String get confirmPassword => 'Confirm Password';
+  String get confirmPassword => 'Подтвердите пароль';
 
   @override
-  String get emailHint => 'Enter your email';
+  String get emailHint => 'Введите адрес электронной почты';
 
   @override
-  String get passwordHint => 'Enter your password';
+  String get passwordHint => 'Введите пароль';
 
   @override
   String get fullNameHint => 'Введите ваше полное имя';
 
   @override
-  String get confirmPasswordHint => 'Re-enter your password';
+  String get confirmPasswordHint => 'Повторите пароль';
 
   @override
-  String get emailRequired => 'Email is required';
+  String get emailRequired => 'Укажите адрес электронной почты';
 
   @override
-  String get emailInvalid => 'Enter a valid email address';
+  String get emailInvalid => 'Введите корректный адрес электронной почты';
 
   @override
-  String get passwordRequired => 'Password is required';
+  String get passwordRequired => 'Введите пароль';
 
   @override
-  String get passwordTooShort => 'Password must be at least 6 characters';
+  String get passwordTooShort => 'Пароль должен содержать не менее 6 символов';
 
   @override
-  String get nameRequired => 'Name is required';
+  String get nameRequired => 'Введите имя';
 
   @override
-  String get nameTooShort => 'Name must be at least 2 characters';
+  String get nameTooShort => 'Имя должно содержать не менее 2 символов';
 
   @override
-  String get confirmPasswordRequired => 'Please confirm your password';
+  String get confirmPasswordRequired => 'Подтвердите пароль';
 
   @override
-  String get passwordsDoNotMatch => 'Passwords do not match';
+  String get passwordsDoNotMatch => 'Пароли не совпадают';
 
   @override
-  String get welcomeBack => 'Welcome Back!';
+  String get welcomeBack => 'С возвращением!';
 
   @override
-  String get loginSubtitle => 'Sign in to continue shopping';
+  String get loginSubtitle => 'Войдите, чтобы продолжить покупки';
 
   @override
-  String get loginSuccess => 'Logged in successfully';
+  String get loginSuccess => 'Вы успешно вошли в систему';
 
   @override
-  String get loginError => 'Login failed. Please check your credentials.';
+  String get loginError => 'Не удалось войти. Проверьте введённые данные.';
 
   @override
-  String get createAccount => 'Create Account';
+  String get createAccount => 'Создать аккаунт';
 
   @override
-  String get signUpSubtitle => 'Join TOPBUY DEALS today';
+  String get signUpSubtitle => 'Присоединяйтесь к TOPBUY DEALS уже сегодня';
 
   @override
-  String get signUpSuccess => 'Account created successfully!';
+  String get signUpSuccess => 'Аккаунт успешно создан!';
 
   @override
   String get signUpConfirmEmail =>
@@ -554,88 +555,90 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось обновить пароль. Возможно, срок действия ссылки истёк — запросите новую.';
 
   @override
-  String get signUpError => 'Sign up failed. Please try again.';
+  String get signUpError =>
+      'Не удалось зарегистрироваться. Попробуйте ещё раз.';
 
   @override
-  String get forgotPassword => 'Forgot Password?';
+  String get forgotPassword => 'Забыли пароль?';
 
   @override
-  String get resetPassword => 'Reset Password';
+  String get resetPassword => 'Сброс пароля';
 
   @override
-  String get sendResetLink => 'Send Reset Link';
+  String get sendResetLink => 'Отправить ссылку для сброса';
 
   @override
   String get resetPasswordDescription =>
-      'Enter your email and we\'ll send you a link to reset your password';
+      'Введите адрес электронной почты, и мы отправим вам ссылку для сброса пароля';
 
   @override
-  String get resetPasswordEmailSent => 'Password reset email sent!';
+  String get resetPasswordEmailSent => 'Письмо для сброса пароля отправлено!';
 
   @override
   String get resetPasswordEmailSentDescription =>
-      'We\'ve sent a password reset link to your email. Check your inbox and follow the instructions.';
+      'Мы отправили ссылку для сброса пароля на вашу почту. Проверьте входящие и следуйте инструкциям.';
 
   @override
   String get resetPasswordError =>
-      'Failed to send reset email. Please try again.';
+      'Не удалось отправить письмо для сброса. Попробуйте ещё раз.';
 
   @override
   String get resetPasswordHelpText =>
-      'Didn\'t receive the email? Check your spam folder or try resending.';
+      'Не получили письмо? Проверьте папку «Спам» или отправьте его повторно.';
 
   @override
-  String get checkYourEmail => 'Check Your Email';
+  String get checkYourEmail => 'Проверьте почту';
 
   @override
-  String get resendEmail => 'Resend Email';
+  String get resendEmail => 'Отправить письмо ещё раз';
 
   @override
   String resendIn(int seconds) {
-    return 'Resend in ${seconds}s';
+    return 'Повторить через $seconds с';
   }
 
   @override
-  String get backToLogin => 'Back to Login';
+  String get backToLogin => 'Назад ко входу';
 
   @override
-  String get or => 'OR';
+  String get or => 'ИЛИ';
 
   @override
-  String get dontHaveAccount => 'Don\'t have an account?';
+  String get dontHaveAccount => 'Нет аккаунта?';
 
   @override
-  String get alreadyHaveAccount => 'Already have an account?';
+  String get alreadyHaveAccount => 'Уже есть аккаунт?';
 
   @override
-  String get passwordWeak => 'Weak';
+  String get passwordWeak => 'Слабый';
 
   @override
-  String get passwordMedium => 'Medium';
+  String get passwordMedium => 'Средний';
 
   @override
-  String get passwordStrong => 'Strong';
+  String get passwordStrong => 'Надёжный';
 
   @override
-  String get signOut => 'Sign Out';
+  String get signOut => 'Выйти из аккаунта';
 
   @override
-  String get myAccount => 'My Account';
+  String get myAccount => 'Мой аккаунт';
 
   @override
-  String get accountSettings => 'Account Settings';
+  String get accountSettings => 'Настройки аккаунта';
 
   @override
-  String get editProfile => 'Edit Profile';
+  String get editProfile => 'Редактировать профиль';
 
   @override
-  String get signedInAs => 'Signed in as';
+  String get signedInAs => 'Вы вошли как';
 
   @override
-  String get guest => 'Guest';
+  String get guest => 'Гость';
 
   @override
-  String get signInToSeeMore => 'Sign in to access more features';
+  String get signInToSeeMore =>
+      'Войдите, чтобы получить доступ к дополнительным функциям';
 
   @override
   String get phoneNumber => 'Номер телефона';
@@ -644,86 +647,86 @@ class AppLocalizationsRu extends AppLocalizations {
   String get phoneNumberHint => 'Введите номер телефона';
 
   @override
-  String get phoneNumberInvalid => 'Enter a valid phone number';
+  String get phoneNumberInvalid => 'Введите корректный номер телефона';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => 'Сохранить изменения';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Отмена';
 
   @override
-  String get profileUpdated => 'Profile updated successfully';
+  String get profileUpdated => 'Профиль успешно обновлён';
 
   @override
-  String get profileUpdateFailed => 'Failed to update profile';
+  String get profileUpdateFailed => 'Не удалось обновить профиль';
 
   @override
-  String get personalInformation => 'Personal Information';
+  String get personalInformation => 'Личные данные';
 
   @override
-  String get preferences => 'Preferences';
+  String get preferences => 'Предпочтения';
 
   @override
-  String get currencyPreference => 'Currency';
+  String get currencyPreference => 'Валюта';
 
   @override
-  String get languagePreference => 'Language';
+  String get languagePreference => 'Язык';
 
   @override
-  String get optional => 'Optional';
+  String get optional => 'Необязательно';
 
   @override
-  String get continueWhereLeftOff => 'Continue where you left off';
+  String get continueWhereLeftOff =>
+      'Продолжите с того места, где остановились';
 
   @override
-  String get savingsUpTo => 'Save up to 50% OFF';
+  String get savingsUpTo => 'Скидки до 50%';
 
   @override
-  String get limitedTimeOffers => 'Limited time offers';
+  String get limitedTimeOffers => 'Предложения на ограниченное время';
 
   @override
-  String get bestDealsNow => 'Best deals available now';
+  String get bestDealsNow => 'Лучшие предложения прямо сейчас';
 
   @override
-  String get mostLovedItems => 'Shop our most loved items';
+  String get mostLovedItems => 'Самые любимые товары наших покупателей';
 
   @override
-  String get updatePersonalInfo => 'Update your personal information';
+  String get updatePersonalInfo => 'Обновите свои личные данные';
 
   @override
-  String get confirmSignOut => 'Are you sure you want to sign out?';
+  String get confirmSignOut => 'Вы действительно хотите выйти из аккаунта?';
 
   @override
-  String get signedOutSuccess => 'Signed out successfully';
+  String get signedOutSuccess => 'Вы успешно вышли из аккаунта';
 
   @override
-  String get deleteAccount => 'Delete Account';
+  String get deleteAccount => 'Удалить аккаунт';
 
   @override
   String get deleteAccountSubtitle =>
-      'Permanently delete your account and data';
+      'Безвозвратно удалить ваш аккаунт и данные';
 
   @override
-  String get deleteAccountConfirmTitle => 'Delete Account?';
+  String get deleteAccountConfirmTitle => 'Удалить аккаунт?';
 
   @override
   String get deleteAccountConfirmMessage =>
-      'This will permanently delete your account, profile, and all associated data. This action cannot be undone.';
+      'Ваш аккаунт, профиль и все связанные данные будут удалены безвозвратно. Это действие нельзя отменить.';
 
   @override
-  String get deleteAccountConfirmButton => 'Delete Permanently';
+  String get deleteAccountConfirmButton => 'Удалить безвозвратно';
 
   @override
-  String get deleteAccountSuccess =>
-      'Your account has been permanently deleted';
+  String get deleteAccountSuccess => 'Ваш аккаунт был безвозвратно удалён';
 
   @override
-  String get deleteAccountFailed => 'Failed to delete account';
+  String get deleteAccountFailed => 'Не удалось удалить аккаунт';
 
   @override
   String get deleteAccountHasOrders =>
-      'Your account can\'t be deleted because it has existing orders.';
+      'Ваш аккаунт нельзя удалить, так как у вас есть оформленные заказы.';
 
   @override
   String get checkout => 'Оформление заказа';

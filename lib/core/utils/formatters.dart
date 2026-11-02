@@ -43,6 +43,8 @@ String _numberFormatLocaleFor(String locale) {
       return 'fr_FR';
     case 'es':
       return 'es_ES';
+    case 'ru':
+      return 'ru_RU';
     default:
       return 'en_US';
   }

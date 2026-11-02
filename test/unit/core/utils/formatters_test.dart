@@ -66,7 +66,7 @@ void main() {
 
     group('currency selection is independent of locale', () {
       test('EUR renders with the € symbol across different locales', () {
-        for (final locale in ['en', 'es', 'fr', 'uz']) {
+        for (final locale in ['en', 'es', 'fr', 'uz', 'ru']) {
           final result = formatPrice(100.0, 'EUR', locale);
           expect(result, contains('€'), reason: 'locale=$locale');
           expect(result, isNot(contains('\$')), reason: 'locale=$locale');
@@ -74,7 +74,7 @@ void main() {
       });
 
       test('USD renders with the \$ symbol across different locales', () {
-        for (final locale in ['en', 'es', 'fr', 'uz']) {
+        for (final locale in ['en', 'es', 'fr', 'uz', 'ru']) {
           final result = formatPrice(100.0, 'USD', locale);
           expect(result, contains('\$'), reason: 'locale=$locale');
           expect(result, isNot(contains('€')), reason: 'locale=$locale');

@@ -56,7 +56,7 @@ void main() {
       });
 
       test('loads all supported locales from persistence', () async {
-        final supportedCodes = ['en', 'es', 'fr', 'uz'];
+        final supportedCodes = ['en', 'es', 'fr', 'uz', 'ru'];
 
         for (final code in supportedCodes) {
           when(() => mockPersistenceService.loadLocale()).thenReturn(code);
@@ -194,6 +194,7 @@ void main() {
           const Locale('es'),
           const Locale('fr'),
           const Locale('uz'),
+          const Locale('ru'),
         ];
 
         for (final locale in supportedLocales) {
@@ -254,7 +255,7 @@ void main() {
       });
 
       test('works for all supported language codes', () {
-        final codes = ['en', 'es', 'fr', 'uz'];
+        final codes = ['en', 'es', 'fr', 'uz', 'ru'];
 
         for (final code in codes) {
           provider.setLocaleByCode(code);
@@ -308,10 +309,13 @@ void main() {
         expect(provider.isLocaleSupported(const Locale('uz')), isTrue);
       });
 
+      test('returns true for ru', () {
+        expect(provider.isLocaleSupported(const Locale('ru')), isTrue);
+      });
+
       test('returns false for unsupported locales', () {
         expect(provider.isLocaleSupported(const Locale('de')), isFalse);
         expect(provider.isLocaleSupported(const Locale('ja')), isFalse);
-        expect(provider.isLocaleSupported(const Locale('ru')), isFalse);
       });
 
       test('checks all supported locales', () {
@@ -322,8 +326,9 @@ void main() {
     });
 
     group('Static Constants', () {
-      test('supportedLocales contains en, es, fr, uz', () {
-        expect(LocaleProvider.supportedLocales.length, equals(4));
+      test('supportedLocales contains en, es, fr, uz, ru', () {
+        expect(LocaleProvider.supportedLocales.length, equals(5));
+        expect(LocaleProvider.supportedLocales, contains(const Locale('ru')));
         expect(LocaleProvider.supportedLocales, contains(const Locale('en')));
         expect(LocaleProvider.supportedLocales, contains(const Locale('es')));
         expect(LocaleProvider.supportedLocales, contains(const Locale('fr')));

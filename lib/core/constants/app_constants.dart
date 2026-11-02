@@ -20,6 +20,7 @@ class LanguageNames {
     'es': 'Español',
     'fr': 'Français',
     'uz': "O'zbekcha",
+    'ru': 'Русский',
   };
 }
 
